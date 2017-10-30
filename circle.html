@@ -1,0 +1,321 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" /> 
+		<link rel="stylesheet" href="static/css/public.css" />
+		<link rel="stylesheet" href="static/css/circle.css" />
+		<!--<script src="js/jquery-2.1.0.min.js" type="text/javascript" charset="utf-8"></script>-->
+		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<!--<script src="js/vue-tap.js" type="text/javascript" charset="utf-8"></script>-->
+		<style type="text/css">
+			h1{
+				margin: 0;
+			}
+			.header_qz{
+				width: 100%;height: 0.9rem;background-color: #2ca8fe;
+			}
+			.header_qz h1{
+				line-height:0.9rem;
+				font-size: 0.36rem;
+				text-align: center;
+				color: #fff;
+				font-weight: normal;
+			}
+			.header_nav{
+				width: 100%;
+				height: 0.76rem;
+				line-height: 0.76rem;
+				background: #f9f9f9;
+				border-bottom: 1px solid #eee;
+				display: flex;
+				display: -webkit-flex;
+				display: -ms-flex;
+			}
+			.header_nav a{
+				-webkit-flex: 0.5;
+				-ms-flex: 0.5;
+				flex: 0.5;
+				padding: 0 0.4rem;
+				text-align: center;
+				color: #333;
+			}
+			.header_nav .mui-active{
+				color: #f4a136;
+			}
+			.header_nav a span{
+				padding: 0.2rem 0.3rem;
+			}
+			.header_nav .mui-active span{
+				border-bottom: 1px solid #f4a136;
+			}
+			.colorAAA{
+				color: #4cb6ff;
+			}
+		</style>
+	</head>
+
+	<body style="background: #f5f5f5;">
+		<div id="main" v-clock>
+			<div class="header_qz">
+				<h1>圈子</h1>
+			</div>
+			<div class="mui-slider mui-fullscreen" id="slider" style="top: 0.9rem;">
+				<div id="sliderSegmentedControl" class="mui-segmented-control header_nav">
+					<a id="aaa" class="mui-control-item mui-active" href="#item1mobile">
+						<span>我的圈子</span>
+					</a>
+					<a id="bbb" class="mui-control-item" href="#item2mobile">
+						<span>热门</span>
+					</a>
+				</div>
+				<div class="mui-slider-group" style="bottom: 1rem; ">
+					<div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
+						<div id="scroll1" class="mui-scroll-wrapper" v-if="islogin">
+							<div class="mui-scroll" id="my" v-if="isconcern && islogin">
+								<ul class="mui-table-view" id="my_ul" style="background: #f5f5f5;">
+									<li class="circle-new-ct" v-if="my.no_reads != 0 && my.no_reads"><span style="background: #4cb6ff;">{{my.no_reads}}条新评论</span></li>
+									<!--my.length>0-->
+									<li :class="['circle-my-list','f-cb',list.c_type==1 || (list.c_type == 2 && list.rid != 0)?'link-circle':'',(list.c_type==2&&list.rid == 0)?'link-article':'',list.c_type==3?'link-topic':'',list.c_type == 3 && list.content.deleted == 1?'cant':'']" v-for="list in my.comments" :data-id="list.id" :data-tid="list.t_id" :data-type="list.c_type">
+										<div class="circle-my-ava fl personal" :data-id="list.uid">
+											<!--<img :src="list.headimg?list.headimg:'static/img/avatar.png'" alt="" width="100%" height="100%" />-->
+											<a class="swipebox" :style="{backgroundImage:'url('+list.headimg+')'}"></a>
+										</div>
+										<div class="circle-my-info fr">
+											<div class="circle-my-name" style="margin-bottom: .05rem;"><span class="personal" :data-id="list.uid">{{list.uname}}</span></div>
+											<div class="circle-my-title fw" v-if="list.c_type == 2 && list.rid == 0">{{list.title}}</div>
+											<div class="circle-my-topic" v-if="list.c_type == 3 && list.title">关注了<span class="color">#{{list.title}}#</span></div>
+											<div class="circle-my-content" style="line-height: 0.4rem;"><span v-html="list.rid == 0?(list.content.deleted == 1 && list.c_type == 3?'原话题已删除':list.content):list.r_content"></span><span class="circle-my-others" v-for="rcon in list.r_content1">//<span class="color personal" :data-id="rcon.uid" style="font-weight: normal;">@{{rcon.uname}}：</span>{{rcon.r_content}}</span>
+											<!--<div class="circle-my-content">111</div>--> 
+											</div> 
+											<div class="circle-my-imgul f-cb" v-if="list.c_type == 1 &&  list.circle_photo">
+												<ul class="mui-zoom-wrapper">
+													<li class="circle-my-imgli" v-for="img in list.circle_photo">
+														<!--<img :src="img" alt="" width="100%" height="100%" data-preview-src="" :data-preview-group="list.id"/>-->
+														<a class="swipebox" :src="img" data-preview-src="" :data-preview-group="list.id" :style="{backgroundImage:'url('+img+')'}"></a>
+													</li>
+													<!--<li class="circle-my-imgli"><img src="" alt="" width="100%" height="100%" /></li>-->
+												</ul>
+											</div>
+											<div style="margin-top: 0;" :class="['circle-my-fdcontent',list.content.c_type==1?'link-circle':'',list.content.c_type==2?'link-article':'',list.content.c_type==3?'link-topic':'',list.content.deleted == 1?'cant':'']" :data-id="list.t_id" :data-tid="list.content.t_id" v-if="(list.c_type == 1 || list.c_type == 2) && list.rid != 0">
+												<div class="circle-my-fd-title" v-if="list.content.c_type == 2">{{list.content.title}}</div>
+												<div class="circle-my-content" style="line-height: 0.4rem;" v-if="list.content.c_type == 2" v-html="list.content.content"></div>
+												<div class="circle-my-fd-info" v-if="list.content.c_type == 1&&list.content" style="width: 100%;overflow: hidden;"><span style="float: left;" class="color personal" :data-id="list.content.uid" v-if="list.content.uname">@{{list.content.uname}}：</span><span style="float: left;word-wrap: break-word;max-width: 100%;" v-html="list.content.content"></span></div>
+												<!--<div class="circle-my-fd-info"></div>-->
+												<div class="circle-my-fd-imgul f-cb" v-if="list.content.c_type == 1 && list.content.circle_photo">
+													<ul>
+														<li class="circle-my-fd-imgli" v-for="img in list.content.circle_photo">
+															<!--<img :src="img" alt="" width="100%" height="100%" data-preview-src="" :data-preview-group="list.t_id+list.id"/>-->
+															<a class="swipebox" :src="img" data-preview-src="" :data-preview-group="list.t_id+list.id" :style="{backgroundImage:'url('+img+')'}"></a>
+														</li>
+														<!--<li class="circle-my-fd-imgli"><img src="" alt="" width="100%" height="100%" /></li>
+														<li class="circle-my-fd-imgli"><img src="" alt="" width="100%" height="100%" /></li>-->
+													</ul>
+												</div>
+											</div>
+											<div class="circle-my-state f-cb" v-if="list.c_type == 1 || list.c_type == 2" style="display: block;">
+												<div class="circle-my-s-forwardA fl">
+													<span>{{list.repeats}}</span>
+												</div>
+												<div :class="['circle-my-s-commentA','fl',list.is_can == 0?'br':'']" style="border-right: none;">
+													<span>{{list.comments}}</span>
+												</div>
+												<div class="circle-my-s-delete fl" v-if="list.is_can == 0" style="display: inline-block;float: right;width: 0.2rem;margin-right: 0.2rem;">
+													<span></span>
+												</div>
+											</div>
+											<div class="circle-my-t-state f-cb" v-if="list.c_type == 3 && !list.content.deleted" style="border-bottom: 1px solid #e6e6e6;">
+												<div class="circle-my-t-s-forward fl">关注{{list.concern}}</div>
+												<div class="circle-my-t-s-comment fl">评论{{list.comments}}</div>
+												<div class="circle-my-t-s-follow fr" v-if="list.is_concern == 1">+ 关注</div>
+												<div class="circle-my-t-s-followed fr" v-else>已关注</div>
+											</div>
+											<div class="circle-my-area">
+												<span class="circle-my-time">{{list.cre_time}}</span>
+												<span>{{list.locations}}</span>
+											</div>
+										</div>
+									</li>
+									<!--<li class="circle-my-list f-cb">
+									<div class="circle-my-ava fl"><img src="" alt="" width="100%" height="100%" /></div>
+									<div class="circle-my-info fr">
+										<div class="circle-my-name">甲乙丙</div>
+										<div class="circle-my-title">长文章标题</div>
+										<div class="circle-my-topic">关注了<span class="color">#话题标题#</span></div>
+										<div class="circle-my-content">健身圈最火的一组图片<span class="circle-my-others">//<span class="color">@张三：</span>片科学的告诉你 究竟怎么练
+											</span>
+										</div>
+										<div class="circle-my-imgul f-cb">
+											<ul class="mui-zoom-wrapper">
+												<li class="circle-my-imgli">
+													<a href="static/img/img1.jpg" class="swipebox" style="background-image: url(static/img/img1.jpg);"></a>
+												</li>
+												<li class="circle-my-imgli"> 
+													<a href="static/img/img1.jpg" class="swipebox" style="background-image: url(static/img/img2.jpg);"></a>
+												</li>
+												<li class="circle-my-imgli"><img src="" alt="" width="100%" height="100%"/></li>
+											</ul>
+										</div>
+										<div class="circle-my-fdcontent">
+											<div class="circle-my-fd-title">这是长文章</div>
+											<div class="circle-my-fd-info"><span class="color">@张三：</span>下面是健身圈最火的一组图片简单科学的告诉你究竟怎么练才最健康有效觉得有效请点赞哦</div>
+											<div class="circle-my-fd-imgul f-cb">
+												<ul>
+													<li class="circle-my-fd-imgli"><img src="" alt="" width="100%" height="100%" /></li>
+													<li class="circle-my-fd-imgli"><img src="" alt="" width="100%" height="100%" /></li>
+													<li class="circle-my-fd-imgli"><img src="" alt="" width="100%" height="100%" /></li>
+												</ul>
+											</div>
+										</div>
+										<div class="circle-my-state f-cb">
+											<div class="circle-my-s-forward fl">
+												<span>124</span>
+											</div>
+											<div class="circle-my-s-comment fl">
+												<span>442</span>
+											</div>
+										</div>
+										<div class="circle-my-t-state f-cb">
+											<div class="circle-my-t-s-forward fl">关注147</div>
+											<div class="circle-my-t-s-comment fl">评论515</div>
+											<div class="circle-my-t-s-follow fr"></div>
+											<div class="circle-my-t-s-followed fr"></div>
+										</div>
+										<div class="circle-my-area">
+											<span class="circle-my-time">1小时前</span>
+											<span>杭州</span>
+										</div>
+									</div>
+								</li>-->
+								</ul>
+							</div>
+							<div class="mui-scroll" id="concern" v-if="islogin && !isconcern">
+								<ul class="circle-link-user">
+									<li class="circle-link-user-tt plr25">这些人可能对您有帮助，快来关注他们吧</li>
+									<!--<li class="my-follow-li bb plr25">
+										<div class="my-follow-user">
+											<img src="static/img/avatar.png" class="my-follow-ava" alt="" />
+											<div class="my-follow-name">张三</div>
+											<div class="my-follow-tag">通讯录好友</div>
+										</div>
+										<div class="my-follow-btn unfollowed">+ 关注</div>
+										<div class="my-follow-btn followed">已关注</div>
+									</li>-->
+									<li class="my-follow-li bb plr25" v-for="list in friends" :data-id="list.uid">
+										<div class="my-follow-user">
+											<div class="my-follow-ava">
+												<a class="swipebox" :style="{backgroundImage:'url('+list.photo.url+')'}"></a>
+											</div>
+											<div class="my-follow-name" style="width: auto;">
+												<span style="display: inline-block;width: 1rem;text-align: left;">{{list.uname}}</span>
+												<span v-if="list.com_short" style="color: #ddd;">丨</span>
+												<span v-if="list.com_short" style="display: inline-block;margin-left:0.1rem;width: 1.46rem;color:#999;text-align: left;">{{list.com_short}}</span>
+												<span v-if="list.position" style="color: #ddd;">丨</span>
+												<span v-if="list.position" style="display: inline-block;margin-left:0.1rem;color: #999;">{{list.position}}</span>
+											</div>
+										</div>
+										<div class="my-follow-btn unfollowed" v-if="list.is_attention == 0">+ 关注</div>
+										<div class="my-follow-btn followed" v-else>已关注</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<div class="circle-withoutlogin-box new" v-if="!islogin && !isconcern">
+							<!--<div class="circle-wo-icon"></div>
+							<div class="circle-wo-tit">广交天下好友，变身资本达人</div>
+							<div class="circle-wo-tips"></div>-->
+							<div class="circle-wo-btn" id="signin">登录/注册</div>																					
+						</div>
+					</div>
+					<div id="item2mobile" class="mui-slider-item mui-control-content">
+						<div id="scroll2" class="mui-scroll-wrapper">
+							<div class="mui-scroll" id="hot">
+								<ul class="mui-table-view" style="background: #f5f5f5;">
+									<li class="circle-hot-search" style="background-color: #f5f5f5;"> 
+										<input type="text" class="circle-hot-search-input" id="hot_search" v-model="hotSearchContent" placeholder="输入关键词搜索" />
+										<div class="my-newfriend-search-btn" style="color: #4cb6ff;">搜索</div>
+									</li>
+									<li :class="['circle-hot-list',hot.c_type == 2?'link-article':'',hot.c_type == 3?'link-topic':'']" v-for="hot in hot" :data-tid="hot.id" :data-id="hot.circle_info?hot.circle_info.id:''" :data-type="hot.c_type">
+										<div class="circle-top" v-if="hot.flag == 1"></div>
+										<div style="-webkit-user-select:text;" :class="['circle-hot-title',hot.c_type == 3?'colorAAA':'']"><span v-if="hot.c_type == 3">#</span>{{hot.title}}<span v-if="hot.c_type == 3">#</span></div> 
+										<div style="-webkit-user-select:text;" class="circle-hot-content" v-html="hot.content"></div>
+										<div class="circle-hot-time">{{hot.cre_time}}</div>
+										<ul class="f-cb circle-hot-imgul" v-if="hot.image">
+											<li class="circle-hot-imgli">
+												<a class="swipebox" :src="hot.image" data-preview-src="" :data-preview-group="hot.id" :style="{backgroundImage:'url('+hot.image+')'}"></a>
+											</li>
+										</ul>
+										<div class="circle-my-t-state f-cb" v-if="hot.c_type == 3" style="border-top: 1px solid #e6e6e6;">
+											<div class="circle-my-t-s-forward fl">关注{{hot.collects}}</div>
+											<div class="circle-my-t-s-comment fl">评论{{hot.comments}}</div>
+											<div class="fr">
+												<div class="circle-my-t-s-follow" v-if="hot.is_concern == 1">+关注</div>
+												<div class="circle-my-t-s-followed" v-else>已关注</div>
+											</div>
+										</div>
+										<div>
+											<div class="circle-my-state f-cb" style="border-top: 1px solid #e6e6e6;" v-if="hot.c_type == 2">
+												<div class="circle-my-s-forward br">
+													<span>{{hot.repeats}}</span>
+												</div>
+												<div class="circle-my-s-comment br">
+													<span>{{hot.comments}}</span>
+												</div>
+												<div class="circle-my-s-up" :data-id="hot.id">
+													<span :class="[hot.is_praise == 0?'cur':'']">{{hot.collects}}</span>
+												</div>
+											</div>
+										</div>
+									</li>
+									<!--<li class="circle-hot-list">
+										<div class="circle-hot-tag"></div>
+										<div class="circle-hot-title color">#话题标题话题标题#</div>
+										<div class="circle-hot-time">1小时前</div>
+										<div class="circle-hot-content">假如季后赛首轮勇士VS鹈鹕...浓眉与考神联手，鹈鹕实力 大增目前距离第8的掘金2.5场距离第7的雷霆9场成为西部</div>
+										<ul class="f-cb circle-hot-imgul">
+											<li class="circle-hot-imgli"><img src="" alt="" width="100%" height="100%" /></li>
+											<li class="circle-hot-imgli"><img src="" alt="" width="100%" height="100%" /></li>
+											<li class="circle-hot-imgli"><img src="" alt="" width="100%" height="100%" /></li>
+										</ul>
+										<div class="circle-my-t-state f-cb">
+											<div class="circle-my-t-s-forward fl">关注147</div>
+											<div class="circle-my-t-s-comment fl">评论515</div>
+											<div class="circle-my-t-s-follow fr"></div>
+											<div class="circle-my-t-s-followed fr"></div>
+										</div>
+										<div class="circle-my-state f-cb">
+											<div class="circle-my-s-forward fl w33 br">
+												<span>124</span>
+											</div>
+											<div class="circle-my-s-comment fl w33 br">
+												<span>442</span>
+											</div>
+											<div class="circle-my-s-up fl w33 br">
+												<span>147</span>
+											</div>
+										</div>
+									</li>-->
+
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<nav class="mui-bar nav-bar" id="nav"></nav>
+			</div>
+			
+			<div class="circle-publish-icon" id="publish"></div>
+			<script src="js/jquery-2.1.0.min.js"></script>
+			<script src="js/mui.min.js"></script>
+			<script src="js/mui.zoom.js" type="text/javascript" charset="utf-8"></script>
+			<script src="js/mui.previewimage.js" type="text/javascript" charset="utf-8"></script>
+			<script src="js/mui.pullToRefresh.js" type="text/javascript" charset="utf-8"></script>
+			<script src="js/mui.pullToRefresh.material.js" type="text/javascript" charset="utf-8"></script>
+			<script src="static/js/public.js" type="text/javascript" charset="utf-8"></script>
+			<script src="static/js/circle.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+
+</html>

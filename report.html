@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="static/css/public.css" />
+		<link rel="stylesheet" href="static/css/my.css" />
+		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">举报他</h1>
+		    <a href="javascript:;" class="my-save fr color">提交</a>
+		</header>
+		<div class="mui-content" id="main" v-clock>
+		    <div class="my-box mt20">
+				<div class="my-line bb">
+					<span class="my-line2-tit">举报原因</span>
+					<div class="my-line-right">
+						<select name="" class="report-select" id="" v-model="selected">
+							<option v-for="list in reportCtype" :value="list.id">{{list.title}}</option>
+						</select>
+						<div class="mui-icon mui-icon-arrowdown" style="color: #666;"></div>
+					</div>
+				</div>
+				<textarea name="" rows="" cols="" class="my-textarea" placeholder="举报说明" v-model="content"></textarea>
+				
+			</div>
+		</div>
+		<div class="report-tips">提交后我们将在24小时内处理 </div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		<script src="static/js/public.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/report.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+
+</html>

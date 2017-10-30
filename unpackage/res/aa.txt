@@ -1,0 +1,60 @@
+/**
+ * id:1 企业
+ * id:2 投资机构
+ * id:3 个人投资人
+ * id:4 咨询机构
+ * id：5 券商研究员
+ * id:6 新三板做市商
+ **/
+
+success:function(data){
+	if(data.returnCode == 200) {
+	alert(JSON.stringify(data))				
+} else {
+	if(data.returnCode == 401) {
+		unLoginComfirm(); 
+	} else {
+		mui.toast(data.msg)
+	}
+}
+}
+
+
+15757101680  投资个人
+15757101681  投资个人
+15757101682  企业
+15757101683  投资机构
+15757101684  券商
+
+
+问题：
+
+
+
+1.我的内容管理
+2.他人主页
+3.多图上传
+4.支付
+5.聊天
+6.分享
+7.首页
+
+还缺失的接口、字段
+1.个人主页 新增活跃度
+2.个人主页 新增好友
+3.首页banner
+
+
+
+7.企业动态
+
+
+17.多图上传
+18.发布圈子图片上传不显示
+
+
+
+mui('#pullrefresh').pullToRefresh().endPullDownToRefresh();   //取消下拉按钮
+mui('#pullrefresh').pullToRefresh().refresh(true);  //启用上拉
+
+mui('#pullrefresh').pullToRefresh().endPullUpToRefresh(true);  //是否禁止上拉

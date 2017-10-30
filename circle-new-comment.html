@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="static/css/public.css" />
+		<link rel="stylesheet" href="static/css/circle.css" />
+		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background: #2ca8fe;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title" style="color: #fff;">新评论</h1>
+		</header>
+		<div class="mui-content " id="main" v-clock>
+			<div class="mui-scroll-wrapper circle-new-comment-box bgfff">
+				<div class="mui-scroll">
+					<ul class="circle-new-comment-ul">
+						<li :class="['circle-new-comment-li','bb',list.type == 1?'link-circle':'',list.type == 2?'link-article':'',list.type == 3?'link-topic':'']" v-for="list in item" :data-id="list.rid" :data-nid="list.id">
+							<!--<img :src="list.headimg?list.headimg:'static/img/avatar.png'" alt="" class="" />-->
+							<div class="circle-new-comment-ava">
+								<a class="swipebox" :style="{backgroundImage:'url('+list.headimg+')'}"></a>
+							</div>
+							<div class="circle-new-comment-info">
+								<div class="circle-new-comment-top">
+									<div class="circle-new-comment-name color"><span>{{list.uname}}</span></div>
+									<div class="circle-new-comment-time">{{list.cre_time}}</div>
+								</div>
+								<div class="circle-new-comment-con">{{list.intro}}</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		<script src="static/js/public.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/circle-new-comment.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+
+</html>

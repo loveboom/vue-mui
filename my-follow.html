@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="static/css/public.css" />
+		<link rel="stylesheet" href="static/css/my.css" />
+		<link rel="stylesheet" type="text/css" href="http://at.alicdn.com/t/font_970v2h1ejtw3ik9.css"/>
+		<style>
+			.home-con-fw{
+				    width: 0.8rem;
+				    height: 0.4rem;
+				    /* text-align: center; */
+				    color: #f4a136;
+				    border: 1px solid #eee;
+				    border-radius: 0.08rem;
+				    background: -moz-linear-gradient(top, #ffffff 0%, #e8e8e8 100%);
+				    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#e8e8e8));
+				    background: -webkit-linear-gradient(top, #ffffff 0%,#e8e8e8 100%);
+				    background: -o-linear-gradient(top, #ffffff 0%,#e8e8e8 100%);
+				    background: -ms-linear-gradient(top, #ffffff 0%,#e8e8e8 100%);
+				    background: linear-gradient(to bottom, #ffffff 0%,#e8e8e8 100%);
+				    font-size: 0.2rem;
+				    line-height: 1;
+				    display: flex;
+				    justify-content: center;
+				    align-items: center;
+			}
+			.home-con-fw.followed {
+				
+			    background: #b6b6b6;
+			}
+			.my-follow-btn{
+				width: 0.8rem !important;
+				height: 0.4rem !important;
+				line-height: 1 !important;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background: #2ca8fe;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title" style="color: #fff;">关注</h1>
+		</header>
+		<div class="mui-scroll-wrapper" style="top: 44px;" id="main" v-clock>
+			<div class="mui-scroll">
+				<div class="my-follow-content">
+					<ul class="my-follow-ul">
+						<li class="my-follow-li bb" v-for="list in item" :data-id="list.uid">
+							<div class="my-follow-user">
+								<div class="my-follow-ava">
+									<a class="swipebox" :style="{backgroundImage:'url('+list.photo.url+')'}"></a> 
+								</div>
+								<div class="my-follow-name">{{list.nickname}}</div>
+							</div>
+							<div class="home-con-fw unfollowed" v-if="list.is_fans == 0 && (myid != list.uid)">+ 关注</div>
+							<div class="my-follow-btn followed" v-if="list.is_fans == 1 && (myid != list.uid)">已关注</div>
+						</li>
+						<!--<li class="my-follow-li bb">
+							<div class="my-follow-user">
+								<img src="" class="my-follow-ava" alt="" />
+								<div class="my-follow-name">张三</div>
+							</div>
+							<div class="my-follow-btn">+ 关注</div>
+							<div class="my-follow-btn followed">已关注</div>
+						</li>-->
+						
+					</ul>
+				</div>
+			</div>
+
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue-tap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/public.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/my-follow.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+
+</html>

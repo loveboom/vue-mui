@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="static/css/public.css" />
+		<link rel="stylesheet" type="text/css" href="static/css/signin.css" />
+	</head>
+	<style>
+		.companyFull[disabled]{
+			opacity: 1;
+		}
+	</style>
+	<body style="background: #f7f8f8;">
+		<div id="main" v-clock>
+			<header class="mui-bar mui-bar-nav">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+				<h1 class="mui-title">完善企业信息</h1>
+			</header>
+			<div class="mui-content sign-content" style="padding: 44px 0 0 0;">
+				<div class="sign-line bb">
+					<input type="text" class="sign-input" v-model="name" placeholder="姓名" />
+				</div>
+				<div class="sign-line bb">
+					<input type="text" class="sign-input" v-model="job" placeholder="职位" maxlength="6"/>
+				</div>
+				<div class="sign-line bb pro">
+					<input type="text" class="sign-input" v-model.trim="company" maxlength="4" placeholder="请输入您的公司简称" @input="companySearch()" @blur="companyBoxShow = false"/>
+					<div class="signip-company-box" v-if="ctype == 1" v-show="companyBoxShow">   
+						<ul>
+							<li class="signip-company-box-li" v-for="(list,index) in companyList" v-tap="{methods:selectCompany,index:index}">{{list.name}}</li>
+							<!--<li class="signip-company-box-li">博采网络</li>-->
+							
+						</ul>
+					</div>
+				</div>
+				<div class="sign-line bb">
+					<input type="text" class="sign-input companyFull" v-model="companyfull" placeholder="请输入您的公司全称" />
+				</div>
+				<div class="sign-line bb">
+					<input type="tel" class="sign-input" v-model="phone" maxlength="11" placeholder="请输入手机号" />
+				</div>
+				<div class="sign-line bb flex-spack-between">
+					<input type="text" class="sign-input half" v-model="code" placeholder="请输入短信验证码" />
+					<div class="sign-get" id="getcode">获取验证码</div>
+				</div>
+				<div class="sign-line bb">
+					<input type="text" class="sign-input" v-model="inviter" placeholder="请输入邀请人" />
+				</div>
+				<div class="sign-line bb">
+					<input type="password" class="sign-input" maxlength="12" v-model='password' placeholder="请输入6-12位密码" />
+				</div>
+				<div class="sign-line">
+					<input type="password" class="sign-input" maxlength="12" v-model="repw" placeholder="再一次输入密码" />
+				</div>
+			</div>
+			<div class="sign-agreement mb20 mt20">
+				<input type="checkbox" class="template-check" id="agreement" v-model="agree" style="margin-right: 0.1rem;" />
+				<label for="agreement">注册表示阅读并同意 <span class="color agreement">《用户服务使用协议》</span></label>
+			</div>
+			<div class="btn" id="sub">注册</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		<!--<script src="js/jQuery.js" type="text/javascript" charset="utf-8"></script>-->
+		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue-tap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/public.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/signup-company.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+
+</html>

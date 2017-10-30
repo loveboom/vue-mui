@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="static/css/public.css" />
+		<link rel="stylesheet" href="static/css/circle.css" />
+		<link rel="stylesheet" type="text/css" href="http://at.alicdn.com/t/font_jvm4xvesuivn29.css"/>
+		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue-tap.js" type="text/javascript" charset="utf-8"></script>
+		<style>
+			.forward {
+				min-height: 3.63rem;
+				font-size: .3rem;
+				line-height: .36rem;
+				padding: .25rem;
+				background: #fff;
+				color: #888;
+				position: relative;
+			}
+			.circle-forward-newcontent{
+				position: relative;
+				z-index: 2;
+			}
+			.circle-forward-click{
+				position: absolute;
+				left: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				z-index: 1;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background: #2ca8fe;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title" style="color: #fff;">转发</h1>
+			<div class="header-right-title" id="publish" style="color: #fff;">发布</div> 
+		</header>
+		<div class="mui-content" id="main" v-clock>
+			<div class="forward">
+				<!--<span class="circle-forward-newcontent" id="editor" contenteditable="true" style="-webkit-user-select: auto"></span>-->
+				<textarea name="" rows="" cols="" v-model="pcontent" class="circle-forward-textarea" id="textarea">ererwr</textarea>
+				<span v-if="last.length != 0">
+					<span class="forward-user" contenteditable="false" v-for="per in last">
+						<span class="color personal" :data-id="per.uid">//@{{per.uname}}：</span>{{per.r_content}} 
+					</span>
+				</span>
+				<!--<div class="circle-forward-click"></div>-->
+			</div>
+			<div class="circle-forward-info">
+				<!--<img :src="lastimg" alt="" class="circle-forward-img" v-if="lastimg"/>-->
+				<div class="circle-forward-img" v-if="lastimg">
+					<a class="swipebox" :style="{backgroundImage:'url('+lastimg+')'}"></a>
+				</div>
+				<div class="circle-forward-information">
+					<div class="circle-forward-i-tit color"><span v-if="lastname">@ {{lastname}} </span></div>
+					<div class="circle-forward-i-con deleted" v-if="isdelete">{{lastcontent}}</div>
+					<div class="circle-forward-i-con" v-else="">{{lastcontent}}</div>
+
+				</div>
+			</div>
+			<!--<div class="circle-forward-info" v-if="type == 2">
+				<img :src="" alt="img" class="circle-forward-img" />
+				<div class="circle-forward-information">
+					<div class="circle-forward-i-tit"></div>
+					<div class="circle-forward-i-con">鹈鹕实力大增目前距离第8的掘金2.5场，距离第7的雷霆9场成为西部8号种子可能性极大</div>
+				</div>
+			</div>-->
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		<script src="static/js/public.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/circle-forward.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+		</script>
+	</body>
+	<script>
+//		mui('body').on('tap', '.circle-forward-click', function() {
+//			editor.focus()
+//		});
+	</script>
+
+</html>

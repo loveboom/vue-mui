@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="static/css/public.css" />
+		<link rel="stylesheet" href="static/css/my.css" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background:  #2ca8fe;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title" style="color: #fff;">提现</h1>
+		</header>
+		<div class="mui-content">
+			<div class="my-line" style="margin: .1rem 0;">
+				<div class="my-line-left">提现方式</div>
+				<div class="my-line-right">
+					<select name="type" class="report-select" id="">
+						<option value="2" selected>支付宝</option>
+						<option value="1">微信</option>
+					</select>
+					<div class="mui-icon mui-icon-arrowdown"></div>
+				</div>
+			</div>
+			<div class="recharge-box withdrawals-box">
+				<div class="recharge-tit">提现金额</div>
+				<div class="recharge-input-box bb">
+					<div class="recharge-icon">￥</div>
+					<input type="text" class="recharge-input" name="many" onkeyup="value=value.replace(/[^\d]/g,'')" />
+				</div>
+				<div class="withdrawals-balance"></div>
+			</div>
+			<div class="report-tips mb20">提交后需审核，1-2日内到账 </div>
+			<div class="btn" style="background: #4cb6ff;">提现</div>
+		</div>
+		<script src="js/jquery-2.1.0.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="static/js/public.js"></script>
+		<script>
+			mui.init()
+
+			mui.ready(function() {
+				mui.plusReady(function() {
+					var self = plus.webview.currentWebview();
+
+					$('.withdrawals-balance').text('可提现余额￥' + self.manyCount);
+
+					var main = {
+						data: {
+							token: plus.storage.getItem('token'),
+							many: '',
+							type: ''
+						},
+						formUp: function() {
+							var _this = this;
+
+							mui.ajax({
+								url: URL.path + '/pay/withdraw',
+								type: 'post',
+								data: {
+									token: _this.data.token,
+									terminalNo: 3,
+									money: _this.data.many,
+									type: 1
+								},
+								success: function(res) {
+									T_ = true;
+									if(res.returnCode == '200') {
+										GO('withdrawals-success', {
+											type: '微信',
+											many: _this.data.many,
+											time: res.data.time
+										});
+									} else {
+										mui.toast(res.msg);
+									}
+								}
+							})
+						}
+					};
+					
+					var T_ = true;
+					$('body').on('tap', '.btn', function() {
+						main.data.many = $('input[name=many]').val();
+						main.data.type = $('select[name=type]').val();
+
+						if(main.data.many) {
+							if(main.data.many >= 100) {
+								if(main.data.type == 1&&T_) {
+									T_ = false;
+									main.formUp();
+								} else {
+									GO('withdrawals-account', {
+										many: main.data.many
+									});
+								}
+							} else {
+								mui.toast('提现的金额要>=100');
+							}
+						} else {
+							mui.toast('请输入提现金额');
+						}
+					});
+					
+				});
+			});
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="static/css/public.css" />
+		<link rel="stylesheet" href="static/css/popup.css" />
+		<link rel="stylesheet" href="static/css/demand-evaluate.css" />
+	</head>
+
+	<body>
+		<div class="mui-scroll-wrapper">
+			<div class="head-nave f-cb">
+				<div class="head-nave-cancel fl">取消</div>
+				<div class="head-nave-cap">撤销原因</div>
+				<div class="head-nave-enter fr">提交</div>
+			</div>
+			<div class="mui-scroll">
+				<div class="arb-box">
+					<textarea placeholder="请输入撤销原因" class="arb-textarea"></textarea>
+				</div>
+			</div>
+		</div>
+
+		<script src="js/jquery-2.1.0.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/mui.pullToRefresh.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.pullToRefresh.material.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/public.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			mui.init();
+			mui.ready(function() {
+				mui.plusReady(function() {
+					var _ = this;
+					var self = plus.webview.currentWebview(); //获取页面数据
+
+					//取消
+					mui('body').on('tap', '.head-nave-cancel', function() {
+						mui.back();
+					});
+
+					//提交
+					mui('body').on('tap', '.head-nave-enter', function() {
+						if($('.arb-textarea').val() == '') {
+							mui.alert('请输入撤销原因');
+						} else {
+			                document.activeElement.blur();
+							mui.ajax({
+								url: URL.path + '/needs/cancel_needs',
+								type: 'post',
+								dataType: 'json',
+								data: {
+									token: plus.storage.getItem('token'),
+									need_id: self.need_id,
+									reason: $('.arb-textarea').val()
+								},
+								success: function(res) {
+									if(res.returnCode == '200') {
+			                            mui.toast(res.msg);
+			                            
+			                            var my = plus.webview.getWebviewById('demand-info.html');
+										mui.fire(my, 'reload');
+										mui.back();
+									} else if(res.returnCode == '401') {
+										unLoginComfirm();
+									}else{
+			                            mui.toast(res.msg);
+									}
+								}
+							});
+
+						}
+					});
+				
+					var old_back = mui.back;
+					mui.back = function() {
+						old_back();
+					}
+				
+				});
+			});
+		</script>
+	</body>
+
+</html>

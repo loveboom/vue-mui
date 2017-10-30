@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="static/css/public.css" />
+		<link rel="stylesheet" href="static/css/circle.css" />
+		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<style>
+			.circle-news-info p{
+				font-size: 0.34rem !important;
+				color: #333 !important;
+				-webkit-user-select:text !important;
+			}
+			.circle-news-info p span,.circle-news-info p strong{
+				-webkit-user-select:text !important;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background: #4cb6ff;">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title" style="color: #fff;">详情</h1>
+		</header>
+		<div class="mui-content">
+		    <div class="circle-news-content" id="main" v-clock>
+		    		<div class="circle-news-title" style="font-size: 0.38rem;line-height: 1.4;-webkit-user-select:text;">{{item.title}}</div>
+		    		<div class="circle-news-intro" style="margin-top: 0.04rem;">时间:{{item.cre_time}} | 来源:{{item.source}} </div>
+		    		<div style="-webkit-user-select:text;" class="circle-news-info" v-html="item.content"></div>
+		    </div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		<script src="static/js/public.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/circle-news-info.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+
+</html>

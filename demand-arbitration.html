@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="static/css/public.css" />
+		<link rel="stylesheet" href="static/css/popup.css" />
+		<link rel="stylesheet" href="static/css/demand-evaluate.css" />
+	</head>
+
+	<body>
+		<div class="mui-scroll-wrapper">
+			<div class="head-nave f-cb">
+				<div class="head-nave-cancel fl">取消</div>
+				<div class="head-nave-cap">仲裁原因</div>
+				<div class="head-nave-enter fr">提交</div>
+			</div>
+			<div class="mui-scroll">
+				<div class="arb-box">
+					<textarea placeholder="请输入申请仲裁的原因" class="arb-textarea"></textarea>
+				</div>
+			</div>
+		</div>
+
+		<script src="js/jquery-2.1.0.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+		</script>
+		<script src="js/mui.pullToRefresh.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.pullToRefresh.material.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/public.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			mui.ready(function() {
+				mui.plusReady(function() {
+					var self = plus.webview.currentWebview(); //获取页面数据
+
+					//选择
+					mui('body').on('tap', '.eva-xx>i', function() {
+						var ind = $(this).index();
+
+						$('.eva-xx>i').each(function(i) {
+							if(i <= ind) {
+								$(this).addClass('on');
+							} else {
+								$(this).removeClass('on');
+							}
+						});
+					});
+
+					//取消
+					mui('body').on('tap', '.head-nave-cancel', function() {
+						mui.back()
+					});
+
+					//确定
+					mui('body').on('tap', '.head-nave-enter', function() {
+						if($('.arb-textarea').val() == '') {
+							mui.alert('请输入申请仲裁的原因');
+						} else {
+							if(self.type){
+								self.type = 1;
+							}else{
+								self.type = 2;
+							}
+							
+							mui.ajax({
+								url: URL.path + '/needs/arbitrate',
+								type: 'post',
+								dataType: 'json',
+								data: {
+									token: plus.storage.getItem('token'),
+									need_id: self.need_id,
+									type: self.type
+								},
+								success: function(res) {
+									if(res.returnCode == '200') {
+										mui.toast(res.msg);
+										setTimeout(function() {
+											mui.back()
+											//											GO('demand-info', { sign: self.need_id }, true)
+										}, 300);
+									} else if(res.returnCode == '401') {
+										unLoginComfirm();
+									} else {
+										mui.toast(res.msg);
+									}
+								}
+							});
+						}
+					});
+
+					//取消
+					//					mui('body').on('tap', '.head-nave-return', function() {
+					//						GO('demand-info', { sign: self.need_id }, true);
+					//					});
+					var old_back = mui.back;
+					mui.back = function() {
+						var my = plus.webview.getWebviewById('demand-info.html');
+						mui.fire(my, 'reload');
+						old_back();
+					}
+				});
+			});
+		</script>
+	</body>
+
+</html>

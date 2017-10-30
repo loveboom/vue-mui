@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="static/css/public.css" />
+		<link rel="stylesheet" type="text/css" href="static/css/signin.css"/>
+	</head>
+
+	<body style="background: #f4f5f6;">
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">完善个人信息</h1>
+		</header>
+		<div class="mui-content" id="main" v-clock>
+		    <div class="sign-line bb">
+		    		<input type="text" class="sign-input" v-model="name" placeholder="姓名"/>
+		    </div>
+		    <div class="sign-vip-line">
+		    		<p class="sign-vip-tit">是否有新三板账户</p>
+		    		<div class="sign-vip-radio">	
+		    			<input type="radio" class="template-radio" name="radio" v-model="board" value="1" id="yes"/>&nbsp;是&nbsp;&nbsp;&nbsp;
+		    			<input type="radio" class="template-radio" name="radio" v-model="board" value="2" id="no"/>&nbsp;否
+		    		</div>
+		    </div>
+		    <div class="sign-line bb">
+		    		<input type="text" class="sign-input" v-model="phone" maxlength="11" placeholder="请输入手机号"/>
+		    </div>
+		    <div class="sign-line bb flex-spack-between">
+		    		<input type="text" class="sign-input half" v-model="code" placeholder="请输入短信验证码"/>
+		    		<div class="sign-get" id="getcode" style="margin-right: 0.25rem;">获取验证码</div>
+		    </div>
+		    <div class="sign-line bb">
+		    		<input type="text" class="sign-input" v-model="inviter" placeholder="请输入邀请人"/>
+		    </div>
+		    <div class="sign-line bb">
+		    		<input type="password" class="sign-input" v-model="password" maxlength="12" placeholder="请输入6-12位密码"/>
+		    </div>
+		    <div class="sign-line">
+		    		<input type="password" class="sign-input" v-model="repw" placeholder="再一次输入密码"/>
+		    </div>
+	    		<div class="sign-agreement mb20 mt20">
+	    			<input type="checkbox" class="template-check" v-model="agree" id="agreement" style="margin-right: 0.1rem;"/>
+	    			<label for="agreement">注册表示阅读并同意 <span class="color agreement">《用户服务使用协议》</span></label>
+	    		</div>
+	    		<div class="btn" id="sub">注册</div>  
+
+		</div>
+		<script src="js/mui.min.js"></script> 
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/public.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/signup-personal.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+
+</html>

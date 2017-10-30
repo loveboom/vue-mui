@@ -1,0 +1,422 @@
+<!DOCTYPE HTML>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta name="HandheldFriendly" content="true" />
+		<!--<meta name="MobileOptimized" content="320"/>-->
+		<title>Hello H5+</title>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			var pays = {};
+
+			function plusReady() {
+				// 获取支付通道
+				plus.payment.getChannels(function(channels) {
+					var content = document.getElementById('dcontent');
+					var info = document.getElementById('info');
+					var txt = '支付通道信息：';
+					for(var i in channels) {
+						var channel = channels[i];
+						if(channel.id == 'qhpay' || channel.id == 'qihoo') { // 过滤掉不支持的支付通道：暂不支持360相关支付
+							continue;
+						}
+						pays[channel.id] = channel;
+						txt += 'id:' + channel.id + ', ';
+						txt += 'description:' + channel.description + ', ';
+						txt += 'serviceReady:' + channel.serviceReady + '； ';
+						var de = document.createElement('div');
+						de.setAttribute('class', 'button');
+						de.setAttribute('onclick', 'pay(this.id)');
+						de.id = channel.id;
+						de.innerText = channel.description + '支付';
+						content.appendChild(de);
+						checkServices(channel);
+					}
+					info.innerText = txt;
+				}, function(e) {
+					mui.toast('获取支付通道失败：' + e.message);
+				});
+			}
+			document.addEventListener('plusready', plusReady, false);
+			
+			// 检测是否安装支付服务
+			function checkServices(pc) {
+				if(!pc.serviceReady) {
+					var txt = null;
+					switch(pc.id) {
+						case 'alipay':
+							txt = '检测到系统未安装“支付宝快捷支付服务”，无法完成支付操作，是否立即安装？';
+							break;
+						default:
+							txt = '系统未安装“' + pc.description + '”服务，无法完成支付，是否立即安装？';
+							break;
+					}
+					plus.nativeUI.confirm(txt, function(e) {
+						if(e.index == 0) {
+							pc.installService();
+						}
+					}, pc.description);
+				}
+			}
+
+			var w = null;
+			var PAYSERVER = 'http://demo.dcloud.net.cn/payment/?payid=';
+			// 支付
+			function pay(id) {
+				if(w) {
+					return;
+				} //检查是否请求订单中
+				if(id === 'appleiap') {
+					mui.toast('应用内支付');
+					return;
+				}
+				mui.toast('----- 请求支付 -----');
+				var url = PAYSERVER;
+				if(id == 'alipay' || id == 'wxpay') {
+					url += id;
+				} else {
+					plus.nativeUI.alert('当前环境不支持此支付通道！', null, '捐赠');
+					return;
+				}
+				var appid = plus.runtime.appid;
+				if(navigator.userAgent.indexOf('StreamApp') >= 0) {
+					appid = 'Stream';
+				}
+				url += '&appid=' + appid + '&total=';
+
+				w = plus.nativeUI.showWaiting();
+				// 请求支付订单
+				var amount = document.getElementById('total').value;
+				var xhr = new XMLHttpRequest();
+				xhr.onreadystatechange = function() {
+					switch(xhr.readyState) {
+						case 4:
+							w.close();
+							w = null;
+							if(xhr.status == 200) {
+								mui.toast('----- 请求订单成功 -----');
+								mui.toast(xhr.responseText);
+								var order = xhr.responseText;
+								plus.payment.request(pays[id], order, function(result) {
+									mui.toast('----- 支付成功 -----');
+									mui.toast(JSON.stringify(result));
+									plus.nativeUI.alert('支付成功：感谢你的支持，我们会继续努力完善产品。', function() {
+										back();
+									}, '捐赠');
+								}, function(e) {
+									mui.toast('----- 支付失败 -----');
+									mui.toast('[' + e.code + ']：' + e.message);
+									plus.nativeUI.alert('更多错误信息请参考支付(Payment)规范文档：http://www.html5plus.org/#specification#/specification/Payment.html', null, '支付失败：' + e.code);
+								});
+							} else {
+								mui.toast('----- 请求订单失败 -----');
+								mui.toast(xhr.status);
+								plus.nativeUI.alert('获取订单信息失败！', null, '捐赠');
+							}
+							break;
+						default:
+							break;
+					}
+				}
+				xhr.open('GET', url + amount);
+				mui.toast('请求支付订单：' + url + amount);
+				xhr.send();
+			}
+		</script>
+
+		<style type="text/css">
+			* {
+				-webkit-user-select: none;
+				-ms-touch-select: none;
+				/*
+	-ms-touch-action: none;
+*/
+			}
+			
+			html {
+				width: 100%;
+				height: 100%;
+			}
+			
+			body {
+				margin: 0;
+				padding: 0;
+				width: 100%;
+				height: 100%;
+				font-family: Arial;
+				font-size: 16px;
+				color: #6c6c6c;
+				-webkit-touch-callout: none;
+				-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+				-webkit-text-size-adjust: none;
+			}
+			
+			header {
+				width: 100%;
+				height: 44px;
+				position: fixed;
+				top: 0;
+				left: 0;
+				font-size: 17px;
+				text-align: center;
+				line-height: 44px;
+				background: #D74B28;
+				/*background: -webkit-linear-gradient(top,rgba(215,75,40,1),rgba(215,75,40,0.8));*/
+				z-index: 9999;
+				/*border-bottom: 1px solid rgba(215,75,40,0.8);*/
+				-ms-touch-action: none;
+			}
+			
+			.nvbt {
+				width: 15%;
+				height: 100%;
+				float: left;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+			
+			.nvbt:active {
+				background-color: rgba(170, 170, 170, 0.1);
+			}
+			
+			.nvtt {
+				width: 70%;
+				height: 100%;
+				color: #cccccc;
+				float: left;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+			
+			.content {
+				text-align: center;
+				padding-top: 44px;
+			}
+			
+			.scontent {
+				width: 100%;
+				position: fixed;
+				top: 44px;
+				bottom: 0px;
+				text-align: center;
+				overflow-y: scroll;
+				-webkit-overflow-scrolling: touch;
+				-ms-touch-action: pan-y cross-slide-y;
+				-ms-scroll-chaining: none;
+				-ms-scroll-limit: 0 50 0 50;
+			}
+			
+			.dcontent {
+				text-align: center;
+				padding-top: 44px;
+				padding-bottom: 80px;
+			}
+			
+			.sdcontent {
+				width: 100%;
+				position: fixed;
+				top: 44px;
+				bottom: 80px;
+				text-align: center;
+				overflow-y: scroll;
+				-webkit-overflow-scrolling: touch;
+				-ms-touch-action: pan-y cross-slide-y;
+				-ms-scroll-chaining: none;
+				-ms-scroll-limit: 0 50 0 50;
+			}
+			
+			.heading {
+				margin: 0 1em;
+				text-align: left;
+			}
+			
+			.des {
+				padding: 0 1em;
+				text-align: left;
+				text-indent: 2em;
+				word-break: break-all;
+			}
+			
+			.logo {
+				width: 100%;
+				text-align: center;
+			}
+			
+			.button {
+				font-size: 18px;
+				font-weight: normal;
+				text-decoration: none;
+				display: block;
+				text-align: center;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				color: #FFF;
+				background-color: #FFCC33;
+				border: 1px solid #ECB100;
+				padding: .5em 0em;
+				margin: .5em .7em;
+				-webkit-border-radius: 5px;
+				border-radius: 5px;
+			}
+			
+			.button:active {
+				outline: 0;
+				-webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+				box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+			}
+			
+			.button-waring {
+				color: #666;
+				background-color: #ebebeb;
+				border-color: #e0e0e0;
+			}
+			
+			.button-select {
+				font-size: 14px;
+				background-color: #CCCCCC;
+				border: 0;
+				-webkit-border-radius: 2px;
+				border-radius: 2px;
+			}
+			
+			.dlist {
+				padding: 0px;
+				margin: 1em;
+				background: #fff;
+				border: 1px solid #ddd;
+				-webkit-border-radius: 3px;
+				border-radius: 3px;
+			}
+			
+			.ditem {
+				overflow: hidden;
+				list-style-type: none;
+				font-size: 1em;
+				padding: 1em;
+				border-bottom: inset 1px #ebebeb;
+				vertical-align: middle;
+			}
+			
+			.ditem:active {
+				background: #f4f4f4;
+			}
+			
+			.ditem:last-child {
+				border-bottom: inset 0px #ebebeb;
+			}
+			
+			.ditem-empty {
+				overflow: hidden;
+				list-style-type: none;
+				font-size: 1em;
+				padding: 1em;
+				vertical-align: middle;
+			}
+			
+			#output {
+				height: 64px;
+				position: fixed;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				color: #f00;
+				background: #FFF;
+				font-size: 12px;
+				line-height: 16px;
+				word-break: break-all;
+				z-index: 6666;
+				padding: 8px 16px;
+				overflow-x: hidden;
+				overflow-y: scroll;
+				border-top: 2px solid #AAA;
+				-webkit-overflow-scrolling: touch;
+			}
+			
+			.iback {
+				background: no-repeat center center url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABYCAYAAAADWlKCAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAKwwAACsMBNCkkqwAAABZ0RVh0Q3JlYXRpb24gVGltZQAwOS8xMi8xM5w+I3MAAAAcdEVYdFNvZnR3YXJlAEFkb2JlIEZpcmV3b3JrcyBDUzVxteM2AAACcklEQVR4nO3a0XESURiG4TeO99iBWoGZ+RvADtKBpAPtwBLsANJBrEAs4MyYDmIHSQXkgk0mMLK7ILt8/+F778ici394OGfDsher1Qqn05tTD+A2M4hYBhHLIGIZRCyDiGUQsQwilkHEMohYBhHLIGIZRCyDiGUQsQwilkHEMohYBhHLIGIZRCyDiGUQsQwilkHEMohYb089wNCVUq6Ay+blfUQsTjhOZxc1P9tbSlkAX7b+/C0ifpxgnF5Ve2TtwAD4OvIoe1UlSAsGwPsRR9m76kA6MAD+jjTKQVUF0gMD4HaEUQ6umot6T4ybiJgNP83hVbFDasGACnZIT4yfEXE1wjj/Xeod0hPjDpgNPsyRSguyB8Y0Ih6Gn+g4pQSpFQMSgtSMAclAaseARCDngAFJQM4FAxKAnBMGiH8xLKVMgV89ln6MiPthpxkn6R0SEUvgusfSZSnlsnuZftI75LlSygyYdyx7ZH1s/Rl+ouFKAQIvx9ctMGlZlh4lDQhAcywtqRhF+hqyXfMmT1m/6buasL6mzMaY6dilAoENlLuWZRNgnhEl1ZH1ulLKO9bH16eOpdfqz2K9Lt0Oea75EjilfadAsp2SFgQ2UH53LJ2XUr4PPtARSntkbVfL7+rVgEBvlM/NHQDJUh9Z2zWf/puOZbPhJzm8qkDgBaXt/teHcSY5rOpAAJp/c/vclJSrShDYifKI+NPvVV3U/1VzU3LavFyo/25SPUi2qj2ysmYQsQwilkHEMohYBhHLIGIZRCyDiGUQsQwilkHEMohYBhHLIGIZRCyDiGUQsQwilkHEMohYBhHLIGIZRCyDiGUQsZ4Ak9fPFwUy/HsAAAAASUVORK5CYII=);
+				background-size: 50px 44px;
+			}
+			
+			.idoc {
+				background: no-repeat center center url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABYCAYAAAADWlKCAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAKwwAACsMBNCkkqwAAABZ0RVh0Q3JlYXRpb24gVGltZQAwOS8xMi8xM5w+I3MAAAAcdEVYdFNvZnR3YXJlAEFkb2JlIEZpcmV3b3JrcyBDUzVxteM2AAAC2klEQVR4nO3bMU9TURjG8T9qIpskDjqYUAejm5B3MS4yOJoUNzd0dCJ+Av0IMrrVTSfK5oiT05vAJG64OUp0carDOdBbjLWBYp+W55fckHC5Nyf8c+5pk3Pner0epuPCpAdggxxEjIOIcRAxDiLGQcQ4iBgHEeMgYhxEjIOIcRAxDiLGQcQ4iBgHEeMgYhxEjIOIcRAxDiLGQcQ4iBgHEXNp0gMYVWY+BV4DO0AX2I6InYkO6gzMqe9czMwFSog2JcQqsFBPfwW2gW5EdCcywDGTDpKZS0AH6AGPgW/APeAi8AhYAZYal2zRD7T//0Y6PrJBGo+oTeAFME+ZHdfqnxwA+8AP4EY9t8Lg7Dl8tE3N7JEMkpkdYA14FhGdzGwBT4DLQy77Qgl0FXhICdSq5w6oM4cSaH/8ox4P1UV9DXhLWcABrgCfKf/ghb9cc7seUOI8B34CQZk5q5R1iMzcpQTqqH0wUJ0hzUEdLdz15zywSIlzZ4Tb/QL2KLPnFnCfxuyJiLlxjHlcpiHIcQMLd2YuUsK0gOsj3P4rJdAncJCR/CNI08DCnZnzlMdWi+GPN4BXoBdk2r+pLwLrwGaN+A5YBnYjYgN4A3ygzIipoLqon1SbPxfubkS8r797ObmhjWbWgjTdrcc6IPVYGmbaH1kzx0HEOIgYBxHjIGIcRIyDiHEQMQ4ixkHEOIgYBxHjIGIcRIyDiHEQMQ4ixkHEOIgYBxHjIGJUgyzTfznnXJHcBlQ3QO8A1J3vbfobpsfp+5jvd2qSQZrqqwMb9SAz2/TfBWmd8LZ7lFnoIKcVEVuUDdeHb1gdBloadl3DdkR8PKPhnZrkZuuTqO8iNmfP0UZrtQ3Vw8xMkOMy8wElzmpE3Jz0eEY1s0GmlerH3nPLQcQ4iBgHEeMgYhxEjIOIcRAxDiLGQcQ4iBgHEeMgYhxEjIOIcRAxDiLGQcQ4iBgHEeMgYhxEjIOI+Q2gWbiBmTXKQQAAAABJRU5ErkJggg==);
+				background-size: 50px 44px;
+			}
+			
+			#total {
+				-webkit-user-select: text;
+				text-align: right;
+				padding: 0 1em;
+				border: 0px;
+				border-bottom: 1px solid #ECB100;
+				border-radius: 0;
+				font-size: 16px;
+				width: 30%;
+				outline: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header id="header">
+			<div class="nvbt iback" onclick="back()"></div>
+			<div class="nvtt">Payment</div>
+			<div class="nvbt idoc" onclick="openDoc('Payment Document','/doc/payment.html')"></div>
+		</header>
+		<div id="dcontent" class="dcontent">
+			<br/>
+			<p id="info" style="padding: 0 1em;text-align:left;">支付通道信息：
+			</p>
+			<div style="padding: 0.5em 1em;">
+				<hr color="#EEE" />
+			</div>
+			<p style="padding: 0 1em;text-align:left;">为DCloud提供的免费软件进行赞助吧。</p>
+			<br/>
+			<div style="padding: 0 1em;text-align:left">
+				捐赠金额：<input id="total" type="number" value="1" /> 元
+			</div>
+			<br/>
+			<!--<div class="button" onclick="clicked('payment_iap.html')">Apple IAP</div>-->
+		</div>
+		<div id="output">
+			Payment模块管理支付功能，可通过js调用第三方支付服务。通过plus.payment可获取支付管理对象。
+		</div>
+	</body>
+
+	<script>
+		(function(w) {
+
+			document.addEventListener('plusready', function() {
+				console.log("Immersed-UserAgent: " + navigator.userAgent);
+			}, false);
+
+			var immersed = 0;
+			var ms = (/Html5Plus\/.+\s\(.*(Immersed\/(\d+\.?\d*).*)\)/gi).exec(navigator.userAgent);
+			if(ms && ms.length >= 3) {
+				immersed = parseFloat(ms[2]);
+			}
+			w.immersed = immersed;
+
+			if(!immersed) {
+				return;
+			}
+			var t = document.getElementById('header');
+			//t&&(t.style.paddingTop=immersed+'px',t.style.background='-webkit-linear-gradient(top,rgba(215,75,40,1),rgba(215,75,40,0.8))',t.style.color='#FFF');
+			t && (t.style.paddingTop = immersed + 'px', t.style.background = '#D74B28', t.style.color = '#FFF');
+			t = document.getElementById('content');
+			t && (t.style.marginTop = immersed + 'px');
+			t = document.getElementById('scontent');
+			t && (t.style.marginTop = immersed + 'px');
+			t = document.getElementById('dcontent');
+			t && (t.style.marginTop = immersed + 'px');
+			t = document.getElementById('map');
+			t && (t.style.marginTop = immersed + 'px');
+
+		})(window);
+	</script>
+
+</html>

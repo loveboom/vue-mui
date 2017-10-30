@@ -1,0 +1,1278 @@
+{
+	"demand-info.html": {
+		"resources": [
+			"static/js/public.js",
+			"js/mui.pullToRefresh.js",
+			"js/mui.zoom.js",
+			"js/mui.min.js",
+			"js/mui.pullToRefresh.material.js",
+			"js/jquery-2.1.0.min.js",
+			"css/mui.min.css",
+			"static/js/share.js",
+			"js/mui.previewimage.js",
+			"static/js/demand-info.js",
+			"js/vue.min.js",
+			"static/img/ico_20.png",
+			"static/css/demand-info.css",
+			"static/img/ico_4.png",
+			"static/img/demand_up.png",
+			"static/css/public.css",
+			"static/img/ico_5.png",
+			"static/img/ico_8.png",
+			"static/img/ico_9.png",
+			"static/img/ico_11.png",
+			"static/img/ico_12.png",
+			"static/img/demand_wh.png",
+			"static/css/popup.css",
+			"static/img/qq.png",
+			"static/img/wb.png",
+			"static/img/wx.png",
+			"fonts/mui.ttf",
+			"static/img/pyq.png",
+			"static/img/kj.png",
+			"static/img/ico_21.png",
+			"static/img/ico_22.png",
+			"static/img/homepage-report-icon.png",
+			"static/img/ico_6.png",
+			"static/img/ico_10.png",
+			"static/img/ico_7.png"
+		],
+		"refer": [
+			"demand-evaluate.html",
+			"chat-main.html",
+			"signin.html",
+			"demand-arbitration.html",
+			"demand-revoke.html",
+			"homepage-personal.html",
+			"demand-pay.html"
+		]
+	},
+	"home.html": {
+		"resources": [
+			"static/img/home-search.png",
+			"static/js/home.js",
+			"js/jQuery.js",
+			"static/css/home.css",
+			"static/img/nav_05.png",
+			"static/img/banner-bg.png",
+			"static/img/nav_03.png",
+			"static/img/nav_04.png",
+			"static/img/home_btn.png",
+			"static/img/nav_02.png",
+			"js/mui.pullToRefresh.js",
+			"js/mui.pullToRefresh.material.js",
+			"static/css/public.css",
+			"js/vue.min.js",
+			"static/js/public.js",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"static/js/share.js",
+			"js/gpush.js",
+			"js/update.js",
+			"static/img/wb.png",
+			"static/img/wx.png",
+			"static/img/pyq.png",
+			"fonts/mui.ttf",
+			"static/img/qq.png",
+			"static/img/home_banner.jpg",
+			"img/banner2.jpg",
+			"img/banner1.jpg",
+			"img/banner3.jpg",
+			"static/img/top.png"
+		],
+		"refer": [
+			"demand.html",
+			"signin.html",
+			"homepage-personal.html",
+			"my.html",
+			"circle.html",
+			"home-search.html",
+			"guide.html",
+			"screen.html",
+			"demand-info.html",
+			"welcome.html",
+			"signup-fix.html",
+			"circle-topic-info.html",
+			"circle-info.html"
+		]
+	},
+	"demand.html": {
+		"refer": [
+			"demand-info.html",
+			"circle.html",
+			"signin.html",
+			"my.html",
+			"demand-infos.html",
+			"demand-release.html",
+			"home.html",
+			"chat-main.html",
+			"chat-kf.html",
+			"luyan-details.html",
+			"homepage-company.html",
+			"homepage-personal.html"
+		],
+		"resources": [
+			"static/img/ico_1.png",
+			"static/img/ico_23.png",
+			"static/img/demand-my-com.png",
+			"js/moment.min.js",
+			"js/vue.min.js",
+			"static/img/nav_07.png",
+			"static/js/public.js",
+			"static/img/ico_3.png",
+			"static/css/demand.css",
+			"js/mui.min.js",
+			"static/img/nav_01.png",
+			"static/img/demand-my-close.png",
+			"js/mui.pullToRefresh.js",
+			"static/css/circle.css",
+			"static/img/demand-my-wait.png",
+			"static/img/demand_up.png",
+			"js/mui.pullToRefresh.material.js",
+			"static/css/public.css",
+			"static/img/ico_2.png",
+			"static/img/servicebg.png",
+			"js/angular.js",
+			"static/img/circle-without-login.png",
+			"js/jquery-2.1.0.min.js",
+			"static/img/demand-my-apply.png",
+			"css/mui.min.css",
+			"static/img/demand_wh.png",
+			"static/img/home_btn.png",
+			"static/img/nav_04.png",
+			"static/img/nav_02.png",
+			"static/img/ly_img2.jpg",
+			"static/img/ly_img1.jpg",
+			"static/js/vue.min.js",
+			"static/js/demand2.js",
+			"static/js/demandA.js",
+			"rongcloud-web-im-widget-master/js/RongIMWidget.js"
+		]
+	},
+	"circle-topic-info.html": {
+		"resources": [
+			"static/js/circle-top-info.js",
+			"static/css/circle.css",
+			"static/img/ico_4.png",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"static/img/circle_followed.png",
+			"js/jQuery.js",
+			"static/css/public.css",
+			"js/mui.zoom.js",
+			"js/mui.previewimage.js",
+			"static/img/circle_follow.png",
+			"js/mui.pullToRefresh.js",
+			"js/mui.pullToRefresh.material.js",
+			"js/vue.min.js",
+			"static/js/public.js",
+			"js/mui.min.js",
+			"static/img/share_btn.png",
+			"static/js/share.js",
+			"js/vue-tap.js",
+			"static/img/wb.png",
+			"static/img/qq.png",
+			"static/img/wx.png",
+			"static/img/pyq.png"
+		],
+		"refer": [
+			"circle-news-info.html"
+		]
+	},
+	"circle.html": {
+		"resources": [
+			"static/css/circle.css",
+			"js/mui.pullToRefresh.js",
+			"static/img/circle_hot_search.png",
+			"static/img/nav_06.png",
+			"js/mui.pullToRefresh.material.js",
+			"static/js/circle.js",
+			"static/css/public.css",
+			"js/vue.min.js",
+			"static/img/circle_forward_icon.png",
+			"static/img/circle-publish-icon.png",
+			"static/img/circle_follow.png",
+			"static/js/public.js",
+			"js/mui.zoom.js",
+			"static/img/circle-top.png",
+			"js/mui.min.js",
+			"static/img/circle_up_icon.png",
+			"static/img/nav_01.png",
+			"css/mui.min.css",
+			"js/mui.previewimage.js",
+			"static/img/nav_04.png",
+			"js/vue-tap.js",
+			"static/img/circle_comment_icon.png",
+			"static/img/nav_03.png",
+			"static/img/circle_delete.png",
+			"static/img/circle_followed.png",
+			"static/img/circle_up_icond.png",
+			"js/jquery-2.1.0.min.js"
+		],
+		"refer": [
+			"circle-topic-info.html",
+			"circle-article-info.html",
+			"home.html",
+			"demand.html",
+			"signin.html",
+			"circle-info.html",
+			"my.html",
+			"circle-forward.html",
+			"circle-publish.html",
+			"homepage-personal.html",
+			"circle-new-comment.html"
+		]
+	},
+	"circle-article-info.html": {
+		"resources": [
+			"static/css/circle.css",
+			"js/mui.pullToRefresh.js",
+			"static/img/wb.png",
+			"static/img/ico_4.png",
+			"js/mui.pullToRefresh.material.js",
+			"fonts/mui.ttf",
+			"static/css/public.css",
+			"js/jQuery.js",
+			"js/vue.min.js",
+			"static/img/circle_forward_icon.png",
+			"static/js/public.js",
+			"static/img/qq.png",
+			"static/img/circle_watch.png",
+			"static/img/share_btn.png",
+			"js/mui.min.js",
+			"static/img/wx.png",
+			"static/img/circle_up_icon.png",
+			"css/mui.min.css",
+			"static/img/pyq.png",
+			"static/js/share.js",
+			"static/img/circle_payicon.png",
+			"js/vue-tap.js",
+			"static/img/circle_comment_icon.png",
+			"static/js/circle-article-info.js",
+			"static/img/circle-i-a-coll.png",
+			"static/img/circle_delete.png"
+		],
+		"refer": [
+			"circle-reward.html",
+			"signin.html",
+			"homepage-personal.html",
+			"circle-forward.html"
+		]
+	},
+	"signin.html": {
+		"resources": [
+			"static/js/public.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"static/css/signin.css",
+			"css/mui.min.css",
+			"static/css/public.css",
+			"static/js/signin.js"
+		],
+		"refer": [
+			"signup.html",
+			"forget.html"
+		]
+	},
+	"recharge.html": {
+		"resources": [
+			"static/img/ico_4.png",
+			"js/jquery-2.1.0.min.js",
+			"static/css/my.css",
+			"static/js/public.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"static/css/public.css"
+		],
+		"refer": [
+			"recharge-success.html"
+		]
+	},
+	"my.html": {
+		"resources": [
+			"static/img/nav_08.png",
+			"fonts/mui.ttf",
+			"static/css/public.css",
+			"js/vue.min.js",
+			"static/css/my.css",
+			"static/js/public.js",
+			"static/img/avatar.png",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"static/img/nav_01.png",
+			"static/js/share.js",
+			"static/js/my.js",
+			"js/vue-tap.js",
+			"static/img/my-header-box.jpg",
+			"static/img/nav_03.png",
+			"static/img/nav_02.png",
+			"static/img/secretary-icon.png",
+			"static/img/qq.png",
+			"static/img/wb.png",
+			"static/img/wx.png",
+			"static/img/pyq.png"
+		],
+		"refer": [
+			"my-wallet.html",
+			"home.html",
+			"signin.html",
+			"set.html",
+			"demand.html",
+			"homepage-personal.html",
+			"my-newfriend.html",
+			"circle.html",
+			"my-content.html",
+			"my-fans.html",
+			"shareh5.html",
+			"feedback.html",
+			"my-follow.html",
+			"my-collection.html"
+		]
+	},
+	"my-wallet.html": {
+		"resources": [
+			"static/img/ico_4w.png",
+			"static/img/my-wallet-bg.jpg",
+			"js/jQuery.js",
+			"static/img/my-wallet-icon.png",
+			"static/css/my.css",
+			"static/js/public.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"static/css/public.css"
+		],
+		"refer": [
+			"recharge.html",
+			"my-wallet-detail.html",
+			"withdrawals.html"
+		]
+	},
+	"recharge-success.html": {
+		"resources": [
+			"css/mui.min.css",
+			"static/img/recharge-success-icon.png"
+		],
+		"refer": []
+	},
+	"demand-infos.html": {
+		"resources": [
+			"static/img/ico_20.png",
+			"js/mui.pullToRefresh.js",
+			"static/css/demand-info.css",
+			"static/img/ico_4.png",
+			"js/mui.pullToRefresh.material.js",
+			"static/css/public.css",
+			"static/img/ico_5.png",
+			"js/vue.min.js",
+			"static/img/ico_8.png",
+			"static/js/public.js",
+			"js/mui.zoom.js",
+			"static/img/ico_9.png",
+			"js/mui.min.js",
+			"static/img/ico_11.png",
+			"js/jquery-2.1.0.min.js",
+			"css/mui.min.css",
+			"static/js/share.js",
+			"js/mui.previewimage.js",
+			"static/js/demand-info.js",
+			"static/css/popup.css",
+			"static/img/demand_up.png",
+			"static/img/demand_wh.png",
+			"static/img/ico_10.png",
+			"fonts/mui.ttf",
+			"static/img/ico_6.png",
+			"static/img/wb.png",
+			"static/img/qq.png",
+			"static/img/wx.png",
+			"static/img/pyq.png",
+			"static/img/ico_21.png"
+		],
+		"refer": [
+			"demand-info.html",
+			"chat-main.html",
+			"signin.html"
+		]
+	},
+	"homepage-company-event.html": {
+		"resources": [
+			"static/img/ico_1.png",
+			"static/img/demand-my-com.png",
+			"js/moment.min.js",
+			"static/img/circle_followed.png",
+			"js/vue.min.js",
+			"static/img/circle_follow.png",
+			"static/js/public.js",
+			"static/img/ico_3.png",
+			"static/css/demand.css",
+			"js/mui.min.js",
+			"static/img/demand-my-close.png",
+			"static/img/circle_comment_icon.png",
+			"js/mui.pullToRefresh.js",
+			"static/css/circle.css",
+			"static/img/demand-my-wait.png",
+			"static/img/ico_4.png",
+			"static/img/circle_delete.png",
+			"static/img/demand_up.png",
+			"js/mui.pullToRefresh.material.js",
+			"static/css/public.css",
+			"static/img/circle_forward_icon.png",
+			"static/img/circle-without-login.png",
+			"js/jquery-2.1.0.min.js",
+			"static/img/demand-my-apply.png",
+			"css/mui.min.css",
+			"static/img/demand_wh.png",
+			"fonts/mui.ttf"
+		],
+		"refer": [
+			"demand-infos.html",
+			"circle-article-info.html"
+		]
+	},
+	"homepage-company.html": {
+		"resources": [
+			"static/css/my.css",
+			"static/js/public.js",
+			"static/img/avatar.png",
+			"js/mui.min.js",
+			"static/js/homepage-company.js",
+			"css/mui.min.css",
+			"static/css/public.css",
+			"js/vue.min.js",
+			"static/img/my-watchnum.png",
+			"static/img/homepage-company-header.jpg",
+			"js/jquery-2.1.0.min.js",
+			"static/img/ico_4w.png",
+			"fonts/mui.ttf",
+			"static/img/secretary-icon.png",
+			"static/img/my-header-box.jpg"
+		],
+		"refer": [
+			"homepage-company-event.html",
+			"signin.html",
+			"chat-main.html"
+		]
+	},
+	"homepage-personal.html": {
+		"resources": [
+			"static/css/my.css",
+			"static/js/public.js",
+			"static/img/homepage-report-icon.png",
+			"js/mui.min.js",
+			"static/img/ico_4w.png",
+			"static/img/secretary-icon.png",
+			"static/js/homepage-personal.js",
+			"css/mui.min.css",
+			"static/css/public.css",
+			"js/vue.min.js",
+			"fonts/mui.ttf",
+			"static/img/my-header-box.jpg"
+		],
+		"refer": [
+			"homepage-company.html",
+			"homepage-personal-set.html",
+			"report.html",
+			"chat-main.html",
+			"my-follow.html",
+			"my-fans.html"
+		]
+	},
+	"demand-release.html": {
+		"resources": [
+			"static/img/ico_4.png",
+			"js/mui.picker.min.js",
+			"static/plupload/plupload.full.min.js",
+			"static/js/demand-release.js",
+			"css/mui.min.css",
+			"static/css/public.css",
+			"static/img/ico_18.png",
+			"css/mui.picker.min.css",
+			"static/css/demand-release.css",
+			"static/img/ico_16.png",
+			"static/css/popup.css",
+			"static/img/ico_17.png",
+			"js/mui.pullToRefresh.js",
+			"js/mui.pullToRefresh.material.js",
+			"js/vue.min.js",
+			"static/js/public.js",
+			"js/mui.min.js",
+			"js/jquery-2.1.0.min.js"
+		],
+		"refer": [
+			"demand-pay.html",
+			"demand-info.html"
+		]
+	},
+	"demand-pay.html": {
+		"resources": [
+			"js/mui.min.js",
+			"static/img/weixin.png",
+			"js/jquery-2.1.0.min.js",
+			"static/img/balance.png",
+			"static/img/alipay.png",
+			"css/mui.min.css",
+			"static/img/radio_uncheck.png",
+			"static/img/recharge-success-icon.png",
+			"static/css/public.css",
+			"static/css/demand-release.css",
+			"static/css/popup.css",
+			"js/mui.pullToRefresh.js",
+			"js/mui.pullToRefresh.material.js",
+			"js/vue.min.js",
+			"static/js/public.js",
+			"static/img/ico_4.png"
+		],
+		"refer": [
+			"demand-info.html"
+		]
+	},
+	"demand-evaluate.html": {
+		"resources": [
+			"static/css/demand-evaluate.css",
+			"static/img/ico_13.png",
+			"css/mui.min.css",
+			"static/css/public.css",
+			"static/img/ico_14.png",
+			"static/css/popup.css",
+			"static/js/public.js",
+			"js/mui.pullToRefresh.js",
+			"js/mui.min.js",
+			"js/mui.pullToRefresh.material.js",
+			"js/jquery-2.1.0.min.js"
+		],
+		"refer": [
+			"demand-info.html"
+		]
+	},
+	"chat-main.html": {
+		"resources": [
+			"static/css/demand.css",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"chat.html",
+			"static/css/public.css",
+			"static/js/public.js",
+			"static/img/ico_4.png",
+			"js/mui.min.js"
+		],
+		"refer": [
+			"chat.html"
+		]
+	},
+	"chat.html": {
+		"resources": [
+			"static/js/chat.js",
+			"static/css/demand.css",
+			"css/mui.min.css",
+			"js/jQuery.js",
+			"static/css/public.css",
+			"js/vue.min.js",
+			"static/js/public.js",
+			"js/mui.min.js",
+			"static/img/chat-left-arrow.png",
+			"static/img/chat-right-arrow.png",
+			"js/moment.min.js"
+		],
+		"refer": []
+	},
+	"set.html": {
+		"resources": [
+			"static/css/my.css",
+			"static/js/public.js",
+			"static/img/ico_4.png",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"static/css/public.css",
+			"static/js/set.js"
+		],
+		"refer": [
+			"homepage-personal-set.html",
+			"signin.html",
+			"singepage.html",
+			"modify-password.html"
+		]
+	},
+	"homepage-personal-set.html": {
+		"resources": [
+			"static/css/my.css",
+			"static/js/public.js",
+			"static/img/avatar.png",
+			"js/mui.min.js",
+			"static/img/ico_4w.png",
+			"css/mui.min.css",
+			"static/css/public.css",
+			"js/jQuery.js",
+			"js/vue.min.js",
+			"static/js/homepage-personal-set.js",
+			"js/vue-tap.js",
+			"static/img/my-header-box.jpg",
+			"fonts/mui.ttf",
+			"static/plupload/plupload.full.min.js"
+		],
+		"refer": [
+			"signin.html",
+			"change-identity.html"
+		]
+	},
+	"transaction-details.html": {
+		"resources": [
+			"static/img/avatar.png",
+			"static/js/transaction-details.js",
+			"static/css/my.css",
+			"static/js/public.js",
+			"static/img/ico_4.png",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"static/css/public.css",
+			"js/vue.min.js",
+			"static/img/my-wallet-d-pay.png"
+		],
+		"refer": []
+	},
+	"my-wallet-detail.html": {
+		"resources": [
+			"static/js/my-wallet-detail.js",
+			"static/css/my.css",
+			"static/img/my-wallet-d-ali.png",
+			"static/img/ico_4.png",
+			"static/img/my-wallet-d-money.png",
+			"js/moment.min.js",
+			"css/mui.min.css",
+			"static/css/public.css",
+			"js/vue.min.js",
+			"static/js/public.js",
+			"js/mui.min.js",
+			"static/img/my-wallet-d-pay.png",
+			"static/img/my-wallet-d-up.png",
+			"fonts/mui.ttf"
+		],
+		"refer": [
+			"transaction-details.html"
+		]
+	},
+	"circle-reward.html": {
+		"resources": [
+			"static/js/public.js",
+			"static/css/circle.css",
+			"js/mui.min.js",
+			"static/js/circle-reward.js",
+			"css/mui.min.css",
+			"static/css/public.css",
+			"js/vue.min.js",
+			"static/img/ico_4.png",
+			"fonts/mui.ttf",
+			"js/vue-tap.js"
+		],
+		"refer": [
+			"circle-reward-pay.html"
+		]
+	},
+	"circle-reward-pay.html": {
+		"resources": [
+			"static/css/circle.css",
+			"static/img/weixin.png",
+			"static/img/balance.png",
+			"static/img/radio_uncheck.png",
+			"static/css/public.css",
+			"js/vue.min.js",
+			"static/img/radio_check.png",
+			"static/js/public.js",
+			"js/mui.min.js",
+			"js/jquery-2.1.0.min.js",
+			"css/mui.min.css",
+			"static/img/alipay.png",
+			"js/vue-tap.js",
+			"static/img/ico_4.png",
+			"fonts/mui.ttf"
+		],
+		"refer": [
+			"signin.html"
+		]
+	},
+	"demand-arbitration.html": {
+		"resources": [
+			"static/js/public.js",
+			"js/mui.pullToRefresh.js",
+			"static/css/demand-evaluate.css",
+			"js/mui.min.js",
+			"js/mui.pullToRefresh.material.js",
+			"js/jquery-2.1.0.min.js",
+			"css/mui.min.css",
+			"static/css/public.css",
+			"static/css/popup.css"
+		],
+		"refer": [
+			"demand-info.html"
+		]
+	},
+	"demand-revoke.html": {
+		"resources": [
+			"static/css/demand-evaluate.css",
+			"css/mui.min.css",
+			"static/css/public.css",
+			"static/css/popup.css"
+		],
+		"refer": []
+	},
+	"home-search.html": {
+		"resources": [
+			"static/js/public.js",
+			"js/mui.pullToRefresh.js",
+			"static/img/ico_4.png",
+			"js/mui.min.js",
+			"js/mui.pullToRefresh.material.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"static/css/public.css",
+			"js/vue.min.js",
+			"static/css/home.css",
+			"static/js/home-search.js"
+		],
+		"refer": [
+			"homepage-personal.html"
+		]
+	},
+	"circle-info.html": {
+		"resources": [
+			"css/zoom.css",
+			"static/css/circle.css",
+			"js/mui.pullToRefresh.js",
+			"static/img/ico_4.png",
+			"js/mui.pullToRefresh.material.js",
+			"fonts/mui.ttf",
+			"static/css/public.css",
+			"js/jQuery.js",
+			"js/vue.min.js",
+			"static/img/circle_forward_icon.png",
+			"static/js/public.js",
+			"js/mui.zoom.js",
+			"static/img/share_btn.png",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"static/js/share.js",
+			"js/mui.previewimage.js",
+			"static/js/circle-info.js",
+			"js/vue-tap.js",
+			"static/img/circle_comment_icon.png",
+			"static/img/circle_delete.png",
+			"static/img/qq.png",
+			"static/img/wb.png",
+			"static/img/wx.png",
+			"static/img/pyq.png"
+		],
+		"refer": [
+			"circle-forward.html"
+		]
+	},
+	"signup.html": {
+		"resources": [
+			"static/js/signup.js",
+			"static/js/public.js",
+			"static/img/ico_4.png",
+			"static/plupload/plupload.full.min.js",
+			"js/mui.min.js",
+			"static/css/signin.css",
+			"css/mui.min.css",
+			"js/jQuery.js",
+			"static/css/public.css",
+			"js/vue.min.js",
+			"js/vue-tap.js",
+			"static/img/upload_bg.png",
+			"static/img/upload_close.png",
+			"fonts/mui.ttf",
+			"img/rotate_left.png",
+			"img/rotate_right.png",
+			"static/img/radio_check.png"
+		],
+		"refer": [
+			"signup-personal.html",
+			"signup-company.html",
+			"signup-fix.html",
+			"singepage.html"
+		]
+	},
+	"guide.html": {
+		"resources": [
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"static/img/page2.jpg",
+			"static/img/page3.jpg",
+			"static/img/page1.jpg",
+			"static/img/page-btn.png",
+			"static/img/page4.jpg",
+			"static/img/page3.png",
+			"static/img/page4.png",
+			"static/img/page2.png",
+			"static/img/page1.png",
+			"static/js/public.js"
+		],
+		"refer": []
+	},
+	"circle-forward.html": {
+		"resources": [
+			"static/js/public.js",
+			"static/css/circle.css",
+			"static/img/ico_4.png",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"static/css/public.css",
+			"static/js/circle-forward.js",
+			"js/vue.min.js",
+			"js/vue-tap.js",
+			"js/jquery-2.1.0.min.js"
+		],
+		"refer": [
+			"homepage-personal.html"
+		]
+	},
+	"chat-kf.html": {
+		"resources": [
+			"static/img/ico_4.png",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"static/css/public.css"
+		],
+		"refer": []
+	},
+	"my-newfriend.html": {
+		"resources": [
+			"static/css/my.css",
+			"static/js/public.js",
+			"static/img/circle_hot_search.png",
+			"static/img/ico_4.png",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"static/css/public.css",
+			"js/vue.min.js",
+			"static/js/my-newfriend.js",
+			"js/vue-tap.js",
+			"fonts/mui.ttf"
+		],
+		"refer": [
+			"homepage-personal.html"
+		]
+	},
+	"signup-personal.html": {
+		"resources": [
+			"static/img/radio_check.png",
+			"static/js/public.js",
+			"js/mui.min.js",
+			"static/css/signin.css",
+			"css/mui.min.css",
+			"static/css/public.css",
+			"js/vue.min.js",
+			"static/js/signup-personal.js",
+			"static/img/ico_4.png",
+			"fonts/mui.ttf"
+		],
+		"refer": [
+			"signup-fix.html"
+		]
+	},
+	"my-content.html": {
+		"resources": [
+			"static/js/public.js",
+			"js/mui.pullToRefresh.js",
+			"static/img/ico_4.png",
+			"static/css/demand.css",
+			"js/mui.min.js",
+			"js/mui.pullToRefresh.material.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"static/css/public.css",
+			"js/vue.min.js",
+			"static/js/my-content.js"
+		],
+		"refer": [
+			"demand-infos.html",
+			"demand-info.html",
+			"circle-topic-info.html",
+			"circle-info.html",
+			"circle-article-info.html"
+		]
+	},
+	"report.html": {
+		"resources": [
+			"static/img/report-tip-icon.png",
+			"static/css/my.css",
+			"static/js/public.js",
+			"static/img/ico_4.png",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"static/css/public.css",
+			"js/vue.min.js",
+			"static/js/report.js",
+			"fonts/mui.ttf"
+		],
+		"refer": []
+	},
+	"screen.html": {
+		"resources": [
+			"static/js/screen.js",
+			"static/js/public.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"static/css/signin.css",
+			"css/mui.min.css",
+			"static/css/public.css",
+			"static/css/home.css",
+			"js/vue.min.js",
+			"js/vue-tap.js"
+		],
+		"refer": [
+			"screen-result.html"
+		]
+	},
+	"my-fans.html": {
+		"resources": [
+			"static/css/my.css",
+			"static/js/public.js",
+			"static/img/ico_4.png",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"static/js/my-fans.js",
+			"css/mui.min.css",
+			"static/css/public.css",
+			"js/vue.min.js",
+			"js/vue-tap.js"
+		],
+		"refer": [
+			"homepage-personal.html"
+		]
+	},
+	"singepage.html": {
+		"resources": [
+			"static/css/my.css",
+			"static/js/public.js",
+			"static/js/singepage.js",
+			"static/img/ico_4.png",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"static/css/public.css",
+			"js/vue.min.js"
+		],
+		"refer": []
+	},
+	"modify-password.html": {
+		"resources": [
+			"static/css/my.css",
+			"static/js/public.js",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"static/css/public.css",
+			"static/js/modify-password.js",
+			"static/img/ico_4.png",
+			"fonts/mui.ttf"
+		],
+		"refer": []
+	},
+	"shareh5.html": {
+		"resources": [
+			"static/js/public.js",
+			"static/css/circle.css",
+			"static/img/ico_4.png",
+			"static/img/share_btn.png",
+			"js/mui.min.js",
+			"static/img/share-bg.jpg",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"static/js/share.js",
+			"static/css/public.css",
+			"static/css/share.css",
+			"static/img/qq.png",
+			"static/img/wb.png",
+			"static/img/wx.png",
+			"static/img/pyq.png"
+		],
+		"refer": []
+	},
+	"circle-publish.html": {
+		"resources": [
+			"static/js/public.js",
+			"static/css/circle.css",
+			"js/mui.zoom.js",
+			"static/img/ico_4.png",
+			"static/plupload/plupload.full.min.js",
+			"js/mui.min.js",
+			"js/jquery-2.1.0.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"js/mui.previewimage.js",
+			"static/css/public.css",
+			"js/vue.min.js",
+			"js/vue-tap.js",
+			"static/img/upload_bg.png",
+			"static/js/circle-publish.js",
+			"static/img/upload_close.png"
+		],
+		"refer": [
+			"circle-location.html"
+		]
+	},
+	"feedback.html": {
+		"resources": [
+			"static/css/my.css",
+			"static/js/public.js",
+			"static/img/ico_4.png",
+			"js/mui.min.js",
+			"static/js/feedback.js",
+			"css/mui.min.css",
+			"static/css/public.css",
+			"fonts/mui.ttf"
+		],
+		"refer": []
+	},
+	"my-follow.html": {
+		"resources": [
+			"static/css/my.css",
+			"css/mui.min.css",
+			"static/js/my-follow.js",
+			"static/img/ico_4.png",
+			"static/css/public.css",
+			"static/js/public.js",
+			"js/mui.min.js",
+			"js/vue.min.js",
+			"js/vue-tap.js",
+			"fonts/mui.ttf"
+		],
+		"refer": [
+			"homepage-personal.html"
+		]
+	},
+	"welcome.html": {
+		"resources": [
+			"js/mui.zoom.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"js/mui.previewimage.js",
+			"css/mui.css",
+			"js/jquery-2.1.0.min.js"
+		],
+		"refer": []
+	},
+	"signup-company.html": {
+		"resources": [
+			"static/img/radio_check.png",
+			"static/js/public.js",
+			"static/img/ico_4.png",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"static/css/signin.css",
+			"css/mui.min.css",
+			"static/css/public.css",
+			"js/vue.min.js",
+			"static/js/signup-company.js",
+			"js/vue-tap.js"
+		],
+		"refer": [
+			"signup-fix.html"
+		]
+	},
+	"signup-fix.html": {
+		"resources": [
+			"static/js/public.js",
+			"js/mui.min.js",
+			"static/js/signup-fix.js",
+			"static/css/signin.css",
+			"css/mui.min.css",
+			"static/css/public.css",
+			"js/vue.min.js",
+			"js/vue-tap.js",
+			"static/img/radio_check.png"
+		],
+		"refer": [
+			"home.html"
+		]
+	},
+	"circle-new-comment.html": {
+		"resources": [
+			"static/js/circle-new-comment.js",
+			"static/img/ico_4.png",
+			"fonts/mui.ttf",
+			"static/js/public.js",
+			"static/css/circle.css",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"static/css/public.css",
+			"js/vue.min.js"
+		],
+		"refer": [
+			"circle-info.html"
+		]
+	},
+	"withdrawals.html": {
+		"resources": [
+			"static/img/report-tip-icon.png",
+			"static/css/my.css",
+			"static/js/public.js",
+			"static/img/ico_4.png",
+			"js/mui.min.js",
+			"js/jquery-2.1.0.min.js",
+			"css/mui.min.css",
+			"static/css/public.css",
+			"fonts/mui.ttf"
+		],
+		"refer": [
+			"withdrawals-account.html",
+			"withdrawals-success.html"
+		]
+	},
+	"withdrawals-account.html": {
+		"resources": [
+			"static/css/my.css",
+			"static/js/public.js",
+			"js/mui.min.js",
+			"js/jquery-2.1.0.min.js",
+			"css/mui.min.css",
+			"static/css/public.css"
+		]
+	},
+	"withdrawals-success.html": {
+		"resources": [
+			"static/img/recharge-success-icon.png",
+			"static/css/my.css",
+			"css/mui.min.css",
+			"static/css/public.css",
+			"static/js/public.js",
+			"js/mui.min.js",
+			"js/jquery-2.1.0.min.js",
+			"static/img/ico_4.png",
+			"fonts/mui.ttf"
+		],
+		"refer": [
+			"my-wallet.html"
+		]
+	},
+	"my-collection.html": {
+		"resources": [
+			"static/img/ico_4.png",
+			"static/js/my-collection.js",
+			"static/css/my.css",
+			"static/js/public.js",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"static/css/public.css",
+			"js/vue.min.js",
+			"js/vue-tap.js"
+		]
+	},
+	"screen-result.html": {
+		"resources": [
+			"js/mui.pullToRefresh.js",
+			"static/js/screen-result.js",
+			"static/img/ico_4.png",
+			"js/mui.pullToRefresh.material.js",
+			"static/img/home_btn.png",
+			"static/js/public.js",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"static/css/home.css",
+			"js/vue.min.js",
+			"static/css/public.css"
+		]
+	},
+	"circle-news-info.html": {
+		"resources": [
+			"static/js/circle-news-info.js",
+			"static/js/public.js",
+			"static/css/circle.css",
+			"static/img/ico_4.png",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"static/css/public.css",
+			"js/vue.min.js"
+		]
+	},
+	"circle-location.html": {
+		"resources": [
+			"static/css/circle.css",
+			"js/mui.pullToRefresh.js",
+			"static/img/circle_hot_search.png",
+			"static/img/ico_4.png",
+			"js/mui.pullToRefresh.material.js",
+			"fonts/mui.ttf",
+			"static/css/public.css",
+			"js/vue.min.js",
+			"static/img/radio_check.png",
+			"static/js/public.js",
+			"static/js/circle-location.js",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"js/vue-tap.js"
+		]
+	},
+	"change-identity.html": {
+		"resources": [
+			"static/plupload/plupload.full.min.js",
+			"js/jQuery.js",
+			"static/css/public.css",
+			"js/vue.min.js",
+			"static/js/change-identity.js",
+			"static/img/arrow-down.png",
+			"static/css/my.css",
+			"static/js/public.js",
+			"js/mui.zoom.js",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"js/mui.previewimage.js",
+			"js/vue-tap.js",
+			"static/img/ico_4.png",
+			"static/img/upload_bg.png",
+			"static/img/upload_close.png"
+		]
+	},
+	"forget.html": {
+		"resources": [
+			"static/js/public.js",
+			"js/mui.min.js",
+			"static/css/signin.css",
+			"css/mui.min.css",
+			"static/css/public.css",
+			"js/vue.min.js",
+			"static/js/forget.js"
+		]
+	},
+	"luyan-details.html": {
+		"resources": [
+			"static/img/ico_20.png",
+			"js/mui.pullToRefresh.js",
+			"static/css/demand-info.css",
+			"static/img/ico_4.png",
+			"js/mui.pullToRefresh.material.js",
+			"static/css/public.css",
+			"static/img/ico_5.png",
+			"js/vue.min.js",
+			"static/img/ico_8.png",
+			"static/js/public.js",
+			"js/mui.zoom.js",
+			"static/img/ico_9.png",
+			"js/mui.min.js",
+			"static/img/ico_11.png",
+			"js/jquery-2.1.0.min.js",
+			"css/mui.min.css",
+			"static/js/share.js",
+			"js/mui.previewimage.js",
+			"static/js/demand-info.js",
+			"static/img/smalltx.png",
+			"static/plupload/plupload.full.min.js"
+		],
+		"refer": [
+			"imgbox.html"
+		]
+	},
+	"imgbox.html": {
+		"resources": [
+			"js/mui.min.js",
+			"static/js/hammerPluin.js",
+			"static/js/hammer.js"
+		]
+	}
+}

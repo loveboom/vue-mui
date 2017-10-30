@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="static/css/public.css" />
+		<link rel="stylesheet" type="text/css" href="static/css/signin.css"/>
+		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body class="bgfff">
+		<header class="mui-bar mui-bar-nav noshadow" style="background-color: #4cb6ff;">
+		    <a style="color: #fff;" class="mui-action-back mui-icon mui-pull-left header-close mui-icon-closeempty without"></a>
+		    <h1 class="mui-title" style="color:#fff">忘记密码</h1>
+		</header>
+		<div class="mui-content sign-content" id="main" style="margin-top:0.3rem;" v-clock>
+		    <div class="sign-box">
+		    		<input style="border-bottom: 1px solid #eee;" type="text" id="ph" class="sign-input bb" placeholder="请输入注册时的手机号 " maxlength="11" v-model="phone"/>
+		    		<div class=" flex-spack-between">
+			    		<input type="text" id="pw" class="sign-input half" placeholder="请输入短信验证码 " v-model="code"/>
+			    		<div class="sign-get" style="margin-right: 0.25rem;background-color: #4cb6ff;">获取验证码</div>
+		    		</div>
+		    </div>
+		    <div class="btn mt30" id="sub" style="background-color: #4cb6ff;margin-top:0.3rem;">下一步</div>
+		    <div class="signin-link" style="color: #666;">联系客服：<a href="tel:057157185965">0571-57185965</a></div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">  
+			mui.init()
+		</script>
+		<script src="static/js/public.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/forget.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+
+</html>

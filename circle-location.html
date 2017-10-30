@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="static/css/public.css" />
+		<link rel="stylesheet" href="static/css/circle.css" />
+		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue-tap.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body class="bgfff">
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">所在位置</h1>
+		</header>
+		<div class="circle-loaction-main" id="main" v-clock>
+			<div class="mui-content mui-scroll-wrapper">
+				<div class="mui-scroll" id="pullrefresh">
+					<div class="circle-hot-search mui-input-row" style="position: static;">
+						<input type="text" class="circle-hot-search-input" id="search" v-model="keyword" placeholder="输入关键词搜索" />
+						<div class="circle-hot-search-btn">搜索</div>
+					</div>
+					<div class="circle-publish-line circle-loaction-without" v-tap="{methods:unchecked}">
+						<div class="circle-publish-add">不显示位置</div>
+					</div>
+					<!--数据列表-->
+					<ul class="mui-table-view mui-table-view-chevron circle-loaction-ul bgfff mt10" style="border-top: 0;"> 
+						<li :class="['circle-loaction-li',list.name?'bb':'',list.ischeck==1?'cur':'']" v-for="(list,index) in addr" v-tap="{methods:checked,index:index}">
+							<div class="circle-loaction-name">{{list.name}}</div>
+							<div class="circle-loaction-add">{{list.pname}}{{list.cityname}}{{list.adname}}{{list.address}}</div>
+							<div class="circle-loaction-selected"></div>
+						</li>
+						<!--<li class="circle-loaction-li bb">
+		    				<div class="circle-loaction-name">紫景苑</div>
+		    				<div class="circle-loaction-add">浙江省金华市婺城区景行街59号</div>
+		    				<div class="circle-loaction-selected"></div>
+		    				</li>
+		    				<li class="circle-loaction-li bb">
+		    				<div class="circle-loaction-name">紫景苑</div>
+		    				<div class="circle-loaction-add">浙江省金华市婺城区景行街59号</div>
+		    				<div class="circle-loaction-selected"></div>
+		    				</li>
+		    				<li class="circle-loaction-li bb">
+		    				<div class="circle-loaction-name">紫景苑</div>
+		    				<div class="circle-loaction-add">浙江省金华市婺城区景行街59号</div>
+		    				<div class="circle-loaction-selected"></div>
+		    				</li>-->
+					</ul>
+				</div>
+			</div>
+
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/mui.pullToRefresh.js" type="text/javascript" charset="utf-8"></script> 
+		<script src="js/mui.pullToRefresh.material.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/public.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/circle-location.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+
+</html>

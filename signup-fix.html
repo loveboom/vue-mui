@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="static/css/public.css" />
+		<link rel="stylesheet" type="text/css" href="static/css/signin.css" />
+	</head>
+
+	<body class="bgfff">
+		<div id="main" v-clock>
+			<header class="mui-bar mui-bar-nav" style="background-color: #4cb6ff;">
+				<h1 class="mui-title" style="color: #fff;">完善信息</h1>
+
+			</header>
+			<div class="mui-content sign-content" style="position: static;">
+				<div class="signup-scroll">
+					<div class="sign-vip-line" style="padding-left: 0;" v-if="ctype == 3 && showBoard">
+						<p class="sign-vip-tit" style="font-size: .28rem;">是否有新三板账户</p>
+						<div class="sign-vip-radio">
+							<input type="radio" class="template-radio" name="radio" v-model="board" value="1" id="yes" />&nbsp;是&nbsp;&nbsp;&nbsp;
+							<input type="radio" class="template-radio" name="radio" v-model="board"  value="2" id="no" />&nbsp;否
+						</div>
+					</div>
+					<!--企业、投资机构、个人投资人-->
+					<!--ctype == 1 || ctype == 2 || ctype == 3-->
+					<div v-if="list1.length !== 0">
+						<div class="signup-upbox-tit pt25">请选择你所在的行业（可多选） </div>
+						<ul class="signup-upbox-jobul f-cb">
+							<li :class="['signup-upbox-jobli','one-four',list.check==1?'curA':'']" v-for="(list,index) in list1" v-tap="{methods:selectA,index:index}">{{list.title}}</li>
+							<!--<li class="signup-upbox-jobli one-four">企业</li>-->
+						</ul>
+					</div>
+
+					<!--个人投资人、券商、做市商-->
+					<!--ctype == 3 || ctype == 4 || ctype == 5 || ctype ==6-->
+					<div v-if="list5.length !== 0">
+						<div class="signup-upbox-tit pt25">请选择你感兴趣的行业（可多选） </div>
+						<ul class="signup-upbox-jobul f-cb">
+							<li :class="['signup-upbox-jobli','one-four',list.check==1?'curA':'']" v-for="(list,index) in list5" v-tap="{methods:selectE,index:index}">{{list.title}}</li>
+							<!--<li class="signup-upbox-jobli one-four">企业</li>-->
+						</ul>
+					</div>
+
+					<!--券商-->
+					<!--ctype == 4 || ctype == 5-->
+					<div v-if="list6.length !== 0">
+						<div class="signup-upbox-tit pt25">请选择你最擅长的行业（单选） </div>
+						<ul class="signup-upbox-jobul f-cb">
+							<li :class="['signup-upbox-jobli','one-four',list.id == num6?'curA':'']" v-for="(list,index) in list6" v-tap="{methods:selectF,index:index}">{{list.title}}</li>
+							<!--<li class="signup-upbox-jobli one-four">企业</li>-->
+						</ul>
+					</div>
+
+					<!--投资机构-->
+					<!--ctype == 2-->
+					<div v-if="list3.length !== 0">
+						<div class="signup-upbox-tit pt25">投资阶段（可多选） </div>
+						<ul class="signup-upbox-jobul f-cb">
+							<li :class="['signup-upbox-jobli','one-third',list.check==1?'curA':'']" v-for="(list,index) in list3" v-tap="{methods:selectC,index:index}">{{list.title}}</li>
+							<!--<li class="signup-upbox-jobli one-third">VC </li>-->
+						</ul>
+					</div>
+
+					<!--投资机构-->
+					<!--ctype == 2-->
+					<div v-if="list4.length !== 0">
+						<div class="signup-upbox-tit pt25">单个项目投资规模（单选） </div>
+						<ul class="signup-upbox-jobul f-cb">
+							<li :class="['signup-upbox-jobli','one-third',list.id == num4?'curA':'']" v-for="(list,index) in list4" v-tap="{methods:selectD,index:index}">{{list.title}} </li>
+							<!--<li class="signup-upbox-jobli one-third">1000万以下 </li>-->
+						</ul>
+					</div>
+
+					<!--企业-->
+					<!--ctype == 1-->
+					<div v-if="list2.length !== 0">
+						<div class="signup-upbox-tit pt25">选择你的需求标签（可多选） </div>
+						<ul class="signup-upbox-jobul f-cb">
+							<li :class="['signup-upbox-jobli','one-third',list.check==1?'curA':'']" v-for="(list,index) in list2" v-tap="{methods:selectB,index:index}">{{list.title}}</li>
+							<!--<li class="signup-upbox-jobli one-third">转老股</li>-->
+						</ul>
+					</div>
+
+				</div>
+				<div class="bot-box">
+					<div class="btn" id="sub" style="background-color: #4cb6ff;">完成</div>
+				</div>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue-tap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/public.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/signup-fix.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+
+</html>
+
+</html>

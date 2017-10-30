@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<script src="js/jQuery.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" href="static/css/public.css" />
+		<link rel="stylesheet" href="static/css/my.css" />
+		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue-tap.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<style>
+		.moxie-shim {
+			width: 100% !important;
+			height: 100% !important;
+		}
+	</style>
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background: #2ca8fe;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title" style="color: #fff;">变更申请</h1>
+			<a href="javascript:;" class="my-save fr orange" style="color: #fff;">提交</a>
+		</header>
+		<div class="mui-content" id="main" v-clock>
+			<div class="my-line bb mt20">
+				<div class="my-line-left">变更原因</div>
+				<div class="my-line-right">
+					
+					<select name="select" id="select" class="change-select" style="width: auto;margin-bottom: 0;" v-model="changeType">
+						<option value="33">公司名称变更</option>
+						<option value="34">工作岗位变更</option>
+					</select>
+					<!--<label for="select ">
+					<div class="mui-icon mui-icon-arrowdown fr"></div>
+					</label>-->
+				</div>
+			</div>
+			<div class="my-line bb" v-show="changeType == 34">
+				<div class="my-line-left">变更身份</div>
+				<div class="my-line-right">
+					<select name="" id="" class="change-select" style="width: auto;margin-bottom: 0;" v-model="identity">
+						<option value="1">企业</option>
+						<option value="2">投资机构</option>
+						<option value="3">合格投资人</option>
+						<option value="4">咨询机构</option>
+						<option value="5">券商研究员</option>
+						<option value="6">新三板做市商</option>
+					</select>
+					<!--<div class="mui-icon mui-icon-arrowdown fr"></div>--> 
+				</div>
+			</div>
+			<div class="my-line bb" style="position: relative;">
+				<div class="my-line-left">变更公司简称</div>
+				<input type="text" class="my-line-right-input" placeholder="请填写" v-model.trim="company"  @input="companySearch()" @blur="companyBoxShow = false" />
+				<div class="signip-company-box" v-if="ctype == 1" v-show="companyBoxShow">
+					<ul>
+						<li class="signip-company-box-li" v-for="(list,index) in companyList" v-tap="{methods:selectCompany,index:index}">{{list.name}}</li>
+						<!--<li class="signip-company-box-li">博采网络</li>-->
+
+					</ul>
+				</div>
+			</div>
+			<div class="my-line bb">
+				<div class="my-line-left">变更公司全称</div>
+				<input type="text" class="my-line-right-input companyFull" placeholder="请填写" v-model.trim="companyfull"/>
+
+			</div>
+
+			<div class="my-line bb" v-show="changeType == 34">
+				<div class="my-line-left">姓名</div>
+				<div class="my-line-right change-name"></div>
+			</div>
+			<div class="my-line bb" v-show="changeType == 34">
+				<div class="my-line-left">职位</div>
+				<input type="text" class="my-line-right-input" placeholder="请填写" v-model="job" />
+			</div>
+			<div class="my-stit"><span></span>您的名片（限1张，请确保清晰度） </div>
+			<div class="my-upload-box">
+					<ul class="signup-upbox-imgul f-cb bb">
+						<li class="signup-upbox-imgli" v-show="img">
+							<span class="upload-close" id="delete"></span>
+							<a :src="img" class="swipebox" data-preview-src="" data-preview-group="1" :style="{backgroundImage:'url('+img+')'}"></a>
+							<!--<a :href="img"><img :src="img" alt="" width="100%" height="100%" /></a></li>-->
+						</li>
+						<li class="signup-upbox-imgli" v-show="!img"><div style="width: 100%;height: 100%;"><div style="width: 100%;height: 100%;" id="upload"></div></div></li> 
+					</ul>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		<script src="js/mui.zoom.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.previewimage.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/plupload/plupload.full.min.js"></script>
+		<script src="static/js/public.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/change-identity.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+
+</html>

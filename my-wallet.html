@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="static/css/public.css" />
+		<link rel="stylesheet" href="static/css/my.css" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav float">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left white-icon"></a>
+			<h1 class="mui-title" style="color: #fff;">我的钱包</h1>
+			<div class="my-wallet-detail fr" id="detail">钱包明细</div>
+		</header>
+		<div class="my-wallet-content">
+			<div class="my-wallet-icon"></div>
+			<div class="my-wallet-money">0.00</div>
+			<div class="my-wallet-tit">我的零钱</div>
+		</div>
+		<div class="btn my-wallet-withdrawals">提现</div>
+		<div class="btn my-wallet-recharge">充值</div>
+		<!--<div class="btn my-wallet-recharge aa">充值demo</div>-->
+
+		<script src="js/mui.min.js"></script>
+		<script src="js/jQuery.js"></script>
+		<script type="text/javascript">
+			mui.init({
+				//statusBarBackground:'#ffa018'
+			})
+		</script>
+		<script src="static/js/public.js" type="text/javascript" charset="utf-8"></script>
+		<!--<script src="static/js/my-wallet.js" type="text/javascript" charset="utf-8"></script>-->
+		<script>
+			mui.ready(function() {
+
+				mui.plusReady(function() {
+					var self = plus.webview.currentWebview();
+
+					var balance = null;
+
+					close_page('withdrawals-success.html');
+					close_page('recharge.html');
+					close_page('recharge-fail.html');
+					close_page('recharge-success.html');
+					
+					function Wallet() {
+
+						this.init = function() {
+							getMoney();
+							link();
+						}
+
+						function getMoney() {
+
+							mui.ajax({
+								url: URL.path + '/account/info',
+								type: 'post',
+								data: {
+									token: plus.storage.getItem('token'),
+									terminalNo: '3'
+								},
+								success: function(data) {
+									if(data.returnCode == 200) {
+										document.querySelector(".my-wallet-money").innerHTML = data.data.balance;
+										balance = data.data.balance;
+									} else {
+										if(data.returnCode == 401) {
+											unLoginComfirm();
+										} else {
+											mui.toast(data.msg);
+										}
+									}
+								}
+							})
+						}
+
+						function link() {
+							BindLink('detail', 'my-wallet-detail');
+						}
+					}
+					var wallet = new Wallet();
+					wallet.init();
+
+					//关闭页面
+					//					for(var i=0;i<plus.webview.all().length;i++){
+					//						var page = plus.webview.all()[i];
+					//						
+					//						if(page.id==self.close){
+					//							plus.webview.close(page,'');
+					//						}
+					//					}
+
+					//提现
+					mui('body').on('tap', '.my-wallet-withdrawals', function() {
+						GO('withdrawals', {
+							manyCount: balance
+						});
+					});
+
+					//充值
+					mui('body').on('tap', '.my-wallet-recharge', function() {
+						GO('recharge', {
+							type: 'type',
+							many: 'many'
+						});
+
+//						if($(this).hasClass('aa')) {
+//							GO('recharge_demo');
+//						} else {
+//							GO('recharge', {
+//								type: 'type',
+//								many: 'many'
+//							});
+//						}
+
+					});
+				});
+			})
+		</script>
+	</body>
+	<html>

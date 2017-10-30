@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="static/css/public.css" />
+		<link rel="stylesheet" href="static/css/circle.css" />
+		<link rel="stylesheet" type="text/css" href="http://at.alicdn.com/t/font_skb0ap2lyyyl23xr.css"/>
+		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue-tap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery-2.1.0.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<style type="text/css">
+		.signup-upbox-imgul .signup-upbox-imgli{
+			margin-right: .16rem;
+			margin-bottom: .18rem;
+		}
+		.signup-upbox-imgli:nth-child(4n){
+			margin-right: 0;
+		}
+	</style>
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background: #2ca8fe;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left iconfont" style="font-size:0.4rem;color: #fff;background: none;">&#xe612;</a>
+			<h1 class="mui-title" style="color: #fff;">圈子</h1>
+			<div class="header-right-title" id="publish" style="color: #fff;">发布</div>
+		</header>
+		<div class="mui-content" id="main" v-clock>
+			<div class="circle-publish-box">
+				<textarea class="circle-publish-textarea" v-model.trim="content" placeholder="此刻想说什么..."></textarea>
+			</div>
+			<div class="my-upload-box">
+				<!--<form action="" id="formData">-->
+					<ul class="signup-upbox-imgul f-cb bb">
+						<li class="signup-upbox-imgli no" v-for="(list,index) in img">
+							<a :src="list" data-preview-src="" data-preview-group="1" class="swipebox" :style="{backgroundImage:'url('+list+')'}"></a>
+							<span class="upload-close" v-tap="{methods:deletes,index:index}"></span>
+						</li>
+						<!--<li class="signup-upbox-imgli" v-if="img.length < 9"><input type="file" name="upload_file" class="upload-input"  accept="image/*" /></li>-->
+						<li class="signup-upbox-imgli" v-show="img.length < 9"><div style="height: 100%;width: 100%;" id="upload"></div></li> 
+					</ul> 
+					<!--<input type="hidden" name="terminalNo" value="3" />--> 
+			</div>
+			<!--</form>-->
+			<div class="circle-publish-line mt10" id="locations">
+				<div class="circle-publish-add">所在位置</div>
+				<div>
+					<div class="circle-publish-add-name">{{check.name}}</div>
+					<div class="mui-icon mui-icon-arrowright"></div>
+				</div>
+				
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script> 
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		<script src="js/mui.zoom.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.previewimage.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/plupload/plupload.full.min.js"></script>
+		<script src="static/js/public.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/circle-publish.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+
+</html>

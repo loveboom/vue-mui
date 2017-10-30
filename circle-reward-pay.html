@@ -1,0 +1,322 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="static/css/public.css" />
+		<link rel="stylesheet" href="static/css/circle.css" />
+		<link rel="stylesheet" type="text/css" href="http://at.alicdn.com/t/font_skb0ap2lyyyl23xr.css"/>
+		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue-tap.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body class="bgfff">
+		<div id="main" v-clock>
+			<header class="mui-bar mui-bar-nav" style="background: #2ca8fe;">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left iconfont" style="font-size:0.4rem;color: #fff;background: none;">&#xe612;</a>
+				<h1 class="mui-title" style="color: #fff;">赞赏{{name}}</h1>
+			</header>
+			<div class="mui-content">
+				<div class="circle-publish-line mt10 mb10">
+					<div class="circle-publish-add">赞赏金额</div>
+					<div class="circle-reward-monr">¥{{money}} </div>
+				</div>
+				<div class="circle-pay-box bb">
+					<div class="circle-publish-line bb" style="padding-left: 0;">
+						<div class="circle-publish-add">支付方式</div>
+					</div>
+					<div :class="['circle-pay-way',index == choose?'cur':'']" v-for="(list,index) in payway" v-tap="{methods:selected,index:index}" :data-id="list.type">
+						<div class="circle-pay-ways"><img :src="list.icon" alt="" style="width: .4rem; height: .4rem;" />{{list.title}} <span class="circle-pay-ways-balance" v-if="index == 0">  (余额：¥{{balance}}) </span></div>
+						<div class="circle-pay-way-check"></div>
+					</div>
+					<!--<div class="circle-pay-way bb cur">
+						<div class="circle-pay-ways"><img src="static/img/balance.png" alt="" style="width: .4rem; height: .4rem;" />账户余额 <span class="circle-pay-ways-balance">(余额：¥16000) </span></div>
+						<div class="circle-pay-way-check"></div>
+					</div>
+					<div class="circle-pay-way bb">
+						<div class="circle-pay-ways"><img src="static/img/weixin.png" alt="" style="width: .43rem; height: .38rem;" />微信支付</div>
+						<div class="circle-pay-way-check"></div>
+					</div>
+					<div class="circle-pay-way">
+						<div class="circle-pay-ways"><img src="static/img/alipay.png" alt="" style="width: .42rem; height: .41rem;" />支付宝</div>
+						<div class="circle-pay-way-check"></div>
+					</div>-->
+				</div>
+				<div class="circle-fff">
+					<div class="btn" id="sub" style="background: #4cb6ff;">确定</div>
+				</div>
+
+			</div>
+		</div>
+		<script src="js/jquery-2.1.0.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		<script src="static/js/public.js" type="text/javascript" charset="utf-8"></script>
+		<!--<script src="static/js/circle-reward-pay.js" type="text/javascript" charset="utf-8"></script>-->
+		<script>
+			mui.ready(function() {
+
+				var vm = new Vue({
+					el: '#main',
+					data: {
+						money: '',
+						payway: [{
+							icon: 'static/img/balance.png',
+							title: '账户余额',
+							type: '3'
+						}, {
+							icon: 'static/img/weixin.png',
+							title: '微信支付',
+							type: 'wxpay'
+						}, {
+							icon: 'static/img/alipay.png',
+							title: '支付宝',
+							type: 'alipay'
+						}],
+						name: '',
+						choose: '0',
+						balance: '',
+						empty: ''
+					},
+					methods: {
+						selected: function(params) {
+							this.choose = params.index;
+						}
+					}
+				})
+
+				mui.plusReady(function() {
+
+					var web = plus.webview.currentWebview();
+					vm.name = web.name;
+					vm.money = web.money;
+
+					mui.ajax({ //验证余额
+						url: URL.path + '/longarticle/balance_empty',
+						type: 'post',
+						data: {
+							money: web.money,
+							token: plus.storage.getItem('token'),
+							terminalNo: '3'
+						},
+						success: function(data) {
+							
+							if(data.returnCode == 200) { 
+								//alert(JSON.stringify(data.data))
+								vm.balance = data.data.balance;
+								vm.empty = data.data.is_empty;
+							} else {
+								if(data.returnCode == 401) {
+									unLoginComfirm();
+								} else {
+									mui.toast(data.msg)
+								}
+							}
+						},
+						error:function(xhr,type){
+							console.log(type)
+						}
+					})
+
+					var T_pay = true;
+
+					var main = {
+						data: {
+							token: plus.storage.getItem('token'),
+							many: vm.balance,
+							pays: {},
+							type: null,
+							trade_no: null
+						},
+						getChannels: function() {
+							var _this = this;
+							//获取支付通道
+							plus.payment.getChannels(function(channels) {
+
+								for(var i in channels) {
+									var channel = channels[i];
+									if(channel.id == 'qhpay' || channel.id == 'qihoo') { // 过滤掉不支持的支付通道：暂不支持360相关支付
+										continue;
+									}
+									_this.data.pays[channel.id] = channel;
+									//									$('.report-select').append('<option value="' + channel.id + '">' + channel.description + '</option>');
+									_this.checkServices(channel);
+								}
+
+							}, function(e) {
+								mui.toast('获取支付通道失败：' + e.message);
+							});
+						},
+						checkServices: function(pc) {
+							// 检测是否安装支付服务
+							if(!pc.serviceReady) {
+								var txt = null;
+								switch(pc.id) {
+									case 'alipay':
+										txt = '检测到系统未安装“支付宝快捷支付服务”，无法完成支付操作，是否立即安装？';
+										break;
+									default:
+										txt = '系统未安装“' + pc.description + '”服务，无法完成支付，是否立即安装？';
+										break;
+								}
+								plus.nativeUI.confirm(txt, function(e) {
+									if(e.index == 0) {
+										pc.installService();
+									}
+								}, pc.description);
+							}
+						},
+						pay: function(fun) {
+							var _this = this;
+
+							if(_this.data.type == 3) {
+								if(vm.choose == 0 && vm.empty == 0) {
+									T_pay = true;
+									mui.toast('余额不足');
+									return;
+								}
+								mui.ajax({
+									url: URL.path + '/longarticle/recharge_zan',
+									type: 'post',
+									dataType:'json',
+									data: {
+										money: vm.money,
+										type: vm.payway[vm.choose].type,
+										tid: web.cid,
+										token: main.data.token
+									},
+									success: function(data) {
+//											alert(JSON.stringify(data))
+										
+//										alert(JSON.stringify(data))
+										if(data.returnCode == 200) { 
+//											alert(2)
+											return fun(data);
+										} else {
+											if(data.returnCode == 401) {
+												unLoginComfirm();
+											} else {
+												mui.toast(data.msg)
+												T_pay = true;
+											}
+										}
+									},
+									error: function(xhr, type) {
+										T_pay = true;
+										alert(type)
+									}
+								})
+							} else {
+								var rechargeType = null;
+								
+								if(main.data.type=='alipay'){
+									rechargeType = 2;
+								}else if(main.data.type=='wxpay'){
+									rechargeType = 1;
+								}
+								
+								mui.ajax({
+									url: URL.path + '/longarticle/recharge_zan',
+									type: 'post',
+									data: {
+										money: vm.money,
+										type: rechargeType,
+										tid: web.cid,
+										token: main.data.token
+									},
+									success: function(data) {
+										if(data.returnCode == 200) {
+											main.data.trade_no = data.data.order_no;
+											main.data.many = data.data.money;
+
+											var payUrl = '';
+											var data = {};
+
+											if(_this.data.type == 'alipay') {
+												//支付宝
+												payUrl = URL.path + '/pay/AliSign';
+
+												data = {
+													token: _this.data.token,
+													trade_no: _this.data.trade_no,
+													amount: _this.data.many,
+													subject: '赞赏订单'
+												};
+											} else if(_this.data.type == 'wxpay') {
+												//微信
+												payUrl = URL.path + '/wxpay/get_wxsign';
+//												payUrl = 'http://demo.dcloud.net.cn/helloh5/payment/wxpay.php?total=10';
+												data = {
+													token: _this.data.token,
+													trade_no: _this.data.trade_no,
+													amount: _this.data.many,
+													subject: '赞赏订单'
+												};
+											}
+
+											mui.ajax({
+												url: payUrl,
+												type: 'post',
+												data: data,
+												success: function(res) {
+
+													plus.payment.request(_this.data.pays[_this.data.type], res, function(result) {
+														return fun(result);
+													}, function(error) {
+														T_pay = true;
+//														mui.toast('[' + error.code + ']：' + error.message);
+													});
+												},
+												error: function() {
+													T_pay = true;
+//													mui.toast('支付接口调取失败!');
+												}
+											});
+
+										} else {
+											if(data.returnCode == 401) {
+												unLoginComfirm();
+											} else {
+												mui.toast(data.msg)
+												T_pay = true;
+											}
+										}
+									},
+									error: function(xhr, type) {
+										T_pay = true;
+										alert(type)
+									}
+								})
+							}
+						}
+					}
+					main.getChannels();
+
+					//支付
+					mui('body').on('tap', '#sub', function() {
+						main.data.type = $('.circle-pay-way.cur').attr('data-id');
+
+						if(T_pay) {
+							T_pay = false;
+							main.pay(function(res) {
+								mui.toast('支付成功');
+								var lastweb = plus.webview.currentWebview('circle-reward.html');
+								plus.webview.close(lastweb);
+								var wobj = plus.webview.getWebviewById("circle-article-info.html");
+								wobj.reload(true);
+								mui.back()
+							});
+						}
+					})
+				})
+
+			})
+		</script>
+	</body>
+
+</html>

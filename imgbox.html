@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,target-densitydpi=high-dpi,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<style>
+			html,body{
+				width: 100%;
+				height: 100%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="box" style="width: 100%;height: 100%;position: fixed;left: 0;top: 0;z-index: 99999;overflow: auto;">
+			<img id="img" style="width: auto;height: auto;" />
+		</div>
+		
+		
+		<script src="js/mui.min.js"></script>
+		<script src="static/js/hammer.js"></script>
+		<script src="static/js/hammerPluin.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			mui.ready(function(){
+				mui.plusReady(function(){
+					var web = plus.webview.currentWebview();
+					console.log(web.bigUrl,'web.url');
+					document.querySelector('#img').setAttribute('src',web.bigUrl);
+					mui('body').on('tap','#box',function(){
+						mui.back()
+					})
+				})
+			})
+		</script>
+	</body>
+
+</html>

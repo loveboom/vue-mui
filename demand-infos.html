@@ -1,0 +1,513 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="static/css/public.css" />
+		<!--<link rel="stylesheet" href="static/css/popup.css" />-->
+		<link rel="stylesheet" href="static/css/demand-info.css" />
+		<link rel="stylesheet" type="text/css" href="http://at.alicdn.com/t/font_jvm4xvesuivn29.css"/>
+		<style type="text/css">
+			.load {
+				position: absolute;
+				left: 0;
+				top: 0.88rem;
+				bottom: 0;
+				width: 100%;
+				background-color: #fff;
+				z-index: 2;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<div class="head-nave f-cb" style="background-color: #4cb6ff;">
+			<div class="head-nave-return fl iconfont" style="background: none;color: #fff;padding: 0 0.2rem;">&#xe612;</div>
+			<div class="head-nave-cap" style="color: #fff;">详情</div>
+			<div class="head-nave-share fr share-btn"></div>
+		</div>
+
+		<div class="mui-scroll-wrapper">
+			<div class="mui-scroll" id="app">
+				<div class="h10"></div>
+				<div class="dem-head-box bgfff">
+					<div class="dem-head-top f-cb">
+						<div class="dem-head-top-user fl personal" :data-id="cont.uid" :style="{backgroundImage: 'url('+cont.headimg+')'}"></div>
+						<div class="dem-head-top-left fl">
+							<div class="dem-head-top-cap personal" :data-id="cont.uid">{{cont.uname}}</div>
+							<div class="dem-head-top-time">{{cont.cre_time}}</div>
+						</div>
+						<div class="dem-head-top-right on fr">
+							<div class="dem-head-top-tab n1 fl">悬赏</div>
+							<div class="dem-head-top-tab n1 fl">￥{{cont.min_money+"-"+cont.max_money}}</div>
+						</div>
+						<div class="dem-head-top-del fr"></div>
+					</div>
+					<div class="dem-head-tit f-cb">
+						<div class="dem-head-top-tab n2 fl" style="background-color: #4cb6ff;">{{cont.category}}</div>
+						<div class="dem-head-tit-cap fl" v-html="cont.intro" style="-webkit-user-select:text;">
+							<!--<h1>这里是标题</h1>
+							<p></p>-->
+						</div>
+					</div>
+					<div class="dem-head-img f-cb">
+						<a v-for="item in cont.imgs" :style="{backgroundImage: 'url('+item+')'}" :data-preview-src="item" data-preview-group="1"></a>
+					</div>
+					<ul class="dem-head-speed f-cb" v-if="(cont.claim_status==1||cont.claim_status==2||cont.claim_status==3||cont.claim_status==4||cont.claim_status==5
+					)&&cont.type==1&&cont.is_can==1">
+						<li class="n1" :class="{on:cont.claim_status==1,cur:cont.claim_status==2||cont.claim_status==3||cont.claim_status==4||cont.claim_status==5}"><span>认领</span></li>
+						<li class="n2" :class="{on:cont.claim_status==2,cur:cont.claim_status==3||cont.claim_status==4||cont.claim_status==5}"><span>指派</span></li>
+						<li class="n3" :class="{on:cont.claim_status==3,cur:cont.claim_status==4||cont.claim_status==5}"><span>申领佣金</span></li>
+						<li class="n4" :class="{on:cont.claim_status==4,cur:cont.claim_status==5}"><span>确认并评价</span></li>
+					</ul>
+				</div>
+				<div class="h10"></div>
+				<div class="dem-bd-box bgfff">
+					<div class="dem-bd-head f-cb">
+
+						<div v-if="claim_numsState" class="dem-bd-step in fl">{{cont.claim_nums}}</div>
+						<div class="dem-bd-step look fl">{{cont.views}}</div>
+
+						<div v-if="n.n1&&cont.claim_status!=5" class="dem-bd-small claim fr" style="background-color: #4cb6ff;">认领</div>
+						<div v-if="n.n2" class="dem-bd-small signUp fr" style="background-color: #4cb6ff;">报名</div>
+						<div v-if="n.n1&&cont.claim_status==5" class="dem-bd-small claim fr" style="background-color: #eee;">已认领</div>
+
+						<div v-if="cont.time!=0&&cont.claim_status!=5" class="dem-bd-time fr">
+							<span class="h" style="color: #4cb6ff;">{{cont.time.h}}</span>小时<span class="m" style="color: #4cb6ff;">{{cont.time.m}}</span>分钟<span style="color: #4cb6ff;" class="s">{{cont.time.s}}</span>秒
+						</div>
+
+					</div>
+					<div class="dem-bd-not" :class="{on:cont.claim_nums==0}">暂无人认领</div>
+					<ul class="dem-bd-list">
+						<li v-for="item in claim_list" class="f-cb" :class="{n1:cont.claim_status==4&&cont.is_can==1,n2:cont.claim_status==4&&cont.is_can==0,n3:cont.claim_status==5,n3:cont.claim_status==7&&cont.is_can==0}" :data-id="item.id" :data-many="item.money">
+							<div class="dem-head-top-user personal fl" :data-id="item.uid" :style="{backgroundImage: 'url('+item.imgurl+')'}"></div>
+							<div class="dem-bd-bd fr">
+								<div class="dem-bd-cap personal fl" :data-id="item.uid">{{item.uname}}</div>
+								<div v-if="cont.type==1" class="dem-bd-many personal fr" :data-id="item.uid">￥{{item.money}}</div>
+							</div>
+							<div class="dem-bd-bd fr">
+								<template v-if="cont.type==1">
+									<div class="fl">认领次数:{{item.claims}}</div>
+									<div class="dem-xx fl" v-if="item.stars>0">
+										<i :class="{on:item.stars>0}"></i>
+										<i :class="{on:item.stars>1}"></i>
+										<i :class="{on:item.stars>2}"></i>
+										<i :class="{on:item.stars>3}"></i>
+										<i :class="{on:item.stars>4}"></i>
+									</div>
+								</template>
+								<template v-if="cont.type==1">
+									<div class="fr">认领: {{item.cre_time}}</div>
+								</template>
+								<template v-else>
+									<div class="fl">报名: {{item.cre_time}}</div>
+								</template>
+							</div>
+							<div class="dem-bd-btn-box">
+								<template v-if="cont.is_can==1">
+									<div class="dem-bd-btn demo-chat def" :data-id="item.uid">聊天</div>
+
+									<template v-if="cont.type==1">
+										<div v-if="cont.claim_status==1||cont.claim_status==2" class="dem-bd-btn on assign">指派</div>
+										<div v-if="item.is_assign==1&&cont.claim_status==3&&cont.claim_status==4" class="dem-bd-btn enter" :class="{none:cont.claim_status==3,on:item.is_assign==1}">确认</div>
+									</template>
+
+								</template>
+							</div>
+							<div v-if="item.star>0&&cont.is_can==0" class="dem-bd-return f-cb">
+								<div class="dem-bd-return-tit">对方给你的评价</div>
+								<div class="dem-xx fl">
+									<i :class="{on:item.star>0}"></i>
+									<i :class="{on:item.star>1}"></i>
+									<i :class="{on:item.star>2}"></i>
+									<i :class="{on:item.star>3}"></i>
+									<i :class="{on:item.star>4}"></i>
+								</div>
+							</div>
+						</li>
+						<!--<li class="f-cb on">
+							<div class="dem-head-top-user fl" style="background-image: url('static/img/img1.jpg')"></div>
+							<div class="dem-bd-bd fr">
+								<div class="dem-bd-cap fl">阿特人</div>
+								<div class="dem-bd-many fr">￥1000</div>
+							</div>
+							<div class="dem-bd-bd fr">
+								<div class="fl">认领次数:100</div>
+								<div class="dem-xx fl">
+									<i class="on"></i>
+									<i class="on"></i>
+									<i></i>
+									<i></i>
+									<i></i>
+								</div>
+								<div class="fr">认领: 02-11 10:00</div>
+							</div>
+							<div class="dem-bd-btn-box">
+								<div class="dem-bd-btn def">聊天</div>
+								<div class="dem-bd-btn on enter">确认</div>
+								<div class="dem-bd-btn on assign">指派</div>
+							</div>
+						</li>-->
+					</ul>
+				</div>
+			</div>
+			<!--浮动聊天-->
+			<div class="float-chat"><span style="background-color: #4cb6ff;">聊天</span></div>
+		</div>
+
+		<!--load遮罩层-->
+		<div class="load"></div>
+
+		<script src="js/jquery-2.1.0.min.js"></script>
+		<script src="js/vue.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/mui.pullToRefresh.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.pullToRefresh.material.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.zoom.js"></script>
+		<script src="js/mui.previewimage.js"></script>
+		<script src="static/js/public.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/demand-info.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/share.js"></script>
+		<script>
+			mui.previewImage();
+
+			mui.ready(function() {
+				var timeBox;
+
+				var vm = new Vue({
+					el: '#app',
+					data: {
+						cont: {
+							time: {
+								h: 0,
+								m: 0,
+								s: 0
+							},
+							min_money: 0,
+							max_money: 0
+						},
+						n: {
+							n1: false,
+							n2: false,
+						},
+						claim_list: [],
+						claim_numsState: true,
+						claim_status:''
+					},
+					updated: function() {
+						othis = $('.dem-bd-time');
+						clearInterval(timeBox);
+						timeBox = setInterval(function() {
+
+							var h = parseInt(othis.find('.h').text());
+							var m = parseInt(othis.find('.m').text());
+							var s = parseInt(othis.find('.s').text());
+
+							s -= 1;
+
+							//s
+							if(s == -1) {
+								s = 59;
+								if(m != 0) m -= 1;
+							}
+							//m
+							if(m == 0) {
+								if(h != 0) {
+									m = 59;
+									h -= 1;
+								}
+							}
+
+							//整理格式
+							if(s < 10) s = '0' + s;
+							if(m < 10) m = '0' + m;
+							if(h < 10) h = '0' + h;
+
+							othis.find('.h').text(h);
+							othis.find('.m').text(m);
+							othis.find('.s').text(s);
+
+							//停止计时器
+							if(s == 0 && m == 0 && h == 0) {
+								clearInterval(timeBox);
+							}
+						}, 1000);
+					}
+				});
+
+				mui.plusReady(function() {
+					var _ = this;
+					var self = plus.webview.currentWebview(); //获取页面数据
+					var signList = {
+						token: plus.storage.getItem('token'),
+						need_id: self.sign,
+						page: 1
+					};
+					
+					_.ready = function(fun) {
+						var token = plus.storage.getItem('token');
+//						console.log(token,'token');
+//						console.log(self.sign,'3333')
+						mui.ajax({
+							url: URL.path + "/needs/need_detail",
+							type: 'post',
+							dataType: 'json',
+							data: {
+								token: token,
+								id: self.sign
+							},
+							success: function(res) {
+								console.log(res.data,'data22222');
+								vm.claim_status = res.data.claim_status;
+								$('.load').fadeOut(200);
+								var newIntro = res.data.intro.replace(/<br\s*\/?>/gi,"\r\n").substr(0,40);
+								console.log(newIntro,'newIntro');
+								SHARE(URL.path3 + 'demand-info?id='+self.sign, newIntro);
+								if(res.returnCode == '200') {
+									var t = parseInt(res.data.countdown) - parseInt(res.data.now_time);
+
+									if(t > 0) {
+										res.data['time'] = {
+											h: Math.floor(t / 60 / 60),
+											m: Math.floor(t / 60 % 60),
+											s: Math.floor(t % 60)
+										};
+									} else {
+										res.data['time'] = 0;
+									}
+
+									//组织数据状态
+									if(res.data.type == '1') {
+										//悬赏
+										vm.n.n1 = true;
+										$('.float-chat').show();
+										$('.mui-scroll').addClass('n1');
+									} else if(res.data.type == '2') {
+										//活动
+										$('.dem-bd-not').text('暂无人报名');
+										vm.n.n2 = true;
+										$('.float-chat').show()
+										$('.mui-scroll').addClass('n1');
+										$('.dem-head-top-right').removeClass('on');
+										$('.dem-head-top-del').hide();
+									} else {
+										//需求对接
+										if(res.data.is_can == 1) {
+
+										} else {
+											$('.float-chat').show();
+											$('.mui-scroll').addClass('n1');
+											$('.dem-head-top-del').hide();
+										}
+										$('.dem-head-top-right').removeClass('on');
+										$('.dem-bd-step.in,.dem-bd-not').hide();
+									}
+
+									vm.cont = res.data;
+
+									//判断是否有人回复
+									if(res.data.claim_nums < 9) {
+										$('.mui-pull-bottom-tips').hide()
+									}
+									_.getList(function(res) {
+										vm.claim_list = res;
+									});
+								} else if(res.returnCode == '401') {
+									unLoginComfirm();
+								}
+								if(typeof fun === 'function') return fun();
+							}
+						});
+					};
+
+					//获取列表
+					_.getList = function(fun) {
+						mui.ajax({
+							url: URL.path + '/needs/claim_list',
+							type: 'post',
+							dataType: 'json',
+							data: signList,
+							success: function(res) {
+								console.log(res.data,'res.data')
+								if(res.returnCode == '200') {
+									if(typeof fun === 'function') return fun(res.data);
+								} else if(res.returnCode == '401') {
+									unLoginComfirm();
+								}
+							}
+						});
+					};
+
+					//上下拉事件
+					mui('#app').pullToRefresh({
+						down: {
+							callback: function() {
+								var self = this;
+
+								signList.page = 1;
+								_.ready(function() {
+									self.endPullDownToRefresh();
+								});
+
+								//重置上拉加载
+								self.refresh(true);
+							}
+						},
+						up: {
+							callback: function() {
+								var self = this;
+
+								if(vm.claim_list.length > 9) {
+									signList.page++;
+									_.getList(function(res) {
+
+										if(res.length) {
+											vm.claim_list.push(res);
+											self.endPullUpToRefresh()
+										} else {
+											self.endPullUpToRefresh(true)
+										}
+									});
+								} else {
+									self.endPullUpToRefresh(true)
+								}
+							}
+						}
+					});
+
+					mui('.mui-scroll-wrapper').scroll({
+						indicators: false,
+						deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+					});
+
+					//初次加載
+					_.ready();
+
+					//认领
+					mui('body').on('tap', '.claim', function() {
+						var cap = '请本着诚信负责的态度<br>完成任务';
+						var btnArray = ['知道了'];
+
+						mui.confirm(' ', cap, btnArray, function(e) {
+							btnArray = ['取消', '认领']
+							cap = '允许议价，请输入报价<div class="popp-input"><input type="tel"><span>元</span></div>';
+							mui.confirm(' ', cap, btnArray, function(e) {
+								if(e.index == 1) {
+									mui.ajax({
+										url: URL.path + '/needs/claim_needs',
+										type: 'post',
+										dataType: 'json',
+										data: {
+											token: plus.storage.getItem('token'),
+											need_id: self.sign,
+											money: $('.popp-input input').val()
+										},
+										success: function(res) {
+											if(res.returnCode == '200') {
+												mui.toast(res.msg);
+												setTimeout(function() {
+													GO('demand-info',{
+														sign: self.sign,
+														closePage: 'demand-infos.html'
+													});
+//													setTimeout(function(){
+//														close_page('demand-infos.html');
+//													},200);
+												}, 300);
+											} else if(res.returnCode == '401') {
+												unLoginComfirm();
+											} else {
+												mui.toast(res.msg);
+											}
+										}
+									});
+								}
+							}, 'div');
+
+						}, 'div');
+					});
+					var poppInput = '';
+					$(document).on('keyup', '.popp-input input', function() {
+						var val = $(this).val();
+						var reg = /[^\d]/g;
+
+						if(!reg.test(val)) {
+							poppInput = val;
+						} else {
+							$(this).val(poppInput);
+						}
+					});
+
+					//报名
+					mui('body').on('tap', '.signUp', function() {
+						var othis = $(this);
+
+						mui.ajax({
+							url: URL.path + '/needs/claim_needs',
+							type: 'post',
+							dataType: 'json',
+							data: {
+								token: plus.storage.getItem('token'),
+								need_id: self.sign,
+								money: ''
+							},
+							success: function(res) {
+								if(res.returnCode == '200') {
+									mui.toast(res.msg);
+									setTimeout(function() {
+										GO('demand-info', {
+											sign: self.sign,
+											closePage: 'demand-infos.html'
+										}, true)
+										//											location.reload()
+									}, 300);
+								} else if(res.returnCode == '401') {
+									unLoginComfirm();
+								} else {
+									mui.toast('很抱歉，报名已结束');
+								}
+							}
+						});
+
+					});
+
+					//取消
+					mui('body').on('tap', '.head-nave-return', function() {
+						mui.back();
+					});
+					
+					//大聊天
+					mui('body').on('tap', '.float-chat', function() {
+						Power(function() {
+							mui.openWindow({
+								url: 'chat-main.html',
+								id: 'chat-main.html',
+								extras: {
+									cid: vm.cont.uid
+								}
+							})
+						})
+					})
+					})
+
+					//列表聊天
+					mui('body').on('tap', '.demo-chat', function() {
+						var id = $(this).parents('li').attr('data-id');
+						Power(function() {
+							mui.openWindow({
+								url: 'chat-main.html',
+								id: 'chat-main.html',
+								extras: {
+									cid: id
+								}
+							})
+						})
+					})
+				})
+		</script>
+	</body>
+</html>

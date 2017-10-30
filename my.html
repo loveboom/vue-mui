@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="static/css/public.css" />
+		<link rel="stylesheet" href="static/css/my.css" />
+	</head>
+
+	<body style="background: #eff2f7;">
+		<div id="my" v-clock>
+			
+			<div class="my-header-box">
+				<div class="my-header-set"></div>
+				<div class="my-header-intro por">
+					<div class="my-header-ava">
+						<!--<img :src="avatar" alt="" width="100%" height="100%" />-->
+						<a class="swipebox" :style="{backgroundImage:'url('+avatar+')'}"></a>
+					</div>
+					<div class="flex-direction-column my-header-right cfff">
+						<div class="my-header-name">{{uname}} <span style="background: #4cb6ff;" class="my-header-name-block bgorange" v-if="islog">{{identity}}</span></div>
+						<div class="my-header-id" v-if="islog && ctype != 3">{{company.com_name}} <span>|</span> <span :class="is_rep == 1?'secretary':''">{{position}}</span></div>
+						<!--<div class="my-header-info" v-if="islog">{{profile}}</div>-->
+					</div>
+				</div>
+				<div class="my-header-ul">
+					<div class="my-header-li" id="follow">关注 {{concerns}}</div>
+					<div class="my-header-li" id="fans">
+						粉丝 {{fans}}
+
+						<span class="mui-badge mui-badge-danger  my-header-badge" v-if="islog && new_fans_nums != 0">{{new_fans_nums}}</span>
+					</div>
+					<div class="my-header-li">
+						活跃度 {{activity}}
+						<!--<span class="mui-badge mui-badge-danger  my-header-badge" v-if="islog">3</span>-->
+					</div>
+					<div class="my-header-li">赞赏总额 {{zan_money}}</div>
+				</div>
+			</div>
+			<div class="my-content">
+				<div style="padding-bottom: .2rem;">
+					<div class="my-line mt20" id="content">
+						<span>内容管理</span>
+						<div class="my-line-right">
+							<div class="mui-icon mui-icon-arrowright c999"></div>
+						</div>
+					</div>
+					<div class="my-line mt20 bb" id="myfriend">
+						<span>通讯录</span>
+						<div class="my-line-right">
+							<!--<span class="my-badge">3</span>-->
+							<span class="mui-badge mui-badge-danger" v-if="islog && new_friends">{{new_friends}}</span>
+							<div class="mui-icon mui-icon-arrowright c999"></div>
+						</div>
+					</div>
+					<div class="my-line" id="collection">
+						<span>我的收藏</span>
+						<div class="my-line-right">
+							<div class="mui-icon mui-icon-arrowright c999"></div>
+						</div>
+					</div>
+					<div class="my-line mt20 bb" id="wallet">
+						<span>APP钱包</span>
+						<div class="my-line-right">
+							<div class="mui-icon mui-icon-arrowright c999"></div>
+						</div>
+					</div>
+					<div class="my-line bb" id="feedback">
+						<span>意见反馈</span>
+						<div class="my-line-right">
+							<div class="mui-icon mui-icon-arrowright c999"></div>
+						</div>
+					</div>
+					<div class="my-line" id="set">
+						<span>设置</span>
+						<div class="my-line-right">
+							<div class="mui-icon mui-icon-arrowright c999"></div>
+						</div>
+					</div>
+					<div class="my-line mt20 share-btn" id="share">
+						<span>邀请好友注册</span>
+						<div class="my-line-right">
+							<div class="mui-icon mui-icon-arrowright c999"></div>
+						</div>
+					</div>
+					<div class="my-fail mt20" v-if="ispass == 1">
+						<div class="my-fail-word">您的身份变更申请未通过，请重新提交！ </div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<nav class="nav-bar mui-bar" id="nav"></nav>
+
+		<script src="js/mui.min.js"></script>
+		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue-tap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/public.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/share.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/my.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+
+</html>

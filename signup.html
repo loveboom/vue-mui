@@ -1,0 +1,169 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/swipebox.min.css" />
+		<link rel="stylesheet" href="static/css/public.css" />
+		<link rel="stylesheet" type="text/css" href="static/css/signin.css" />
+		<link rel="stylesheet" type="text/css" href="http://at.alicdn.com/t/font_jvm4xvesuivn29.css"/>
+		<script src="js/jQuery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue-tap.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<style type="text/css">
+		.moxie-shim {
+			width: 100% !important;
+			height: 100% !important;
+		}
+		.rotate_right{
+			position: absolute;
+			left: 4px;
+			bottom: 1px;
+			width: 0.4rem;
+		}
+		.rotate_left{
+			position: absolute;
+			right: 4px;
+			bottom: 1px;
+			width: 0.4rem;
+		}
+		.rotate_right img,.rotate_left img{
+			width: 100%;
+			height: auto;
+		}
+	</style>
+
+	<body class="bgfff">
+		<div id="main" v-clock>
+			<header class="mui-bar mui-bar-nav" style="background-color: #4cb6ff;">
+				<a id="return" class="iconfont" style="float:left;margin-top:0.24rem;padding-right:0.2rem;color: #fff;">&#xe612;</a>
+				<h1 class="mui-title" style="color:#fff">企融直通车</h1>
+			</header>
+			<div class="mui-content sign-content">
+				<div class="signup-upbox" style="padding-top: 0rem;">
+					<div class="sign-line bb" style="margin-top: 0;">
+						<input style="padding-left: 0;margin-top: 0;" type="tel" class="sign-input" v-model="phone" maxlength="11" placeholder="请输入手机号" />
+					</div>
+					<div class="sign-line bb flex-spack-between">
+						<input style="padding-left: 0;" type="text" v-model="code" class="sign-input half" placeholder="请输入短信验证码" />
+						<div class="sign-get" id="getcode" style="background-color: #4cb6ff;">获取验证码</div>
+					</div>
+					<div class="sign-line bb">
+						<input style="padding-left: 0;" type="password" class="sign-input" maxlength="12" v-model='password' placeholder="请输入6-12位密码(数字或字母)" />
+					</div>
+					<div class="sign-line" style="border-bottom: 1px solid #eee;">
+						<input style="padding-left: 0;" type="password" class="sign-input" maxlength="12" v-model="repw" placeholder="再一次输入密码" />
+					</div>
+					<div class="sign-line bb">
+						<input style="padding-left: 0;" type="text" v-model="inviter" class="sign-input" placeholder="邀请人（选填）" />
+					</div>
+					
+					<div class="imgContent" style="padding:0 0.25rem;margin-top: 0.2rem;">
+						
+						<div class="imgBox" style="width: 100%;overflow: hidden;border-bottom: 1px solid #eee;">
+							<div class="mingpian" style="float: left;">
+								<div class="signup-upbox-tit" style="padding-top: 0.1rem;"><span style="color: #4cb6ff;">名片</span></div>
+								<ul class="signup-upbox-imgul f-cb bb" style="margin-top: 0.2rem;border-bottom:0;margin-bottom: 0;">
+									<li class="signup-upbox-imgli without" v-show="img">
+										<a class="swipebox" :style="{backgroundImage:'url('+img+')'}"></a>
+										<span class="upload-close" id="delete"></span>
+									</li>
+									<li class="signup-upbox-imgli" v-show="!img">
+										<div style="width: 100%;height: 100%;">
+											<div style="width: 100%;height: 100%;" id="upload">
+			
+											</div>
+										</div>
+									</li>
+								</ul>
+							</div>
+							
+							<div class="touxiang" style="float: left; margin-left: 1rem;">
+								<div class="signup-upbox-tit" style="padding-top: 0.1rem;"><span style="color: #4cb6ff;">头像</span></div>
+								<ul class="signup-upbox-imgul f-cb bb" style="margin-bottom: 0;margin-top: 0.2rem;border-bottom:none;">
+									<li id="head" class="signup-upbox-imgli without" v-show="avatar" style="position: relative;">
+										<a class="swipebox" :style="{backgroundImage:'url('+avatar+')'}">
+										</a>
+										<span class="upload-close" id="delete2"></span>
+										<!--<span onclick="RotateRight()" class="rotate_right"><img src="img/rotate_right.png"/></span>
+										<span onclick="RotateLeft()" class="rotate_left"><img src="img/rotate_left.png"/></span>-->
+									</li>
+									<li class="signup-upbox-imgli" v-show="!avatar">
+										<div style="width: 100%;height: 100%;">
+											<div style="width: 100%;height: 100%;" id="upload2"></div>
+										</div>
+									</li>
+									<!--<li class="signup-upbox-tips">
+										* 如头像旋转，请提前编辑反向旋转图片
+										<a>向右旋转</a>
+										<a style="margin-left: 10px;">向左旋转</a>
+									</li>-->
+								</ul>
+							</div>
+							<br/>
+							<div style="clear: both;font-size: 0.28rem;color: #999;">仅支持（jpg，jpeg和png格式）</div>
+						</div>
+					</div>
+					
+					<div class="signup-upbox-tit" style="padding-left: 0.24rem;margin-top: 0.2rem;">您的身份 </div>
+						<ul class="signup-upbox-jobul f-cb" style="padding-left: 0.24rem;margin-top: 0.1rem;">
+							<li :class="['signup-upbox-jobli',choose==index?'curA':'']" v-for="(list,index) in identity" v-tap="{methods:click,index:index}">{{list.title}}</li>
+							<!--<li class="signup-upbox-jobli curA">新三板做市场</li>
+							<li class="signup-upbox-jobli">企业</li>
+							<li class="signup-upbox-jobli">企业</li>
+							<li class="signup-upbox-jobli">企业</li>
+							<li class="signup-upbox-jobli">企业</li>-->
+						</ul>
+					</div>
+					
+					<div class="sign-agreement mb20 mt20">
+						<input type="checkbox" class="template-check" id="agreement" v-model="agree" style="margin-right: 0.1rem;" />
+						<label for="agreement">注册表示阅读并同意 </label>
+						<span class="color agreement">《用户服务使用协议》</span>
+					</div>
+			</div>
+			<div class="bot-box" style="position: static; margin-top: 0.3rem;">
+				<div class="btn" id="sub" style="background-color: #4cb6ff;">注册</div>
+				<!--<div class="sign-bot-log">已有账号 <span class="color" id="login" style="color: #4cb6ff;">登录</span> </div>-->
+			</div>
+			<div id="sheet1" class="mui-popover mui-popover-bottom mui-popover-action zbq-popover">
+				<!-- 可选择菜单 -->
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+						<a href="javascript:;" id="camera">拍照</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a href="javascript:;" id="album">相册</a>
+					</li>
+				</ul>
+				<!-- 取消菜单 -->
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+						<a href="#sheet1" class="zbq-popover-close">取消</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		<script src="static/plupload/plupload.full.min.js"></script>
+		<script src="static/js/public.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue-tap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/signup.js" type="text/javascript" charset="utf-8"></script>
+		<!--<script type="text/javascript">
+//			function RotateRight(){
+//				$('#head a').css('transform','rotate(90deg)');
+//			}
+//			function RotateLeft(){
+//				$('#head a').css('transform','rotate(270deg)');
+//			}
+		</script>-->
+	</body>
+
+</html>

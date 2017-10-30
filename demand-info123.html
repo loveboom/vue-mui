@@ -1,0 +1,636 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="static/css/public.css" />
+		<link rel="stylesheet" href="static/css/popup.css" />
+		<link rel="stylesheet" href="static/css/demand-info.css" />
+	</head>
+
+	<body>
+
+		<div class="head-nave f-cb">
+			<div class="head-nave-return fl"></div>
+			<div class="head-nave-cap">详情</div>
+			<div class="head-nave-share fr"></div>
+		</div>
+
+		<div class="mui-scroll-wrapper">
+			<div class="mui-scroll" id="app">
+				<div class="dem-head-box bgfff">
+					<div class="dem-head-top f-cb">
+						<div class="dem-head-top-user fl" :style="{backgroundImage: 'url('+cont.headimg+')'}"></div>
+						<div class="dem-head-top-left fl">
+							<div class="dem-head-top-cap">{{cont.uname}}</div>
+							<div class="dem-head-top-time">{{cont.cre_time}}</div>
+						</div>
+						<div class="dem-head-top-right on fr">
+							<div class="dem-head-top-tab n1 fl">悬赏</div>
+							<div class="dem-head-top-tab n1 fl">￥{{cont.min_money+'-'+cont.max_money}}</div>
+						</div>
+						<div class="dem-head-top-del fr"></div>
+					</div>
+					<div class="dem-head-tit f-cb">
+						<div class="dem-head-top-tab n2 fl">{{cont.category}}</div>
+						<div class="dem-head-tit-cap fl">{{cont.intro}}</div>
+					</div>
+					<ul class="dem-head-img f-cb">
+						<li v-for="item in cont.imgs" :style="{backgroundImage: 'url('+item+')'}"></li>
+					</ul>
+					<ul class="dem-head-speed f-cb" v-if="cont.claim_status==1||cont.claim_status==2||cont.claim_status==3||cont.claim_status==4||cont.claim_status==5">
+						<li class="n1" :class="{on:cont.claim_status==1,cur:cont.claim_status==2||cont.claim_status==3||cont.claim_status==4||cont.claim_status==5}"><span>认领</span></li>
+						<li class="n2" :class="{on:cont.claim_status==2,cur:cont.claim_status==3||cont.claim_status==4||cont.claim_status==5}"><span>指派</span></li>
+						<li class="n3" :class="{on:cont.claim_status==3,cur:cont.claim_status==4||cont.claim_status==5}"><span>申领佣金</span></li>
+						<li class="n4" :class="{on:cont.claim_status==4,cur:cont.claim_status==5}"><span>确认并评价</span></li>
+					</ul>
+				</div>
+				<div class="dem-bd-box bgfff">
+					<div class="dem-bd-head f-cb">
+
+						<div class="dem-bd-step in fl">{{cont.claim_nums}}</div>
+						<div class="dem-bd-step look fl">{{cont.views}}</div>
+
+						<!--n1-->
+						<div v-if="cont.n.n1" class="dem-bd-small revoke fr">撤销</div>
+
+						<!--n12-->
+						<div v-if="cont.n.n12" class="dem-bd-small revoke on fr">撤销</div>
+
+						<!--n2-->
+						<div v-if="cont.n.n2" class="dem-bd-small delayed fr" id="delayed">申请延时</div>
+
+						<!--n3-->
+						<div v-if="cont.n.n3" class="dem-bd-time fr">
+							<span class="dem-bd-time-cap">认领中</span>
+							<span class="h">{{cont.time.h}}</span>小时<span class="m">{{cont.time.m}}</span>分钟<span class="s">{{cont.time.s}}</span>秒
+						</div>
+
+						<!--n4-->
+						<div v-if="cont.n.n4" class="dem-bd-assign fr">待指派</div>
+
+						<!--n5-->
+						<div v-if="cont.n.n5" class="dem-bd-assign fr">待申领</div>
+
+						<!--n6-->
+						<div v-if="cont.n.n6" class="dem-bd-assign fr">确认并评价</div>
+
+						<!--n7-->
+						<div v-if="cont.n.n7" class="dem-bd-assign fr">任务结束</div>
+
+						<!--n8-->
+						<div v-if="cont.n.n8" class="dem-bd-assign fr">任务撤销</div>
+
+						<!--n9-->
+						<div v-if="cont.n.n9" class="dem-bd-assign fr">任务关闭</div>
+
+						<!--n11-->
+						<div v-if="cont.n.n11" class="dem-bd-small fr" id="goPay">去付款</div>
+
+						<!--n10-->
+						<div v-if="cont.n.n10" class="dem-bd-assign fr">待付款</div>
+
+						<!--n13-->
+						<div v-if="cont.n.n13" class="dem-bd-assign fr">待指派</div>
+
+						<!--n14-->
+						<div v-if="cont.n.n14" class="dem-bd-assign fr">已指派他人</div>
+
+						<!--n15-->
+						<div v-if="cont.n.n15" class="dem-bd-small fr" id="applyCommission">申领佣金</div>
+
+						<!--n16-->
+						<div v-if="cont.n.n16" class="dem-bd-assign fr">待确认</div>
+
+						<!--n17-->
+						<div v-if="cont.n.n16" class="dem-bd-assign fr">任务结束</div>
+
+						<!--n18-->
+						<div v-if="cont.n.n18" class="dem-bd-small fr">报名</div>
+
+						<!--n19-->
+						<div v-if="cont.n.n19" class="dem-bd-small not fr">已报名</div>
+
+					</div>
+					<div class="dem-bd-not" :class="{on:cont.claim_nums==0}">暂无人认领</div>
+					<ul class="dem-bd-list">
+						<li class="f-cb" v-for="item in claim_list" :data-id="item.id" :data-many="item.money">
+							<div class="dem-head-top-user fl" :style="{backgroundImage: 'url('+item.imgurl+')'}"></div>
+							<div class="dem-bd-bd fr">
+								<div class="dem-bd-cap fl">{{item.uname}}</div>
+								<div class="dem-bd-many fr">￥{{item.money}}</div>
+							</div>
+							<div class="dem-bd-bd fr">
+								<div class="fl">认领次数:{{item.claims}}</div>
+								<div class="dem-xx fl">
+									<i :class="{on:item.stars>0}"></i>
+									<i :class="{on:item.stars>1}"></i>
+									<i :class="{on:item.stars>2}"></i>
+									<i :class="{on:item.stars>3}"></i>
+									<i :class="{on:item.stars>4}"></i>
+								</div>
+								<div class="fr">认领: {{item.cre_time}}</div>
+							</div>
+							<div class="dem-bd-btn-box">
+
+								<div class="dem-bd-btn def">聊天</div>
+
+								<div v-if="cont.claim_status==1||cont.claim_status==2" class="dem-bd-btn on assign">指派</div>
+
+								<div v-if="item.is_assign==1" class="dem-bd-btn enter" :class="{none:cont.claim_status==3}">确认</div>
+
+							</div>
+							<div v-if="item.star>0" class="dem-bd-return f-cb">
+								<div class="dem-bd-return-tit">对方给你的评价</div>
+								<div class="dem-xx fl">
+									<i :class="{on:item.star>0}"></i>
+									<i :class="{on:item.star>1}"></i>
+									<i :class="{on:item.star>2}"></i>
+									<i :class="{on:item.star>3}"></i>
+									<i :class="{on:item.star>4}"></i>
+								</div>
+							</div>
+						</li>
+						<!--<li class="f-cb on">
+							<div class="dem-head-top-user fl" style="background-image: url('static/img/img1.jpg')"></div>
+							<div class="dem-bd-bd fr">
+								<div class="dem-bd-cap fl">阿特人</div>
+								<div class="dem-bd-many fr">￥1000</div>
+							</div>
+							<div class="dem-bd-bd fr">
+								<div class="fl">认领次数:100</div>
+								<div class="dem-xx fl">
+									<i class="on"></i>
+									<i class="on"></i>
+									<i></i>
+									<i></i>
+									<i></i>
+								</div>
+								<div class="fr">认领: 02-11 10:00</div>
+							</div>
+							<div class="dem-bd-btn-box">
+								<div class="dem-bd-btn def">聊天</div>
+								<div class="dem-bd-btn on enter">确认</div>
+								<div class="dem-bd-btn on assign">指派</div>
+							</div>
+						</li>-->
+					</ul>
+				</div>
+				<!--浮动聊天-->
+				<div v-if="cont.chat" class="float-chat on"><span>聊天</span></div>
+				<!--申请仲裁-->
+				<div v-if="cont.arbitration" class="apply-arb">申请仲裁</div>
+			</div>
+		</div>
+
+		<!--选择充值方式-->
+		<div class="dem-float-pay">
+			<div class="dem-float-pay-box">
+				<ul class="dem-float-pay-list">
+					<li class="zfb">支付宝</li>
+					<li class="wx">微信</li>
+				</ul>
+				<ul class="dem-float-pay-list res">
+					<li class="res">取消</li>
+				</ul>
+			</div>
+		</div>
+
+		<script src="js/jquery-2.1.0.min.js"></script>
+		<script src="js/vue.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/mui.pullToRefresh.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.pullToRefresh.material.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/public.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/demand-info.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			mui.ready(function() {
+				var timeBox;
+
+				var vm = new Vue({
+					el: '#app',
+					data: {
+						cont: {
+							time: { h: 0, m: 0, s: 0 },
+							n: {
+								n1: false,
+								n2: false,
+								n3: false,
+								n4: false,
+								n5: false,
+								n6: false,
+								n7: false,
+								n8: false,
+								n9: false,
+								n10: false,
+								n11: false,
+								n12: false,
+								n13: false,
+								n14: false,
+								n15: false,
+								n16: false,
+								n17: false,
+								n18: false,
+								n19: false
+							},
+							chat: false,
+							arbitration: false
+						},
+						claim_list: []
+					},
+					updated: function() {
+						othis = $('.dem-bd-time');
+						clearInterval(timeBox);
+						timeBox = setInterval(function() {
+
+							var h = parseInt(othis.find('.h').text());
+							var m = parseInt(othis.find('.m').text());
+							var s = parseInt(othis.find('.s').text());
+
+							s -= 1;
+
+							//s
+							if(s == -1) {
+								s = 59;
+								if(m != 0) m -= 1;
+							}
+							//m
+							if(m == 0) {
+								if(h != 0) {
+									m = 59;
+									h -= 1;
+								}
+							}
+
+							//整理格式
+							if(s < 10) s = '0' + s;
+							if(m < 10) m = '0' + m;
+							if(h < 10) h = '0' + h;
+
+							othis.find('.h').text(h);
+							othis.find('.m').text(m);
+							othis.find('.s').text(s);
+
+							//停止计时器
+							if(s == 0 && m == 0 && h == 0) {
+								clearInterval(timeBox);
+								vm.cont['n'] = { n1: false, n2: false, n3: false, n9: true };
+							}
+						}, 1000);
+					}
+				});
+
+				mui.plusReady(function() {
+					var _ = this;
+					var self = plus.webview.currentWebview(); //获取页面数据
+					var signList = {
+						token: plus.storage.getItem('token'),
+						need_id: self.sign,
+						page: 1
+					};
+
+					_.ready = function(fun) {
+						mui.ajax({
+							url: URL.path + '/needs/need_detail',
+							type: 'post',
+							dataType: 'json',
+							data: {
+								token: plus.storage.getItem('token'),
+								id: self.sign
+							},
+							success: function(res) {
+								if(res.returnCode == '200') {
+									var t = parseInt(res.data.countdown) - parseInt(res.data.now_time);
+
+									if(t > 0) {
+										res.data['time'] = {
+											h: Math.floor(t / 60 / 60),
+											m: Math.floor(t / 60 % 60),
+											s: Math.floor(t % 60)
+										};
+									} else {
+										res.data['time'] = 0;
+									}
+
+									//组织数据状态
+									if(res.data.type == '1') {
+										//悬赏
+										switch(res.data.claim_status) {
+											case '0': //0 悬赏未发布（待付款）
+												res.data['n'] = { n10: true, n11: true };
+												break;
+											case '1': //1 认领中(报名中)
+
+												// 时间内没人认领
+												if(res.data.claim_nums == 0) {
+													res.data['n'] = { n1: true, n2: true, n3: true };
+												} else {
+													res.data['n'] = { n1: true, n3: true };
+												}
+												break;
+											case '2': //2 指派中
+												if(res.data.is_can == 1) {
+													res.data['n'] = { n4: true, n12: true }; //没有撤销按钮
+												} else {
+													res.data['n'] = { n4: true }; //有撤销按钮
+												}
+												break;
+											case '3': //3 申领佣金
+												if(res.data.is_can == 1) {
+													res.data['n'] = { n5: true };
+												} else {
+													res.data['n'] = { n15: true };
+												}
+												break;
+											case '4': //4 待评价
+												if(res.data.is_can == 1) {
+													res.data['n'] = { n6: true };
+													vm.cont.arbitration = true;
+												} else {
+													res.data['n'] = { n16: true };
+													vm.cont.chat = true;
+													vm.cont.arbitration = true;
+												}
+												break;
+											case '5': //5 已完成
+												if(res.data.is_can == 1) {
+													res.data['n'] = { n7: true }; //已完成
+												} else {
+													res.data['n'] = { n14: true }; //已指派他人
+												}
+												break;
+											case '6': //6 撤销
+												res.data['n'] = { n8: true };
+												break;
+											case '7': //7 关闭
+												if(res.data.is_can == 1) {
+													res.data['n'] = { n9: true };
+												} else {
+													res.data['n'] = { n17: true };
+												}
+												break;
+										}
+									} else if(res.data.type == '2') {
+										//活动
+										$('.dem-head-top-right').removeClass('on');
+										if(res.data.is_can == 1) {
+											res.data['n'] = { n3: true };
+										} else {
+											res.data['n'] = { n3: true };
+											vm.cont.chat = true;
+										}
+									} else {
+										//需求对接
+										$('.dem-head-top-right').removeClass('on');
+										if(res.data.is_can == 1) {
+
+										} else {
+											vm.cont.chat = true;
+										}
+									}
+
+									vm.cont = res.data;
+
+									//判断是否有人回复
+									if(res.data.claim_nums == 0) {
+
+										$('.mui-pull-bottom-tips').hide()
+									}
+									_.getList(function(res) {
+										vm.claim_list = res;
+									});
+								} else if(res.returnCode == '401') {
+									unLoginComfirm();
+								}
+								if(typeof fun === 'function') return fun();
+							}
+						});
+					};
+
+					//获取列表
+					_.getList = function(fun) {
+						mui.ajax({
+							url: URL.path + '/needs/claim_list',
+							type: 'post',
+							dataType: 'json',
+							data: signList,
+							success: function(res) {
+								if(res.returnCode == '200') {
+									if(typeof fun === 'function') return fun(res.data);
+								} else if(res.returnCode == '401') {
+									unLoginComfirm();
+								}
+							}
+						});
+					};
+
+					//上下拉事件
+					mui('#app').pullToRefresh({
+						down: {
+							callback: function() {
+								var self = this;
+
+								signList.page = 1;
+								_.ready(function() {
+									self.endPullDownToRefresh();
+								});
+
+								//重置上拉加载
+								self.refresh(true);
+							}
+						},
+						up: {
+							callback: function() {
+								var self = this;
+
+								signList.page++;
+								_.getList(function(res) {
+
+									if(res.length) {
+										vm.claim_list.push(res);
+										self.endPullUpToRefresh()
+									} else {
+										self.endPullUpToRefresh(true)
+									}
+								});
+							}
+						}
+					});
+
+					mui('.mui-scroll-wrapper').scroll({
+						indicators: false,
+						deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+					});
+
+					//初次加載
+					_.ready();
+
+					//撤销流程
+					mui('body').on('tap', '.revoke', function() {
+						var cap = '';
+						var btnArray = ['取消', '确认撤销'];
+
+						if($(this).hasClass('on')) {
+							cap = '每月撤销申请不能超过3次<br>否则您的发布权限将被禁用3个月';
+						} else {
+							cap = '撤销后不可恢复';
+						}
+
+						mui.confirm(' ', cap, btnArray, function(e) {
+							if(e.index == 1) {
+								GO('demand-revoke', {
+									need_id: self.sign
+								});
+							}
+						}, 'div');
+					});
+
+					//申请延时
+					mui('body').on('tap', '#delayed', function() {
+						var btnArray = ['取消', '确认延长'];
+						var delayed = "<div class='popup-delayed'><span data-day='1' class='on'>一天</span><span data-day='2'>两天</span><span data-day='3'>三天</span></div>";
+
+						mui.confirm(delayed, '请选择延长时间', btnArray, function(e) {
+							var ind = $('.popup-delayed>span.on').attr('data-day');
+
+							if(e.index == 1) {
+								mui.ajax({
+									url: URL.path + '/needs/delay_need',
+									type: 'post',
+									dataType: 'json',
+									data: {
+										token: plus.storage.getItem('token'),
+										need_id: self.sign,
+										delay_days: ind
+									},
+									success: function(res) {
+										if(res.returnCode == '200') {
+											mui.toast(res.msg);
+											setTimeout(function() {
+												location.reload();
+											}, 300);
+										} else if(res.returnCode == '401') {
+											unLoginComfirm();
+										} else {
+											mui.toast(res.msg);
+										}
+									}
+								});
+							}
+						}, 'div');
+					});
+					mui('body').on('tap', '.popup-delayed>span', function() {
+						$(this).addClass('on').siblings().removeClass('on');
+					});
+
+					//评价
+					mui('body').on('tap', '.dem-bd-btn.enter', function() {
+						if(!$(this).hasClass('none')){
+							GO('demand-evaluate');
+						}
+					});
+
+					//指派
+					mui('body').on('tap', '.dem-bd-btn.assign', function() {
+						var li = $(this).parents('li');
+						var cap = '';
+						var btnArray = ['取消', '确认'];
+
+						var many = parseFloat(li.attr('data-many')); //议价
+						var margin = parseFloat(vm.cont.margin); //发布押金
+						var balance = parseFloat(vm.cont.balance); //余额
+						var difference = many - margin; //差价
+
+						cap = "请与认领方进行有效的沟通后，确保他理解你的需求";
+
+						mui.confirm(' ', cap, btnArray, function(e) {
+							if(e.index == 1) {
+								if(difference <= 0) { //议价<发布押金
+									assign();
+								} else { //议价>发布押金
+									if(difference > balance) { //余额不够
+										cap = '指派金额超过账户押金<br>将冻结押金' + difference + '元，请充值';
+										mui.confirm(' ', cap, btnArray, function(e) {
+											//弹出充值
+											$('.dem-float-pay').fadeIn(200);
+										}, 'div')
+									} else { //余额够
+										cap = '平台将在您的余额中冻结<br>悬赏金额' + difference + '元';
+										mui.confirm(' ', cap, btnArray, function(e) {
+											if(e.index == 1) {
+												assign();
+											}
+										}, 'div')
+									}
+								}
+							}
+						}, 'div')
+
+						//指派
+						function assign() {
+							var id = li.attr('data-id');
+
+							mui.ajax({
+								url: URL.path + '/needs/assign_needs',
+								type: 'post',
+								dataType: 'json',
+								data: {
+									token: plus.storage.getItem('token'),
+									claim_id: id
+								},
+								success: function(res) {
+									if(res.returnCode == '200') {
+										mui.toast(res.msg);
+										setTimeout(function(){
+											location.reload();
+										},300);
+									} else if(res.returnCode == '401') {
+										unLoginComfirm();
+									} else {
+										mui.toast(res.msg);
+									}
+								}
+							});
+						}
+					});
+
+					//充值弹窗
+					mui('body').on('tap', '.dem-float-pay li.res', function() {
+						$('.dem-float-pay').fadeOut(200);
+					});
+					//支付宝
+					mui('body').on('tap', '.dem-float-pay li.zfb', function() {
+						$('.dem-float-pay').fadeOut(200);
+					});
+					//微信
+					mui('body').on('tap', '.dem-float-pay li.wx', function() {
+						$('.dem-float-pay').fadeOut(200);
+					});
+
+					//申请仲裁
+					mui('body').on('tap', '.apply-arb', function() {
+						GO('demand-arbitration');
+					});
+
+					//取消
+					mui('body').on('tap', '.head-nave-return', function() {
+						GO('demand');
+					});
+
+					//去支付
+					mui('body').on('tap', '#goPay', function() {
+						GO('demand-pay', { need_id: self.sign });
+					});
+
+					//取值
+					mui.plusReady(function() {
+						var self = plus.webview.currentWebview();
+					});
+
+				});
+			});
+		</script>
+	</body>

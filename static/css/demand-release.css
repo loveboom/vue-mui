@@ -1,0 +1,256 @@
+body {
+  font-size: 0.24rem;
+  line-height: 1.4;
+}
+.head-nave {
+  background-color: #fff;
+  height: 0.88rem;
+  line-height: 0.88rem;
+  position: relative;
+  z-index: 2;
+}
+.head-nave-return {
+  background: url("../img/ico_4.png") no-repeat center;
+  width: 0.33rem;
+  height: 100%;
+  background-size: 100%;
+  margin-left: 0.26rem;
+  position: relative;
+  z-index: 1;
+}
+.head-nave-enter {
+  color: #426af0;
+  font-size: 0.32rem;
+  margin-right: 0.28rem;
+  position: relative;
+  z-index: 1;
+}
+.head-nave-cap {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  padding: 0 0.8rem 0 0.8rem;
+  color: #000000;
+  font-size: 0.34rem;
+  text-align: center;
+}
+.release-form {
+  margin-top: 0.1rem;
+  padding: 0 0.3rem;
+}
+.form-group {
+  border-top: 1px solid #eceef0;
+  line-height: 0.98rem;
+}
+.form-group:nth-child(1) {
+  border-top: 0;
+}
+.form-group > label {
+  color: #333333;
+  font-size: 0.3rem;
+}
+.tar {
+  direction: rtl;
+}
+.form-group .form-input {
+  width: 4.8rem;
+  height: 0.98rem;
+  line-height: normal;
+  background: none;
+  padding: 0 0.45rem;
+  margin: 0;
+  border: 0;
+  font-size: 0.32rem;
+}
+.form-group .form-input[type=datetime-local] {
+  text-align: right;
+  padding-right: 0;
+}
+.form-many .form-input {
+  width: 2rem;
+  padding: 0 0.3rem;
+  text-align: center;
+}
+.form-group .form-select {
+  width: 5.3rem;
+  height: 0.98rem;
+  line-height: normal;
+  padding: 0 0.45rem;
+  margin: 0;
+  border: 0;
+  font-size: 0.32rem;
+  background: url("../img/ico_16.png") no-repeat right center;
+  background-size: 0.28rem;
+}
+.form-textarea {
+  padding: 0;
+  margin: 0;
+  height: 5rem;
+  font-size: 0.32rem;
+}
+.form-img {
+  margin-top: 0.1rem;
+  padding: 0.3rem 0.3rem 0.6rem 0.3rem;
+}
+.form-img > .item {
+  float: left;
+  width: 1.8rem;
+  height: 1.8rem;
+  margin-right: 0.2rem;
+  margin-top: 0.2rem;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+}
+.form-img > .item > span {
+  position: absolute;
+  background: url("../img/ico_18.png") no-repeat;
+  width: 0.28rem;
+  height: 0.28rem;
+  background-size: 100%;
+  top: -0.14rem;
+  right: -0.14rem;
+}
+.form-img > .item:nth-child(3n) {
+  margin-right: 0;
+}
+.form-img > .item.add {
+  background-image: url("../img/ico_17.png");
+  position: relative;
+  text-align: center;
+  padding: 1.15rem 0 0 0;
+  color: #999;
+}
+.form-img > .item.add > .add {
+  width: 1.8rem;
+  height: 1.8rem;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+}
+.form-img > p {
+  float: left;
+  height: 2px;
+  width: 100%;
+  margin-top: 0.2rem;
+}
+.pay-head {
+  margin-top: 0.1rem;
+  padding: 0 0.3rem;
+}
+.row {
+  border-bottom: 1px solid #f0f0f0;
+}
+.pay-head label {
+  display: inline-block;
+  color: #333333;
+  font-size: 0.3rem;
+  line-height: 1rem;
+}
+.pay-head input {
+  width: 5.2rem;
+  padding: 0;
+  color: #ff8b02 !important;
+  font-size: 0.34rem;
+  height: 1rem;
+  line-height: normal;
+  border: 0;
+  margin: 0;
+  text-align: right;
+  background: none;
+}
+.pay-head textarea {
+  width: 100%;
+  padding: 0.2rem 0;
+  line-height: 0.48rem;
+  font-size: 0.28rem;
+  height: 1.85rem;
+  color: #999999;
+}
+.pay-sel {
+  margin-top: 0.1rem;
+  padding: 0 0.3rem;
+}
+.pay-sel > dd {
+  border-top: 1px solid #f0f0f0;
+  line-height: 1rem;
+  color: #1c1f23;
+  font-size: 0.28rem;
+}
+.pay-sel > dd.n1 {
+  background: url("../img/balance.png") no-repeat 0 center;
+  background-size: 0.4rem;
+}
+.pay-sel > dd.n2 {
+  background: url("../img/weixin.png") no-repeat 0 center;
+  background-size: 0.4rem;
+}
+.pay-sel > dd.n3 {
+  background: url("../img/alipay.png") no-repeat 0 center;
+  background-size: 0.4rem;
+}
+.pay-sel > dd > label {
+  display: block;
+  padding-left: 0.65rem;
+}
+.pay-sel > dt {
+  line-height: 1rem;
+  color: #333333;
+  font-size: 0.3rem;
+}
+.pay-sel > dd span {
+  color: #64666a;
+  font-size: 0.24rem;
+  margin-left: 0.2rem;
+}
+.pay-sel > dd i {
+  float: right;
+  background: url("../img/radio_uncheck.png") no-repeat;
+  width: 0.4rem;
+  height: 0.4rem;
+  background-size: 100%;
+  margin: 0.3rem 0 0 0;
+}
+.pay-sel > dd input:checked + i {
+  background-image: url("../img/recharge-success-icon.png");
+}
+.pay-tit {
+  color: #999999;
+  font-size: 0.28rem;
+  padding: 0.15rem 0.3rem;
+}
+.pay-go {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #fff;
+  padding: 0.28rem 0.3rem;
+}
+.pay-go-tit {
+  color: #000000;
+  font-size: 0.32rem;
+  margin-top: 0.1rem;
+}
+.pay-go-tit span {
+  color: #ff8b02;
+}
+.pay-go-btn {
+  color: #ffffff;
+  font-size: 0.32rem;
+  text-align: center;
+  height: 0.64rem;
+  line-height: 0.64rem;
+  border-radius: 0.1rem;
+  background-color: #426af0;
+  width: 2rem;
+}
+.moxie-shim {
+  z-index: 1;
+}
+.demand-pay-radio[type=radio] {
+  opacity: 0;
+}

@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="static/css/public.css" />
+		<link rel="stylesheet" href="static/css/my.css" />
+		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">交易详情</h1>
+		</header>
+		<div class="mui-content" id="main" v-clock>
+		    <div class="my-line" style="margin: .1rem 0;">
+		    		<div class="my-line-left trand-details-tit"><span :class="['tran-details-icon',item.icon == 1?'up':'',item.icon == 2?'ali':'',item.icon == 3?'pay':'',item.icon == 4?'money':'']"></span>{{item.title}}</div>
+		    		<!--<div class="mui-icon mui-icon-arrowright"></div>-->
+		    </div>
+		    <div class="my-line bb">
+		    		<div class="my-line-left">付款金额</div>             
+		    		<div class="my-line-right">￥{{item.money}}</div>
+		    </div>
+		    <div class="my-line bb">
+		    		<div class="my-line-left">当前状态</div>
+		    		<div class="my-line-right">{{item.status}}</div>
+		    </div>
+		    <div class="my-line bb">
+		    		<div class="my-line-left">支付时间</div>
+		    		<div class="my-line-right">{{item.created_at}}</div>
+		    </div>
+		    <div class="my-line bb">
+		    		<div class="my-line-left">支付方式</div>
+		    		<div class="my-line-right">{{item.pay_ways}}</div>
+		    </div>
+		    <div class="my-line bb personal" :data-id="item.rid" v-if="item.uname"> 
+		    		<div class="my-line-left">{{name}}</div>
+		    		<div class="my-line-right">
+		    			<img :src="item.photo" alt="" class="tran-details-sava"/> 
+		    			{{item.uname}}
+		    			<div class="mui-icon mui-icon-arrowright"></div>
+		    		</div>
+		    </div>
+		    <div class="my-line bb">
+		    		<div class="my-line-left">交易单号</div>
+		    		<div class="my-line-right">{{item.payment_sn}}</div>
+		    </div>
+		    <div class="my-line bb">
+		    		<div class="my-line-left">交易说明</div>
+		    		<div class="my-line-right">{{item.type}}</div>
+		    </div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		<script src="static/js/public.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/transaction-details.js" type="text/javascript" charset="utf-8"></script>
+		
+	</body>
+
+</html>

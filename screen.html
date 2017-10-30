@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="static/css/public.css" />
+		<link rel="stylesheet" type="text/css" href="static/css/home.css" />
+		<link rel="stylesheet" href="static/css/signin.css" />
+		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue-tap.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			.signup-upbox-jobul .cur{
+				
+				background: #4cb6ff !important;
+				color: #fff !important;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="main" v-clock>
+		<header class="mui-bar mui-bar-nav" style="background: #2ca8fe;">
+			<h1 class="mui-title" style="color: #fff;">筛选</h1>
+			<div class="header-close mui-action-back mui-icon mui-icon-closeempty fr without" style="margin-right: .05rem;color: #fff;"></div>
+		</header>
+		<div class="mui-content sign-content" style="position: static;">
+				<div class="signup-scroll">
+					<div>
+						<div class="signup-upbox-tit pt25">请选择你想找的用户身份（可多选） </div>
+						<ul class="signup-upbox-jobul f-cb">
+							<li :class="['signup-upbox-jobli','one-four',list.check?'cur':'']" v-for="(list,index) in idlist" v-tap="{methods:selectid,index:index}">{{list.title}}</li>
+							<!--<li class="signup-upbox-jobli one-four">企业</li>-->
+						</ul>
+					</div> 
+
+					<div>
+						<div class="signup-upbox-tit pt25">请选择你感兴趣的行业（可多选） </div>
+						<ul class="signup-upbox-jobul f-cb">
+							<li :class="['signup-upbox-jobli','one-four',list.check==1?'cur':'']" v-for="(list,index) in interesting" v-tap="{methods:selectinteresting,index:index}">{{list.title}}</li>
+						</ul>
+					</div>
+
+
+					
+				</div>
+				<div class="bot-box">
+					<div class="btn" id="sub" style="background: #4cb6ff;">完成</div>
+				</div>
+			</div>
+			</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		<script src="static/js/public.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/screen.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+
+</html>

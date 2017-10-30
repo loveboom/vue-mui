@@ -1,0 +1,183 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<!--<script> 
+		var t1 = new Date().getTime(); 
+		</script> -->
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="static/css/public.css" />
+		<link rel="stylesheet" href="static/css/home.css" />
+		<link rel="stylesheet" type="text/css" href="http://at.alicdn.com/t/font_970v2h1ejtw3ik9.css"/>
+		<script src="js/jQuery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<style type="text/css">
+		.home-mask{
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			left: 0;
+			top: 0;
+			background: #fff;
+			z-index: 99;
+		}
+		.searchBox{
+			position: fixed;
+			top: 0;
+			left:0;
+			z-index: 999;
+			width: 100%;
+			padding: 0.16rem;
+			background-color: #2ca8fe;
+			overflow: hidden;
+		}
+		.home-search{
+			margin: 0 auto;
+		}
+		.top{
+			position: fixed;
+			bottom: 2.4rem;
+			right: 0.2rem;
+			width: 1rem;
+			height: 1rem;
+			border-radius: 1rem;
+			background: url(static/img/top.png) no-repeat center;
+			background-size: cover;
+			z-index: 9999;
+		}
+	</style>
+	<body style="background: #F5F5F5;">
+		<div class="home-mask"></div>
+		<div id="main" v-clock>
+			<div class="searchBox" style="padding: 0.12rem 0.16rem;">
+				<div class="home-search" style="position: static;"></div>
+			</div>
+			<span class="top" style="display: none;"></span>
+			<div class="home-btn link-screen" id="home_btn" style="display: none;" style="position: fixed;top: 7rem;"></div>
+			<div class="mui-scroll-wrapper" style="bottom: 1rem;">
+				<div class="mui-scroll" id="pullrefresh">
+					<div style="widows: 100%;height: 0.88rem;"></div>
+					
+					<div class="mui-slider" id="home_banner">
+						<div class="mui-slider-group mui-slider-loop">
+							<div v-if="banner.length>0" :style="{backgroundImage:'url('+banner[banlength].img+')'}" :class="['mui-slider-item mui-slider-item-duplicate','home-banner',banner[banlength].c_type == 1?'banner-circle':'',banner[banlength].c_type == 2?'banner-article':'',banner[banlength].c_type == 3?'banner-topic':'',banner[banlength].c_type == 4?'banner-personal':'',banner[banlength].c_type == 5?'banner-company':'',banner[banlength].c_type == 6?'banner-demand':'',banner[banlength].c_type == 7?'banner-link':'']" :data-url="banner[banlength].link" :data-id="banner[banlength].t_id" :data-title="banner[banlength].title">
+								
+								<div style="height: 4rem;"></div>
+								<p class="home-banner-info">{{banner[banlength].title}}</p>
+							</div>
+
+							<div :style="{backgroundImage:'url('+ban.img+')'}" :class="['mui-slider-item','home-banner',ban.c_type == 1?'banner-circle':'',ban.c_type == 2?'banner-article':'',ban.c_type == 3?'banner-topic':'',ban.c_type == 4?'banner-personal':'',ban.c_type == 5?'banner-company':'',ban.c_type == 6?'banner-demand':'',ban.c_type == 7?'banner-link':'']" v-for="ban in banner" :data-url="ban.link" :data-id="ban.t_id" :data-title="ban.title">
+								
+								<div style="height: 4rem;"></div>
+								<p class="home-banner-info">{{ban.title}}</p>
+							</div>
+							<div v-if="banner.length>0" :style="{backgroundImage:'url('+banner[0].img+')'}" :class="['mui-slider-item mui-slider-item-duplicate','home-banner',banner[0].c_type == 1?'banner-circle':'',banner[0].c_type == 2?'banner-article':'',banner[0].c_type == 3?'banner-topic':'',banner[0].c_type == 4?'banner-personal':'',banner[0].c_type == 5?'banner-company':'',banner[0].c_type == 6?'banner-demand':'',banner[0].c_type == 7?'banner-link':'']" :data-url="banner[0].link" :data-id="banner[0].t_id" :data-title="banner[0].title">
+								<div style="height: 4rem;"></div>
+								<p class="home-banner-info">{{banner[0].title}}</p>
+							</div>
+							<!--<div style="background: url(img/banner1.jpg) no-repeat center;background-size: cover;" :class="['mui-slider-item mui-slider-item-duplicate','home-banner',banner[banlength].c_type == 1?'banner-circle':'',banner[banlength].c_type == 2?'banner-article':'',banner[banlength].c_type == 3?'banner-topic':'',banner[banlength].c_type == 4?'banner-personal':'',banner[banlength].c_type == 5?'banner-company':'',banner[banlength].c_type == 6?'banner-demand':'',banner[banlength].c_type == 7?'banner-link':'']" :data-url="banner[banlength].link" :data-id="banner[banlength].t_id" :data-title="banner[banlength].title">
+								
+								<div style="height: 4rem;"></div>
+								<p class="home-banner-info">新三板再分层：“政策红利与投资机会”主题高峰论坛</p>
+							</div>
+
+							<div style="background: url(img/banner2.jpg) no-repeat center;background-size: cover;" :class="['mui-slider-item','home-banner',ban.c_type == 1?'banner-circle':'',ban.c_type == 2?'banner-article':'',ban.c_type == 3?'banner-topic':'',ban.c_type == 4?'banner-personal':'',ban.c_type == 5?'banner-company':'',ban.c_type == 6?'banner-demand':'',ban.c_type == 7?'banner-link':'']" v-for="ban in banner" :data-url="ban.link" :data-id="ban.t_id" :data-title="ban.title">
+								
+								<div style="height: 4rem;"></div>
+								<p class="home-banner-info">“万家时代”已来临，2017新三板“二次创业”扬帆再起航</p>
+							</div>
+							<div  style="background: url(img/banner3.jpg) no-repeat center;background-size: cover;" :class="['mui-slider-item mui-slider-item-duplicate','home-banner',banner[0].c_type == 1?'banner-circle':'',banner[0].c_type == 2?'banner-article':'',banner[0].c_type == 3?'banner-topic':'',banner[0].c_type == 4?'banner-personal':'',banner[0].c_type == 5?'banner-company':'',banner[0].c_type == 6?'banner-demand':'',banner[0].c_type == 7?'banner-link':'']" :data-url="banner[0].link" :data-id="banner[0].t_id" :data-title="banner[0].title">
+								<div style="height: 4rem;"></div>
+								<p class="home-banner-info">董秘薪酬榜，年薪870万，同是董秘你差几何？</p>
+							</div>-->
+						</div>
+					</div>
+
+					<div class="home-tab f-cb" id="home_tab">
+						<div :class="['home-tab-li','fl',type==1?'cur':'']" data-type="1"><span class="iconfont" style="font-size: 0.4rem;">&#xe642;</span>&nbsp;企业<i></i></div>
+						<div :class="['home-tab-li','fl',type==2?'cur':'']" data-type="2"><span class="iconfont" style="font-size: 0.36rem;">&#xe965;</span>&nbsp;投资机构<i></i></div>
+						<div class="home-btn2 link-screen" id="home_btn2" style="position: fixed;top: 7rem;"></div>
+					</div>
+					<div class="home-content" style="border: none;">
+						<ul class="mui-table-view mui-table-view-chevron home-con-ul" style="background: none;padding:0; border: none;">
+							<li class="home-con-li f-cb" v-for="list in list" :data-id="list.id">
+								<div class="home-con-ava fl por" style="width: 1.2rem;height: 1.2rem; margin-left: 0.2rem;">
+									<!--<img :src="list.photo?list.photo:'static/img/avatar.png'" alt="" width="100%" height="100%" />-->
+									<a class="swipebox" :style="{backgroundImage:'url('+list.photo+')'}"></a>
+								</div>
+								<div class="home-con-info fl" style="margin-top: 0.1rem;">
+									<div class="home-con-id">
+										<div class="home-con-name">{{list.uname}}</div>丨
+										<div class="home-con-cp">{{list.com_name}}</div>丨
+										<div class="home-con-job">{{list.position}}</div>
+									</div>
+									<!--<div class="home-con-intro" v-if="list.ctype == 1">{{list.profile}}</div>-->
+									<div style="margin-top: 0.1rem;" :class="['home-con-tag',list.ctype == 2?'mt20':'']">
+										<a href="javascript:;" v-for="tags in list.industry">{{tags.title}}</a>
+										<a href="javascript:;" class="cur" v-for="tags in list.tags">{{tags.title}}</a>
+										<a href="javascript:;" :class="[list.ctype == 1?'cur':'']" v-for="tags in list.interested">{{tags.title}}</a><br v-if="list.ctype == 2" />
+										<a href="javascript:;" class="cur" v-for="tags in list.fund_stage">{{tags.title}}</a>
+										<a href="javascript:;" class="cur" v-for="tags in list.single_project">{{tags.title}}</a>
+									</div>
+								</div>
+								<div class="home-con-fw" v-if="(list.is_friend == 0 || !islogin) && myid != list.id" :data-id="list.id">+关注</div>
+								<div style="width: 0.8rem;height: 0.36rem;line-height: 0.36rem;padding-top: 0.06rem;" class="home-con-fwed" v-if="list.is_friend == 1 && myid != list.id" :data-id="list.id">已关注</div>
+							</li>
+							<!--<li class="home-con-li f-cb">
+					<div class="home-con-ava fl"><img src="" alt="" width="100%" height="100%" /></div>
+					<div class="home-con-info fl">
+						<div class="home-con-id">
+							<div class="home-con-name">许天阳</div>
+							<div class="home-con-cp">美恩医疗</div>
+							<div class="home-con-job">总裁</div>
+						</div>
+						<div class="home-con-intro">斯坦福团队研发的技术领先的CTC检测</div>
+						<div class="home-con-tag">
+							<a href="javascript:;">高科技</a>
+							<a href="javascript:;">医疗</a>
+							<a href="javascript:;" class="cur">股权融资</a>
+							<a href="javascript:;" class="cur">路演邀请</a>
+						</div>
+					</div>
+					<div class="home-con-fw">+关注</div>
+					<div class="home-con-fw had">已关注</div>
+				</li>-->
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<nav class="mui-bar nav-bar" id="nav" style="background-color: #fff;"></nav>
+		<script src="js/mui.min.js"></script>
+		<script src="js/mui.pullToRefresh.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.pullToRefresh.material.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/public.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/share.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/home.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/gpush.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/update.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+//			window.onload = function() 
+//			{ 
+//				if((new Date().getTime()-t1)>2000){
+//					alert('您的网速较慢')
+//				};
+//			} 
+//			window.onload = function showspeed() 
+//			{ 
+//			    var filesize =35.4;  //measured in KB  
+//			    var et = new Date(); 
+//			    var speed = Math.round(filesize*1000)/(et - st);
+//			    document.title=speed;
+//			    var scope=(speed>0 && speed<=50)?0:(speed>50 && speed<=100)?1:(speed>=100 && speed<200)?2:(speed>=200 && speed<300)?3:
+//			    (speed>=300 && speed<400)?4:5;
+//			    alert(scope);
+//			} 
+		</script>
+	</body>
+
+</html>

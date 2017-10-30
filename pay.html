@@ -1,0 +1,178 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="static/css/public.css" />
+		<link rel="stylesheet" href="static/css/popup.css" />
+		<link rel="stylesheet" href="static/css/demand-release.css" />
+		<link rel="stylesheet" href="static/css/pay.css" />
+
+	</head>
+
+	<body style="background-color: #fff;">
+		<div class="mui-scroll-wrapper" id="app">
+			<div class="head-nave f-cb">
+				<div class="head-nave-return mui-action-back fl"></div>
+				<div class="head-nave-cap">支付押金</div>
+			</div>
+			<div class="h10"></div>
+			<div class="mui-scroll">
+				<div class="pay-head bgfff">
+					<div class="row">
+						<label>充值金额</label>
+						<input type="text" class="fr" name="many" placeholder="请输入充值金额" value="0.01">
+					</div>
+				</div>
+				<div class="h10"></div>
+				<dl class="pay-sel bgfff">
+					<dt>支付方式</dt>
+					<dd class="n2"><label>微信支付 <input type="radio" name="type" value="wxpay"><i></i></label></dd>
+					<dd class="n3"><label>支付宝 <input type="radio" name="type" value="alipay" checked><i></i></label></dd>
+				</dl>
+				<div class="h10"></div>
+			</div>
+			<div class="pay-go-btn-box">
+				<div class="pay-go-btn fr" id="goPay">确认充值</div>
+			</div>
+		</div>
+
+		<script src="js/jquery-2.1.0.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="static/js/public.js"></script>
+		<script>
+			mui.init();
+			mui.ready(function() {
+				mui.plusReady(function() {
+					var self = plus.webview.currentWebview();
+					
+					var T_pay = true;
+					
+					var main = {
+						data:{
+							many: null,
+							channel: null,
+							type: null
+						},
+						plusReady: function(fun) {
+							var _this = this;
+							
+							// 获取支付通道
+							plus.payment.getChannels(function(channels) {
+								if(_this.data.type=='alipay'){
+									_this.data.channel = channels[0];
+								}else if(_this.data.type=='wxpay'){
+									_this.data.channel = channels[1];								
+								}
+								return fun();
+							}, function(e) {
+								T_pay = true;
+								alert("获取支付通道失败：" + e.message);
+							});
+						},
+						get_order: function(fun) {
+							var _this = this;
+							
+							_this.plusReady(function(){
+								var type = null;
+								
+								if(_this.data.type=='alipay'){
+									type = 2;
+								}else if(_this.data.type=='wxpay'){
+									type = 1;
+								}
+								
+								mui.ajax({
+									url: URL.path + '/pay/recharge',
+									type: 'post',
+									data: {
+										token: plus.storage.getItem('token'),
+										terminalNo: _this.data.many,
+										money: 1,
+										type: type
+									},
+									success: function(res) {
+										console.log(res)
+	
+										return fun(res.data);
+									},
+									error: function() {
+										T_pay = true;
+										alert("获取订单信息失败！");
+									}
+								})
+							});
+						},
+						pay: function(fun) {
+							var _this = this;
+
+							_this.get_order(function(re){
+								
+								var payUrl = '';
+								var data = {};
+
+								if(_this.data.type=='alipay'){
+									//支付宝
+									payUrl = URL.path + '/pay/AliSign';
+									data = {
+										token: plus.storage.getItem('token'),
+										trade_no: re.order_no,
+										amount: 1,
+										subject: '充值订单'
+									};
+								}else if(_this.data.type=='wxpay'){
+									//微信
+									payUrl = 'http://demo.dcloud.net.cn/helloh5/payment/wxpay.php?total=10';
+									data = {};
+								}
+
+								//支付宝
+								mui.ajax({
+									url: payUrl,
+									type: 'get',
+									data: data,
+									success: function(res) {
+										console.log(res)
+	
+										plus.payment.request(_this.data.channel, res, function(result) {
+											return fun(result);
+										}, function(error) {
+											T_pay = true;
+											alert("支付失败：" + error.code);
+										});
+									},
+									error: function() {
+										T_pay = true;
+										alert("支付接口调取失败！");
+									}
+								});
+								
+							});
+						}
+					}
+					
+					//确认充值
+					mui('body').on('tap','.pay-go-btn',function(){
+						main.data.type = $('input[name=type]:checked').val();
+						main.data.many = $('input[name=many]').val();
+						
+						if(T_pay){
+							if($.trim(main.data.many)){
+								T_pay = false;
+								main.pay(function(res){
+									alert('支付成功');
+								});							
+							}else{
+								alert('请输入充值金额')
+							}
+						}
+					});
+				});
+			});
+		</script>
+	</body>
+
+</html>

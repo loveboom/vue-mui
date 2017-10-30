@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="static/css/public.css" />
+		<link rel="stylesheet" href="static/css/my.css" />
+		<script src="js/jQuery.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<div id="main" v-clock>
+			<header class="mui-bar mui-bar-nav" style="background: none;box-shadow: none;">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left white-icon" style="color: #fff;"></a>
+				<a href="javascript:;" class="my-save fr">保存</a>
+			</header>
+			<div class="my-header-box">
+				<div class="my-header-set"></div>
+				<div class="my-header-intro">
+					<div class="my-header-ava">
+						<a class="swipebox" :style="{backgroundImage:'url('+avatar+')'}"></a>
+						<div class="upload-input" id="upload"></div>
+						<!--<form action="" id="formData">-->
+							<!--<img :src="avatar" alt="" width="100%" height="100%" />-->
+							
+							<!--<input type="file" name="upload_file" class="upload-input" id="upload"/>-->
+							
+							<!--<input type="hidden" name="terminalNo" value="3"/>-->
+						<!--</form>-->
+					</div>
+					<div class="flex-direction-column my-header-right cfff">
+						<div class="my-header-name">{{uname}} <span class="my-header-name-block" style="background: #4cb6ff;">{{identity}}</span></div>
+						<div class="my-header-id" v-if="ctype != 3">{{company.com_name}} <span>|</span> <span>{{position}}</span></div>
+						<!--<div class="my-header-info" style="color: #aaa;">如头像旋转，请提前编辑反向旋转图片</div>-->
+					</div>
+				</div>
+				<div class="my-header-ul">
+					<div class="my-header-li" id="follow">关注{{concerns}}</div>
+					<div class="my-header-li" id="fans">粉丝{{fans}}</div>
+					<div class="my-header-li">活跃度{{activity}}</div>
+					<div class="my-header-li">赞赏总额{{zan_money}}</div>
+				</div>
+			</div>
+			<div class="my-scroll-content">
+				<div class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<!--所在行业、需求标签-- 企业  -->
+						<div class="my-box" v-if="ctype == 1">
+							<div class="my-line2 bb unwrite">
+								<div class="my-line2-tit">所在行业</div>
+								<div class="my-line2-tag-box">
+										<div class="my-line2-tag cur" v-for="list in companyTags" style="background: #fff;color: #4cb6ff;border: 1px solid #4cb6ff;">{{list.title}}</div> 
+									<!--<div class="my-line2-tag">金融创新</div>
+									<div class="my-line2-tag">TMT</div>-->
+								</div> 
+							</div>
+							<div class="my-line2 space-between" v-tap="{methods:showdata1}">
+								<div class="flex-align-center">
+									<div class="my-line2-tit">需求标签</div>
+									<div class="my-line2-tag-box">
+										<div class="my-line2-tag cur" v-for="list in data1" v-if="list.is_select == 1">{{list.title}}</div>
+										
+										<!--<div class="my-line2-tag cur">金融创新</div>
+										<div class="my-line2-tag cur">TMT</div>-->
+									</div>
+								</div>
+								<div class="mui-icon mui-icon-arrowright c999"></div>
+							</div>
+						</div>
+						<!--所在行业、需求标签-end-->
+
+						<div class="my-box">
+							<!--是否有新三板账号 -- 个人投资人-->
+							<div class="my-line2 space-between bb" v-if="ctype == 3">
+								<div class="flex-align-center">
+									<div class="my-line2-tit">是否有新三板账号 </div>
+									<!--<select name="" id="" style="width: auto;margin-bottom: 0;" v-model="board">
+										<option value="1">是</option>
+										<option value="2">否</option>
+									</select>-->
+								</div>
+								<div class="home-personal-board">{{boardcn}}</div>
+								<!--<div class="mui-icon mui-icon-arrowdown"></div>-->
+							</div>
+							<!--是否有新三板账号-end-->
+
+							<!--感兴趣行业 -- 个人投资人、投资机构、券商、做市商（非企业）-->
+							<div class="my-line2 space-between bb" id="interest" v-if="ctype != 1" v-tap="{methods:showdata2}">
+								<div class="flex-align-center">
+									<div class="my-line2-tit">感兴趣行业</div>
+									<div class="my-line2-tag-box">
+										<div class="my-line2-tag" v-for="list in data2" v-if="list.is_select == 1">{{list.title}}</div>
+										<!--<div class="my-line2-tag cur">生物医疗</div>-->
+									</div>
+								</div>
+								<div class="mui-icon mui-icon-arrowright c999"></div>
+							</div>
+							<!--感兴趣行业-end-->
+
+							<!--所在行业-- 个人投资人-->
+							<div class="my-line2 space-between" v-if="ctype == 3" v-tap="{methods:showdata3}">
+								<div class="flex-align-center">
+									<div class="my-line2-tit">所在行业</div>
+									<div class="my-line2-tag-box">
+										<div class="my-line2-tag cur" v-for="list in data3" v-if="list.is_select == 1">{{list.title}}</div>
+										<!--<div class="my-line2-tag cur">国际金融</div>-->
+									</div>
+								</div>
+								<div class="mui-icon mui-icon-arrowright c999"></div>
+							</div>
+							<!--所在行业-end-->
+
+							<!--擅长行业--券商-->
+							<div class="my-line2 space-between" v-if="ctype == 4 || ctype == 5" v-tap="{methods:showdata6}">
+								<div class="flex-align-center">
+									<div class="my-line2-tit">擅长行业</div>
+									<div class="my-line2-tag-box">
+										<div class="my-line2-tag cur" v-for="list in data6" v-if="list.is_select == 1">{{list.title}}</div>
+									</div>
+								</div>
+								<div class="mui-icon mui-icon-arrowright c999"></div>
+							</div>
+							<!--擅长行业-end-->
+
+							<!--服务类型--银行-->
+							<!--<div class="my-line2 space-between" v-if="ctype == 6">
+								<div class="flex-align-center">
+									<div class="my-line2-tit">服务类型</div>
+									<div class="my-line2-tag-box">
+										<div class="my-line2-tag cur">股权质押</div>
+									</div>
+								</div>
+								<div class="mui-icon mui-icon-arrowright"></div>
+							</div>-->
+							<!--服务类型-end-->
+						</div>
+
+						<!--投资阶段、单体金额--投资机构-->
+						<div class="my-box mt10" v-if="ctype == 2">
+							<div class="my-line2 space-between bb" v-tap="{methods:showdata4}">
+								<div class="flex-align-center">
+									<div class="my-line2-tit">投资阶段</div>
+									<!--<div class="my-line2-tag-box">
+										<span class="color mr10" v-for="list in data4" v-if="list.is_select == 1">{{list.title}}</span>
+									</div>-->
+									<div class="my-line2-tag-box">
+										<div class="my-line2-tag cur" v-for="list in data4" v-if="list.is_select == 1">{{list.title}}</div>
+									</div>
+									<!--<span class="color mr10">AC</span>-->
+								</div>
+								<div class="mui-icon mui-icon-arrowright c999"></div>
+							</div>
+							<div class="my-line2 space-between bb" v-tap="{methods:showdata5}">
+								<div class="flex-align-center">
+									<div class="my-line2-tit">单体金额</div>
+									<!--<span class="color" v-for="list in data5" v-if="list.is_select == 1">{{list.title}}</span>-->
+									<div class="my-line2-tag-box">
+										<div class="my-line2-tag cur" v-for="list in data5" v-if="list.is_select == 1">{{list.title}}</div>
+									</div>
+								</div>
+								<div class="mui-icon mui-icon-arrowright c999"></div>
+							</div>
+						</div>
+						<!--投资阶段、单体金额-end-->
+
+						<!--企业筛选条件--银行-->
+						<!--<div>
+							<div class="my-stit"><span></span>企业筛选条件</div>
+							<textarea name="" id="" class="my-textarea"></textarea>
+						</div>-->
+
+						<!--已投项目--投资机构、券商、做市商-->
+						<div v-if="ctype == 2 || ctype == 4 || ctype == 5 || ctype ==6">
+							<div class="my-stit" v-if="ctype == 2"><span></span>已投项目</div>
+							<div class="my-stit" v-if="ctype == 4 || ctype == 5 || ctype ==6"><span></span>已服务企业</div>
+							<ul class="my-project-ul">
+								<li class="my-project-li" v-for="(list,index) in enterprises">
+									<input type="text" :value="list" class="my-project-li-input" />
+									<div class="mui-icon mui-icon-closeempty my-project-li-delete"></div>
+								</li> 
+								<!--<li class="my-project-li"><input type="text" value="红纱资本 领投" class="my-project-li-input" />
+									<div class="mui-icon mui-icon-closeempty"></div>
+								</li>-->
+							</ul>
+							<div class="btn bgorange centerstyle" id="add_project" style="background: #4cb6ff;"><div class="mui-icon mui-icon-plusempty" style="font-size: .8rem;"></div></div>
+						</div>
+						<!--已投项目-end-->
+
+						<!--个人简介--都有-->
+						<div>
+							<div class="my-stit"><span></span>个人简介</div>
+							<textarea style="font-size: 0.36rem;line-height: 1.5" name="" id="myText" class="my-textarea" v-model="profile"></textarea>
+							
+						</div>
+						<!--个人简介-end-->
+
+						<!--企业简介--非个人投资人-->
+						<div :class="ctype==1?'unwrite':''" v-if="ctype != 3">
+							<div class="my-stit"><span></span>企业简介</div>
+							<div class="my-box" v-if="ctype == 1">
+
+								<div class="my-line2 space-between bb">
+									<div class="flex-align-center">
+										<div class="my-line2-tit" style="width: 2rem;margin-right: 0;">{{company.com_name}}</div>
+									</div>
+									<div class="mui-icon mui-icon-arrowright"></div>
+								</div>
+							</div>
+							<textarea name="" id="company_text" class="my-textarea mt10" v-model="cprofile" v-if="ctype != 1"></textarea>
+							<div class="my-textarea mt10" v-html="cprofile" v-if="ctype == 1"></div> 
+						</div>
+						<!--企业简介-end-->
+						<div class="homepage-c-botbtn">
+							<div class="btn bgorange" id="idchange" style="background: #4cb6ff;">身份变更申请</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="mask" v-show="show1 || show2 || show3 || show4 || show5 || show6">
+				<!--需求标签弹窗--企业-->
+				<div class="homepage-p-pop" v-if="ctype == 1" v-show="show1">
+					<div class="mui-icon mui-icon-closeempty homepage-p-pop-close" v-tap="{methods:closeall}"></div>
+					<div class="homepage-p-pop-tit">需求标签</div>
+					<div class="homepage-p-pop-tips">选择你的需求标签（可多选）</div>
+					<div class="homepage-p-pop-tags">
+						<ul class="homepage-p-pop-ul">
+							<li :class="['homepage-p-pop-li',list.is_select == 1?'cur':'']" v-for="(list,index) in dataVirtual1" v-tap="{methods:selected1,index:index}">{{list.title}}</li>
+							
+							<!--<li class="homepage-p-pop-li">融资需求</li>-->
+					</div>
+					<div class="btn small" v-tap="{methods:save}" style="background: #4cb6ff;">保存</div>
+				</div>
+				<!--需求标签弹窗-end-->
+
+				<!--感兴趣弹窗--非企业-->
+				<div class="homepage-p-pop" v-if="ctype != 1" v-show="show2">
+					<div class="mui-icon mui-icon-closeempty homepage-p-pop-close" v-tap="{methods:closeall}"></div>
+					<div class="homepage-p-pop-tit">感兴趣行业</div>
+					<div class="homepage-p-pop-tips">选择你感兴趣行业（可多选）</div>
+					<div class="homepage-p-pop-tags">
+						<ul class="homepage-p-pop-ul">
+							<li :class="['homepage-p-pop-li',list.is_select == 1?'cur':'']" v-for="(list,index) in dataVirtual2" v-tap="{methods:selected2,index:index}">{{list.title}}</li>
+							<!--<li class="homepage-p-pop-li">融资需求</li>--> 
+						</ul>
+					</div>
+					<div class="btn small" v-tap="{methods:save}" style="background: #4cb6ff;">保存</div>
+				</div>
+				<!--感兴趣弹窗-end-->
+
+				<!--所在行业--个人投资人-->
+				<div class="homepage-p-pop" v-if="ctype == 3" v-show="show3">
+					<div class="mui-icon mui-icon-closeempty homepage-p-pop-close" v-tap="{methods:closeall}"></div>
+					<div class="homepage-p-pop-tit">所在行业</div>
+					<div class="homepage-p-pop-tips">选择你所在行业（可多选）</div>
+					<div class="homepage-p-pop-tags">
+						<ul class="homepage-p-pop-ul">
+							<li :class="['homepage-p-pop-li',list.is_select == 1?'cur':'']" v-for="(list,index) in dataVirtual3" v-tap="{methods:selected3,index:index}">{{list.title}}</li>
+							
+							<!--<li class="homepage-p-pop-li" v-for="list in data3">{{list.title}}</li>-->
+							<!--<li class="homepage-p-pop-li">融资需求</li>-->
+						</ul>
+					</div>
+					<div class="btn small" v-tap="{methods:save}" style="background: #4cb6ff;">保存</div>
+				</div>
+				<!--所在行业-end-->
+
+				<!--投资阶段--投资机构-->
+				<div class="homepage-p-pop" v-if="ctype == 2" v-show="show4">
+					<div class="mui-icon mui-icon-closeempty homepage-p-pop-close" v-tap="{methods:closeall}"></div>
+					<div class="homepage-p-pop-tit">投资阶段</div>
+					<div class="homepage-p-pop-tips">投资阶段（可多选）</div>
+					<div class="homepage-p-pop-tags">
+						<ul class="homepage-p-pop-ul">
+							<li :class="['homepage-p-pop-li',list.is_select == 1?'cur':'']" v-for="(list,index) in dataVirtual4" v-tap="{methods:selected4,index:index}">{{list.title}}</li>
+							
+							<!--<li class="homepage-p-pop-li" v-for="list in data4">{{list.title}}</li>-->
+							<!--<li class="homepage-p-pop-li">1000万至3000万</li>-->
+						</ul>
+					</div>
+					<div class="btn small" v-tap="{methods:save}" style="background: #4cb6ff;">保存</div>
+				</div>
+				<!--投资阶段-end-->
+
+				<!--单个项目投资规模--投资机构-->
+				<div class="homepage-p-pop" v-if="ctype == 2"  v-show="show5">
+					<div class="mui-icon mui-icon-closeempty homepage-p-pop-close" v-tap="{methods:closeall}"></div>
+					<div class="homepage-p-pop-tit">单个项目投资规模</div>
+					<div class="homepage-p-pop-tips">单个项目投资规模（单选）</div>
+					<div class="homepage-p-pop-tags">
+						<ul class="homepage-p-pop-ul">
+							<li :class="['homepage-p-pop-li',list.is_select == 1?'cur':'']" v-for="(list,index) in dataVirtual5" v-tap="{methods:selected5,index:index}">{{list.title}}</li>
+							<!--<li class="homepage-p-pop-li">1000万至3000万</li>-->
+						</ul>
+					</div>
+					<div onclick="saved()" class="btn small" v-tap="{methods:save}" style="background: #4cb6ff;">保存</div>
+				</div>
+				<!--单个项目投资规模-end-->
+
+				<!--擅长领域--咨询机构-->
+				<div class="homepage-p-pop" v-if="ctype == 4 || ctype == 5"  v-show="show6">
+					<div class="mui-icon mui-icon-closeempty homepage-p-pop-close" v-tap="{methods:closeall}"></div>
+					<div class="homepage-p-pop-tit">擅长领域</div>
+					<div class="homepage-p-pop-tips">请选择你最擅长领域（单选）</div>
+					<div class="homepage-p-pop-tags">
+						<ul class="homepage-p-pop-ul">
+							<li :class="['homepage-p-pop-li',list.is_select == 1?'cur':'']" v-for="(list,index) in dataVirtual6" v-tap="{methods:selected6,index:index}">{{list.title}}</li>
+							<!--<li class="homepage-p-pop-li">1000万至3000万</li>-->
+						</ul>
+					</div>
+					<div class="btn small" v-tap="{methods:save}" style="background: #4cb6ff;">保存</div>
+				</div>
+				<!--擅长领域-end-->
+
+				<!--业务类型--咨询机构-->
+				<!--<div class="homepage-p-pop" style="display: none;">
+					<div class="mui-icon mui-icon-closeempty homepage-p-pop-close"></div>
+					<div class="homepage-p-pop-tit">业务类型</div>
+					<div class="homepage-p-pop-tips">业务类型（可多选）</div>
+					<div class="homepage-p-pop-tags">
+						<ul class="homepage-p-pop-ul">
+							<li class="homepage-p-pop-li">1000万至3000万</li>
+							<li class="homepage-p-pop-li">融资需求</li>
+							<li class="homepage-p-pop-li">融资需求</li>
+							<li class="homepage-p-pop-li">融资需求</li>
+							<li class="homepage-p-pop-li">融资需求</li>
+							<li class="homepage-p-pop-li">融资需求</li>
+						</ul>
+					</div>
+					<div class="btn small">保存</div>
+				</div>-->
+				<!--业务类型-end-->
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue-tap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/plupload/plupload.full.min.js"></script>
+		<script src="static/js/public.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/homepage-personal-set.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			function saved(){
+//				company_text
+				var mtext = document.getElementById('myText');
+				mtext.innerHTML.replaceAll(" ","&nbsp;").replaceAll("\r","<br/>");
+				var company_text = document.getElementById('company_text');
+				console.log(company_text,'company_text')
+				company_text.innerHTML.replaceAll(" ","&nbsp;").replaceAll("\r","<br/>");
+			}
+		</script>
+	</body>
+
+</html>

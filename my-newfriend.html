@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="static/css/public.css" />
+		<link rel="stylesheet" href="static/css/my.css" />
+		<link rel="stylesheet" type="text/css" href="http://at.alicdn.com/t/font_skb0ap2lyyyl23xr.css"/>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background: #2ca8fe;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left iconfont" style="font-size:0.4rem;color: #fff;background: none;">&#xe612;</a>
+			<h1 class="mui-title" style="color: #fff;">通讯录</h1>
+		</header>
+		<div class="mui-content my-newfriend-main" id="main" v-clock>
+			<div class="circle-hot-search mui-input-row">
+				<input type="text" class="circle-hot-search-input mui-input-clear" v-model="keywords" placeholder="输入关键词搜索" data-input-clear="4"><span class="mui-icon mui-icon-clear mui-hidden"></span>
+				<div class="my-newfriend-search-btn" style="color: #4cb6ff;">搜索</div>
+			</div>
+			<!--<div class="my-line my-newfriend-add bb">
+				<span>添加手机联系人</span>
+				<div class="mui-icon mui-icon-arrowright"></div>
+			</div>-->
+			<div class="my-newfriend-content">
+				<div class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<ul class="my-follow-ul">
+							<li class="my-follow-li bb" v-for="list in item" :data-id="list.uid">
+								<div class="my-follow-user">
+									<div class="my-follow-ava">
+										<a class="swipebox" :style="{backgroundImage:'url('+list.photo.url+')'}"></a>
+									</div>
+									<div class="my-follow-name"><span class="personal" :data-id="list.uid">{{list.uname}}</span></div>
+									<div class="my-follow-tag">{{list.title}}</div>
+								</div>
+								<div class="my-follow-btn unfollowed" v-if="list.is_attention == 0">+ 关注</div>
+								<div class="my-follow-btn followed" v-else>已关注</div>
+							</li>
+							<!--<li class="my-follow-li bb">
+								<div class="my-follow-user">
+									<img src="" class="my-follow-ava" alt="" />
+									<div class="my-follow-name">张三</div>   
+									<div class="my-follow-tag">通讯录好友</div>
+								</div>
+								<div class="my-follow-btn">+ 关注</div>
+								<div class="my-follow-btn followed">已关注</div>
+							</li>-->
+
+						</ul>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue-tap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/public.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/my-newfriend.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+
+</html>

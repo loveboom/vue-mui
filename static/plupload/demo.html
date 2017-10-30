@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	
+<script>
+	 function upFileImg(othis){
+
+        var uploader = new plupload.Uploader({
+            runtimes : 'html5',
+            browse_button : othis[0], // you can pass in id...
+            url : 'upload.php',
+
+            filters: {
+                max_file_size: '5mb', //最大上传文件大小（格式100b, 10kb, 10mb, 1gb）
+                mime_types: [//允许文件上传类型
+                    {title: "files", extensions: "png,bmp,gif,jpg,jpeg"}
+                ]
+            },
+
+            multi_selection: false, //true:ctrl多文件上传, false 单文件上传
+            init:{
+                PostInit: function() {
+
+                },
+                FilesAdded: function(up, files){
+                    //上传文件
+                    // uploader.start();
+                },
+                UploadProgress: function(up, file) { //上传中，显示进度条
+                    var percent = file.percent;
+                },
+                FileUploaded: function(up, file, info) { //文件上传成功的时候触发
+
+                },
+                Error: function(up, err) { //上传出错的时候触发
+
+                }
+            }
+        });
+        //在实例对象上调用init()方法进行初始化
+        uploader.init();
+    }
+</script>
+</body>
+</html>

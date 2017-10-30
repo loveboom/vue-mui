@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="static/css/public.css" />
+		<link rel="stylesheet" type="text/css" href="http://at.alicdn.com/t/font_970v2h1ejtw3ik9.css"/>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background: #2ca8fe;">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left iconfont" style="color: #fff;background: none;font-size: 1.2rem;">&#xe612;</a>
+		    <h1 class="mui-title" style="color: #fff;">客服</h1>
+		</header>
+		<div class="mui-content">
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		<script type="text/javascript">
+			mui.init();
+			mui.plusReady(function () {
+				var user = JSON.parse(plus.storage.getItem('user'));
+				
+			   //
+			   var img = user.photo?user.photo.url:'http://xjw.hzboc.com/NewZbq/web/upload/2017/04/22/14928548483353sbbpq.jpg';
+			   var name = encodeURIComponent(user.nickname)
+			   var kfurl = 'https://www.sobot.com/chat/h5/index.html?sysNum=b75699ea5dc34777a33c877d4175f91f&uname='+name+'&tel='+user.phone+'&face='+img+'&partnerId='+user.id;
+		
+			    var w = plus.webview.create(kfurl, 'chat-kf-main.html', {top:'44px',bottom:'0px'}); 
+			    w.show() 
+			    
+			})
+		</script>
+				    <!--<script class="zhiCustomBtn" id="zhichiScript" src="//www.sobot.com/chat/frame/js/entrance.js?sysNum=b75699ea5dc34777a33c877d4175f91f" data-args="uname=小智&age=2&partnerId=123" charset="utf-8"></script>-->
+
+	</body>
+
+</html>

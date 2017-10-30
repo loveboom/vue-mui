@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="static/css/public.css" />
+		<link rel="stylesheet" href="static/css/demand.css" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background: #2ca8fe;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title" style="color: #fff;">聊天</h1>
+		</header>
+		<script src="js/mui.min.js"></script>
+		<script src="static/js/public.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			mui.plusReady(function() {
+				var web = plus.webview.currentWebview();
+				var id = web.cid;
+
+				var old_back = mui.back;
+				mui.back = function() {
+					var view = plus.webview.getWebviewById('demand.html');
+					mui.fire(view, 'showShare');
+					old_back();
+				}
+
+				function getOther() {
+					mui.ajax({
+						url: URL.path + '/account/RygetToken',
+						type: 'post',
+						data: {
+							id: id,
+							token: plus.storage.getItem('token'),
+						},
+						success: function(data) {
+							if(data.returnCode == 200) {
+								var othername = data.data.account.nickname;
+								document.querySelector(".mui-title").innerHTML = othername;
+								var otheravatar = data.data.account.photo ? data.data.account.photo : 'static/img/avatar.png';
+								mui.init({
+									subpages: [{
+										url: 'chat.html',
+										id: 'chat.html',
+										styles: {
+											top: '45px', //mui标题栏默认高度为45px；
+											bottom: '0px' //默认为0px，可不定义；
+										},
+										extras: {
+											cid: id,
+											othername: othername,
+											otheravatar: otheravatar
+										}
+									}]
+								});
+							} else {
+								if(data.returnCode == 401) {
+									vm.islogin = false;
+								} else {
+									mui.toast(data.msg);
+								}
+							}
+						},
+						error: function(xhr, type) {
+							console.log(type)
+						}
+					})
+				}
+				getOther();
+
+			})
+		</script>
+	</body>
+
+</html>

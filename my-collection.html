@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="static/css/public.css" />
+		<link rel="stylesheet" href="static/css/my.css" />
+		<link rel="stylesheet" type="text/css" href="http://at.alicdn.com/t/font_skb0ap2lyyyl23xr.css"/>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background: #2ca8fe;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left iconfont" style="font-size:0.4rem;color: #fff;background: none;">&#xe612;</a>
+			<h1 class="mui-title" style="color: #fff;">我的收藏</h1>
+		</header>
+		<div class="my-collection-content" id="main" v-clock>
+			<div class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<ul class="my-collection-ul">
+						<li class="my-collection-li" v-for="list in item" :data-tid="list.tid" :data-id="list.id">
+							<div class="my-collection-tit">{{list.title}}</div>
+							<div class="my-collection-host">
+								<div class="my-collection-user">
+									<div class="my-collection-user-ava">
+										<a class="swipebox" :style="{backgroundImage:'url('+list.photo.url+')'}"></a> 
+									</div>
+									{{list.uname}}</div>
+								<div class="my-collection-had" v-if="list.is_deleted == 1" :data-id="list.id">已收藏</div>
+								<div class="my-collection-unhad" v-else :data-id="list.id">收藏</div> 
+							</div>
+							<div class="circle-my-state f-cb bt">
+								<div class="circle-my-s-forward br">
+									<span>{{list.repeats}}</span>
+								</div>
+								<div class="circle-my-s-comment br">
+									<span>{{list.comments}}</span>
+								</div>
+								<div class="circle-my-s-up">
+									<span>{{list.praise}}</span>
+								</div>
+							</div>
+						</li>
+						<!--<li class="my-collection-li">
+							<div class="my-collection-tit">假如季后赛首轮勇士VS鹈鹕</div>
+							<div class="my-collection-host">
+								<div class="my-collection-user"><img src="" alt="" />程志豪</div>
+								<div class="my-collection-had">已收藏</div>
+							</div>
+							<div class="circle-my-state f-cb bt">
+								<div class="circle-my-s-forward br">
+									<span>124</span>
+								</div>
+								<div class="circle-my-s-comment br">
+									<span>442</span>
+								</div>
+								<div class="circle-my-s-up">
+									<span>147</span>
+								</div>
+							</div>
+						</li>-->
+					</ul>
+				</div>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue-tap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/public.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/my-collection.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+
+</html>

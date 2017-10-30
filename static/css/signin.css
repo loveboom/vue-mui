@@ -1,0 +1,200 @@
+.sign-content {
+  background: #fff;
+  position: relative;
+  padding: 0 0.25rem;
+}
+.sign-box {
+  border: 1px solid #e6e6e6;
+  border-radius: 0.16rem;
+  margin-top: 0.2rem;
+}
+.sign-input[type=text],
+.sign-input[type=password],
+.sign-input[type=tel] {
+  width: 100%;
+  padding: 0.25rem;
+  font-size: 0.28rem;
+  color: #888;
+  border: none;
+  margin-bottom: 0;
+  height: 0.9rem;
+}
+.signin-link {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  color: #d6d6d6;
+  margin-top: 0.37rem;
+  font-size: 0.28rem;
+  line-height: 1;
+}
+.signin-link span {
+  padding: 0 0.25rem;
+}
+.signin-link-forget {
+  color: #333;
+}
+.signin-link-signup {
+  color: #426af0;
+}
+.signup-upbox {
+  padding-top: 0.32rem;
+}
+.signup-upbox-tit {
+  font-size: 0.28rem;
+  line-height: 1;
+  color: #888;
+}
+.signup-upbox-imgul {
+  margin-top: 0.42rem;
+  padding-bottom: 0.3rem;
+  margin-bottom: 0.3rem;
+}
+.signup-upbox-imgli {
+  width: 1.78rem;
+  height: 1.78rem;
+  float: left;
+  position: relative;
+  background: url(../img/upload_bg.png) no-repeat;
+  background-size: contain;
+}
+.signup-upbox-imgli.without {
+  background: none;
+}
+.signup-upbox-jobul {
+  margin-top: 0.3rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+.signup-upbox-jobul .signup-upbox-jobli {
+	width: 2.14rem;
+  height: 0.7rem;
+  line-height: .7rem;
+  margin-right: 0.15rem;
+  margin-bottom: 0.12rem;
+  border-radius: 0.04rem;
+  background: #eee;
+  font-size: 0.28rem;
+  color: #333;
+  display: inline-block;
+  text-align: center;
+}
+.signup-upbox-jobli:nth-child(3n) {
+  margin-right: 0;
+}
+.signup-upbox-jobul .curA{
+  color: #fff;
+  background: #4cb6ff;
+}
+.signup-upbox-jobli.one-third {
+  width: 2.1rem;
+}
+.sign-bot-log {
+  line-height: 0.76rem;
+  text-align: center;
+  font-size: 0.24rem;
+}
+.sign-get {
+  width: 1.7rem;
+  height: 0.64rem;
+  background: #426af0;
+  color: #fff;
+  line-height: 0.64rem;
+  text-align: center;
+  border-radius: 0.06rem;
+  font-size: 0.26rem;
+}
+.sign-input.half {
+  width: 3.6rem;
+}
+.sign-agreement {
+  font-size: 0.26rem;
+  color: #666;
+  margin-left: 0.25rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.signup-scroll {
+  position: absolute;
+  top: 44px;
+  left: 0.25rem;
+  bottom: 1.5rem;
+  width: 7rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.sign-vip-line {
+  padding: 0.25rem;
+}
+.sign-vip-tit {
+  font-size: 0.28rem;
+  line-height: 1;
+  color: #888;
+}
+.sign-vip-radio {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-size: 0.28rem;
+  color: #888;
+}
+.sign-line {
+  background: #fff;
+  padding: 0 0.25rem;
+}
+.signip-company-box {
+  position: absolute;
+  left: .3rem;
+  top: .9rem;
+  background: #eceef0;
+  width: 7rem;
+  border: 1px solid #ddd;
+  z-index: 10;
+  max-height: 4rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.signip-company-box-li {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  font-size: .3rem;
+  height: .9rem;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  padding-left: .25rem;
+}
+.signip-company-box-li:last-child {
+  border-bottom: 0;
+}
+.signup-upbox-tips {
+  font-size: .24rem;
+  line-height: .36rem;
+  color: #999;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+  -ms-flex-align: end;
+  align-items: flex-end;
+  height: 1.78rem;
+  padding-left: .1rem;
+}

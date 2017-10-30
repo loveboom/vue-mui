@@ -1,0 +1,659 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="static/css/public.css" />
+		<link rel="stylesheet" type="text/css" href="http://at.alicdn.com/t/font_skb0ap2lyyyl23xr.css"/>
+		<script src="js/jquery-2.1.0.min.js"></script>
+		<!--<link rel="stylesheet" href="static/css/popup.css" />-->
+
+		<style type="text/css">
+			html,body{
+				height:100%;overflow:auto;margin: 0;
+			}
+			.tabdiv{
+				width: 100%;
+				height: 0.8rem;
+				line-height: 0.8rem;
+				display: flex;
+				display: -webkit-flex;
+			}
+			.tabdiv a{
+				flex: 0.5;
+				text-align: center;
+				font-size: 0.34rem;
+				color: #333;
+				background: #fff;
+			}
+			.tabdiv .active{
+				background: #4cb6ff;
+				color: #fff;
+			}
+			.plBox{
+				padding: 0 0.2rem;
+			}
+			.plList{
+				margin-top: 0.1rem;
+				padding: 0.2rem 0.4rem 0.2rem 0.2rem;
+				background-color: #FFF;
+				border-radius: 0.1rem;
+			}
+			.plList li{
+				width: 100%;
+				line-height: 0.5rem;
+				overflow: hidden;
+			}
+			.plList li i{
+				float: left;
+				margin-left: 0.1rem;
+				font-size: 0.24rem;
+				color: #999;
+			}
+			.plList li .sstouxiang{
+				margin-left: 0;
+				width: 0.6rem;
+				height: 0.6rem;
+				border-radius: 0.6rem;
+				overflow: hidden;
+			}
+			.sstouxiang img{
+				width: 100%;
+				height: auto;
+			}
+			.plList li .name{
+				font-size: .3rem;
+				color: #4cb6ff;
+			}
+			.plList li .time{
+				float: right;
+			}
+			.plList .content{
+				padding-left: 0.7rem;
+				font-size: 0.3rem;
+				color: #333;
+			}
+			.plList .returnContent{
+				padding-left: 0.7rem;
+			}
+			.plList .returnContent div{
+				width: 100%;
+				padding: 0.14rem 0 0.14rem 0.14rem;
+				line-height: 0.4rem;
+				background: #f2f2f2;
+				font-size: 0.3rem;
+				color: #333;
+				border-radius: 3px;
+			}
+			.zhezhao{
+				position: fixed;
+				width: 100%;
+				height: 100%;
+				background: none;
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				z-index: 998;
+			}
+			.plInput{
+				position: fixed;
+			    bottom: -0.3rem;
+			    left: 0;
+			    right: 0;
+			    padding: 0.1rem 0.2rem;
+			    background: #eee;
+			    border-top: 1px solid #ddd;
+			    z-index: 999;
+			    -webkit-transform: translateZ(0);
+			}
+			.plInput input{
+				border: 1px solid #eee;
+				font-size: 0.28rem;
+				color: #333;
+			}
+			.send{
+				position: absolute;
+				right: 0.2rem;
+				top: 10px;
+				font-size: 0.3rem;
+				color: #4cb6ff;
+			}
+			.imgup{
+				position: absolute;
+				left: 0;
+				top: 9px;
+				padding-left: 0.2rem;
+				font-size: 0.5rem;
+				color: #333;
+			}
+			.tabdivB{
+				visibility: hidden;
+			}
+			.back{
+				position: absolute;
+				left: 0rem;
+				top: 0.1rem;
+				font-size: 0.5rem;
+				color: #fff;
+				padding: 0 0.1rem;
+				z-index: 9999;
+			}
+			.people{
+				position: absolute;
+				right: 0.1rem;
+				top: 0.1rem;
+				z-index: 9999;
+				font-size: 0.28rem;
+				color: #fff;
+			}
+			.bigname{
+				position: absolute;
+				z-index: 9999;
+				bottom: -3px;
+				left: 0.14rem;
+				font-size: 0.26rem;
+				color: #fff;
+			}
+		</style>
+	</head>
+
+	<body style="background-color: #f5f5f5;">
+	<div id="Box">
+		<div class="mui-bar-header-secondary">
+			<div id="frameBox" style="width: 100%;height:4.2rem;overflow: hidden;" v-if="type==1">
+				<span id="returnback" class="iconfont back return" style="font-size: 0.34rem;">返回列表页</span>
+				<span class="people">
+					在线人数：{{sub}}
+				</span>
+				<iframe :src="sn" name="myFrame" id="myFrame" style="width:100%;height:4.2rem;border: 0px;overflow: hidden;"></iframe>
+			</div>
+			<div id="frameBox1" style="width: 100%;height:250px;overflow: hidden;" v-if="type==2">
+				<span id="returnbackA" class="iconfont back return">&#xe612;</span>
+				<iframe height="250" width="100%" style="overflow: hidden;" :src="sn" frameborder=0 allowfullscreen></iframe>
+			</div>
+		</div>
+
+		<div class="mui-content mui-scroll-wrapper" style="overflow: auto;padding-top: 0;" :style="{'margin-top':type==1?'4.2rem':'250px'}">
+			
+			<div class="mui-scroll" id="app" style="padding-bottom: 1.2rem;">	
+				
+				<!--<div style="width: 100%;height:4.2rem;" v-if="type==1"></div>
+				<div style="width: 100%;height:250px;" v-if="type==2"></div>-->
+
+				<div class="tabdiv">
+					<a class="active" id="tabA">互动问答</a>
+					<a id="tabB">报名列表</a>
+				</div>
+				
+				<div id="tabdivA">
+				<div class="plBox" v-if="plContent">
+					<ul v-for="list in plContent" class="plList" :data-rid="list.rid" :data-name="list.uname" :data-id="list.id">
+						<li>
+							<i class="sstouxiang"><img :src="list.headimg"/></i>
+							<i class="name">{{list.uname}}</i>
+							<!--<i class="">华夏集团&nbsp;丨</i>
+							<i>董秘</i>-->
+							<i class="time">{{list.cre_time}}</i>
+						</li>
+						<li v-if="list.photo" style="padding-left: 0.6rem;margin: 0.2rem 0;height: 3rem;overflow: hidden;">
+							<a id="link" :data-big="list.photo"><img style="width: auto;height: 100%;" :src="list.thumb"/></a>
+						</li>
+						<li class="content">
+							{{list.content}}
+						</li>
+						<li id="returnA" v-if="list.child" v-for="cd in list.child" :data-uname="cd.uname" :data-id="cd.id" class="returnContent" style="margin-bottom: 0.1rem;">
+							<div v-if="cd.cname==''">
+								<span style="color: #4cb6ff;">{{cd.uname}}</span>
+								<span style="color: #999;">回复</span>
+								<span id="sname" style="color: #4cb6ff;" :data-sname="list.uname">{{list.uname}}</span>
+								
+								<span style="color: #999;">:</span>
+								{{cd.content}}
+							</div>
+							<div v-else>
+								<span style="color: #4cb6ff;">{{cd.uname}}</span>
+								<span style="color: #999;">回复</span>
+								<span id="sname" style="color: #4cb6ff;" :data-sname="cd.cname">{{cd.cname}}</span>
+								
+								<span style="color: #999;">:</span>
+								{{cd.content}}
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div v-else style="text-align: center;padding-top: 1rem;font-size: 0.34rem;color: #999;">
+					当前暂无评论
+				</div>
+			</div>
+			<div class="tabdivB" style="margin-top: 0.2rem;background: #fff;">
+				<div style="padding: 0 0.3rem;">
+					<div v-for="ll in bmList" class="bmlist" style="height: 1rem;line-height: 1rem;border-bottom:1px solid #eee;overflow: hidden;">
+						<span style="float:left;margin-top:0.2rem;width: 0.62rem;height: 0.62rem;border-radius: 0.62rem;overflow: hidden;">
+							<img style="width: 100%;height: auto;" :src="ll.imgurl"/>
+						</span>
+						<span v-if="ll.uname" style="float: left;width:0.9rem;text-align:left;margin-left:0.2rem;font-size: 0.3rem;color:#333;">
+							{{ll.uname}}
+						</span>
+						<span v-if="ll.com_short" style="float: left;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;width:2rem;text-align:left;margin-left:0.1rem;font-size: 0.3rem;color:#999;">
+							丨&nbsp;{{ll.com_short}}
+						</span>
+						<span v-if="ll.position" style="float: left;margin-left:0.1rem;font-size: 0.3rem;color:#999;">
+							丨&nbsp;{{ll.position}}
+						</span>
+					</div>
+				</div>
+			</div>
+			</div>
+			<div class="mui-bar-footer plInput" id="plInput">
+				<div style="position: relative;width: 100%;background: #eee;">
+					<span id="upload" class="imgup iconfont">&#xe64e;</span>
+					<textarea rows="1" style="width:6rem;padding-left: 0.8rem;border-radius: 3px;" id="return" v-model="contentA" type="text" placeholder="输入评论内容"></textarea>
+					<!--<input type="file" accept="image/*;capture=camera">-->
+					<a style="font-size: 0.34rem;" class="send" id="send">发送</a>
+				</div>
+			</div>
+			<div class="zhezhao"></div>
+		</div>
+		</div>	
+		<!--load遮罩层-->
+		<div class="load"></div>
+		<script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+		<script src="static/plupload/plupload.full.min.js"></script>
+		<script src="js/vue.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/mui.zoom.js"></script>
+		<script src="js/mui.previewimage.js"></script>
+		<script src="static/js/public.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+
+			mui.previewImage();
+
+			mui.ready(function() {
+
+				var timeBox;
+				
+				var vm = new Vue({
+				el: '#Box',
+				data: {
+					plContent:null,
+					newName:'',
+					newId:'',
+					contentA:'',
+					newPid:'',
+					newNameA:'',
+					bmList:'',
+					sn:'',
+					type:'',
+					imgSrc:'',
+					thumb:'',
+					sub:'',
+					bmLength:1
+				}
+		
+			});
+				
+				mui.plusReady(function() {
+					
+				//隐藏iframe下的标签
+				setTimeout(function ft(){  
+					var deptObjs= document.getElementById("myFrame").contentWindow.document.getElementsByClassName("tt-send-box");
+//					console.log(deptObjs,'deptObjs');
+					deptObjs[0].hidden = true;
+					var spanA= document.getElementById("myFrame").contentWindow.document.getElementsByClassName("channel");
+//					console.log(spanA,'spanA');
+					spanA[0].style.display = "none";
+					document.querySelector('#returnback').innerHTML = '&#xe612;';
+					document.querySelector('#returnback').style.fontSize = '0.5rem';
+				},5000);
+				
+				setInterval(function(){
+					getNum();
+					getList();
+				},3000);
+				
+				//获取在线数
+				function getNum(){
+					var web = plus.webview.currentWebview();
+					mui.ajax({
+						url:URL.path + '/video/get_onlinenumber',
+						type:'post',
+						data:{
+							token: plus.storage.getItem('token'),
+							id:web.uid
+						},
+						success:function(data){
+//							console.log(data,'data111');
+							vm.sub = data.data.onlinenumber;
+							if(!(data.data.onlinenumber<vm.bmLength)){
+								vm.sub = vm.bmLength;
+							}
+						}
+					})
+				}
+				
+				//获取评论列表
+				function getList(){
+					var web = plus.webview.currentWebview();
+					vm.sn = web.sn;
+//					console.log(vm.sn,'vm.sn');
+					vm.type = web.type;
+//					console.log(vm.type,'vm.type');
+					var all = {
+//						token:plus.storage.getItem('token'),
+						id:web.uid,
+						type:4
+					}
+					mui.ajax({
+						url:URL.path + '/circle/circle_comments',
+						type:'post',
+						dataType:'json',
+						data:all,
+						success:function(data){ 
+//							alert(data.msg)
+							console.log('data',data);
+							vm.plContent = data.data.reverse();
+						}
+					})
+				}
+				
+				
+				//获取报名列表
+				var web = plus.webview.currentWebview();
+				var id = web.uid;
+				var cid = web.dd;
+				var token = plus.storage.getItem('token');
+//				console.log(token,'token');
+//				console.log(id,'id');
+//				console.log(cid,'cid');
+				mui.ajax({
+					url:URL.path + '/needs/claim_list',
+					type:'post',
+					dataType:'json',
+					data:{
+						token:token,
+						need_id:id,
+						cid:cid,
+						type:4
+					},
+					success:function(aaa){
+						vm.bmList = aaa.data;
+						vm.bmLength = aaa.data.length;
+//						console.log(vm.bmList,'vm.bmList');
+					}
+				})
+				
+				//发送图片
+				function upImg(othis,type) {
+				//var container = mui(".form-img > p");
+//				othis.stopPropagation();
+				var uploader = new plupload.Uploader({
+					runtimes: 'html5',
+					browse_button: othis, // you can pass in id...
+					url: URL.path + '/upload/photo',
+					file_data_name: 'upload_file',
+					multipart_params: {
+						terminalNo: '3'
+					},
+					resize: {
+						width: '640'
+					},
+					filters: {
+						//                        max_file_size: '5mb', //最大上传文件大小（格式100b, 10kb, 10mb, 1gb）
+						mime_types: [ //允许文件上传类型
+							{
+								title: "files",
+//								extensions: "png,bmp,gif,jpg,jpeg",
+								extensions: "png,jpg,jpeg"
+							}
+						]
+					},
+					multi_selection: false, //true:ctrl多文件上传, false 单文件上传
+					init: {
+						PostInit: function() {
+	
+						},
+						FilesAdded: function(up, files) {
+							uploader.start();
+						},
+						UploadProgress: function(up, file) { //上传中，显示进度条
+							var percent = file.percent;
+							//						container.progressbar().setProgress(percent);
+							//						if(percent == 100) {
+							//							container.progressbar().hide();
+							//						}
+						},
+						FileUploaded: function(up, file, info) { //文件上传成功的时候触发 
+							var res = JSON.parse(info.response);
+	//						alert(info.response)
+							if(res.returnCode == '200') {
+//								console.log(res,'res');
+								vm.imgSrc = res.data.photo;
+								vm.thumb = res.data.thumb;
+//								console.log(vm.imgSrc,'vm.imgSrc');
+//								console.log(vm.thumb,'vm.thumb');
+								var web = plus.webview.currentWebview();
+								var newId = document.querySelector('.plList').getAttribute('data-rid');
+								var ms = {
+									rid:newId,
+									pid:vm.newPid,
+									content:'',
+									photo:vm.imgSrc,
+									thumb:vm.thumb,
+									type:4,
+									token:plus.storage.getItem('token')
+								};
+								mui.ajax({
+									url:URL.path + '/comments/create_comments',
+									type:'post',
+									dataType:'json',
+									data:ms,
+									success:function(){
+//										location.reload();
+										mui.toast('图片发表成功')
+									}
+								})
+								
+//								location.reload();
+								//vm.img.push(res.data); 
+//								if(type == 1 && !vm.img){
+//									vm.img = res.data.url;
+//									vm.imgid = res.data.id;
+//								}
+//								if(type == 2 && !vm.avatar){
+//									vm.avatar = res.data.url;
+//									vm.avatarid = res.data.id;
+//								}
+							} else if(res.returnCode == '401') {
+								unLoginComfirm();
+							}
+						},
+						Error: function(up, err) { //上传出错的时候触发
+							mui.toast(err)
+						}
+					}
+				});
+				//在实例对象上调用init()方法进行初始化
+				uploader.init();
+			};
+			upImg(document.getElementById("upload"),1);
+				
+				//tab切换
+				
+				mui('body').on('tap','.tabdiv>a',function(){
+					$('.tabdiv a').removeClass('active');
+					$(this).addClass('active');
+				})
+				
+				
+				//div显示
+				var tabdivB = document.querySelector('.tabdivB');
+				tabdivB.style.visibility = 'hidden';
+				tabdivB.style.height = '0';
+				tabdivB.style.overflow = 'hidden';
+				mui('body').on('tap','#tabA',function(){
+					document.querySelector('#tabdivA').style.display = 'block';
+					document.querySelector('#plInput').style.display = 'block';
+					tabdivB.style.visibility = 'hidden';
+					tabdivB.style.height = '0';
+					tabdivB.style.overflow = 'hidden';
+				})
+				
+				//报名列表
+				document.querySelector('#tabB').addEventListener('tap',function(){
+					document.querySelector('#tabdivA').style.display = 'none';
+					document.querySelector('#plInput').style.display = 'none';
+					tabdivB.style.visibility = 'visible';
+					tabdivB.style.height = '';
+					tabdivB.style.overflow = 'auto';
+				})
+					
+					//评论
+				var _s = $('#return');
+				mui('body').on('tap', '.plList', function() {
+					var newName = this.getAttribute('data-name');
+					vm.newName = newName;
+					var newPIdA = this.getAttribute('data-id');
+					vm.newPid = newPIdA;
+					vm.contentA = '';
+					document.querySelector('#return').value = '';
+					_s.attr('placeholder',('回复'+vm.newName)).focus();
+					zhezhao();
+//					$('#upload').css('display','none');
+				});
+				
+				//回复
+				_s.removeAttr('placeholder');
+				mui('body').on('tap','#returnA',function(e){
+					var newNameA = this.getAttribute('data-uname');
+					vm.newNameA = newNameA;
+//					alert(vm.newNameA);
+					var newPIdA = this.getAttribute('data-id');
+//					console.log(vm.newPid,'vm.newPid');
+					vm.newPid = newPIdA;
+					vm.contentA = '';
+					document.querySelector('#return').value = '';
+					
+					_s.attr('placeholder',('回复'+vm.newNameA)).focus();
+					zhezhao();
+//					$('#upload').css('display','none');
+					e.stopPropagation();
+				});
+				
+				
+				//发表评论
+				mui('body').on('tap', '#send', function() {
+					
+					if(vm.contentA.replace(/\s+/g,"")==''){
+						mui.toast('请输入内容');
+						return false;
+					}
+					var div = document.querySelector('#return');
+					var newContent = div.value;
+					var web = plus.webview.currentWebview();
+					if(!(vm.plContent.length==0)){
+						var newId = document.querySelector('.plList').getAttribute('data-rid');
+						var ms = {
+						rid:newId,
+						pid:vm.newPid,
+						content:newContent,
+						type:4,
+						token:plus.storage.getItem('token')
+						};
+						mui.ajax({
+							url:URL.path + '/comments/create_comments',
+							type:'post',
+							dataType:'json',
+							data:ms,
+							success:function(){
+//								location.reload();
+								vm.contentA = '';
+								vm.newPid = '';
+								mui.toast('评论成功');
+								document.activeElement.blur();
+								document.querySelector('#return').value = '';
+								document.querySelector('#return').placeholder = '';
+								document.querySelector('.zhezhao').style.display = 'none';
+							}
+						})
+					}else if(vm.plContent.length==0){
+						var ms = {
+						rid : web.uid,
+						pid:vm.newPid,
+						content:newContent,
+						type:4,
+						token:plus.storage.getItem('token')
+						};
+						mui.ajax({
+							url:URL.path + '/comments/create_comments',
+							type:'post',
+							dataType:'json',
+							data:ms,
+							success:function(){
+//								location.reload();
+								vm.contentA = '';
+								vm.newPid = '';
+								mui.toast('评论成功');
+								document.activeElement.blur();
+								document.querySelector('#return').value = '';
+								document.querySelector('#return').placeholder = '';
+								document.querySelector('.zhezhao').style.display = 'none';
+							}
+						})
+					}
+				});
+				
+
+					//取消
+					mui('body').on('tap', '.return', function() {
+						var web = plus.webview.currentWebview();
+						mui.ajax({
+							url:URL.path + '/video/set_onlinenumber',
+							type:'post',
+							data:{
+								type:0,
+								id:web.uid,
+								token:plus.storage.getItem('token')
+							},
+							success:function(data){
+								mui.back();
+							}
+						})
+						
+					});
+					
+					function zhezhao(){
+						var focus = $('#return').focus();
+						if(focus){
+							document.querySelector('.zhezhao').style.display = 'block';
+						}
+						
+					}
+					mui('body').on('tap','.zhezhao',function(){
+						document.activeElement.blur();
+						vm.newPid = '';
+						document.querySelector('#return').value = '';
+						document.querySelector('#return').placeholder = '';
+						document.querySelector('.zhezhao').style.display = 'none';
+					})
+					
+					mui('body').on('tap', '#link', function(e) {
+						e.stopPropagation();
+//						window.location.href = this.getAttribute('href');
+						var bigUrl = this.getAttribute('data-big');
+						mui.openWindow({
+							url:'imgbox.html',
+							id:'imgbox.html',
+							extras: {
+								bigUrl:bigUrl
+							}
+						})
+					});
+				});
+			});
+	</script>
+
+	</body>

@@ -1,0 +1,82 @@
+.shareapp-box{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background: url("../img/share-bg.jpg") no-repeat;
+    background-size: 100% 100%;
+}
+.shareapp-title{
+    font-size: .6rem;
+    font-weight: bold;
+    color: #fff;
+    text-align: center;
+    line-height: .88rem;
+}
+.shareapp-tip{
+    font-size: .5rem;
+    color: #fff;
+    line-height: 1;
+    margin-top: .2rem;
+    font-weight: bold;
+}
+.shareapp-personal{
+    width: 3.6rem;
+    height: 4.12rem;
+    background: url("../img/share-logo.jpg") no-repeat;
+    background-size: contain;
+    margin-top: .95rem;
+    position: relative;
+}
+.shareapp-inv{
+    text-align: center;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    bottom: .75rem;
+    font-size: .28rem;
+    color: #f7722f;
+    box-sizing: border-box;
+    padding-left: .15rem;
+}
+.shareapp-inv2 .shareapp-name{
+    font-size: .34rem;
+    color: #2e7eea;
+}
+.shareapp-tip2{
+    text-align: center;
+    font-size: .5rem;
+    line-height: .4rem;
+    color: #fff;
+    margin-top: .34rem;
+}
+.shareapp-btn{
+    width: 3.27rem;
+    height: .72rem;
+    border:1px solid #fff;
+    border-radius: .36rem;
+    text-align: center;
+    font-size: .28rem;
+    line-height: .72rem;
+    margin-top: .5rem;
+    color: #fff;
+}
+.shareapp-code{
+	width: 3.6rem;
+	height: 3.6rem;
+}
+
+.shareapp-code{
+	margin-top: .5rem;  
+}
+.shareapp-inv2{
+	font-size: .34rem;
+}
+.shareapp-inv2{
+	color: #fff;
+	margin-top: .5rem;
+}
+.shareapp-title2{
+	font-size: .55rem;
+}

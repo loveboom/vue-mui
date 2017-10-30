@@ -1,0 +1,250 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="static/css/public.css" />
+		<link rel="stylesheet" href="static/css/popup.css" />
+		<link rel="stylesheet" href="static/css/demand-release.css" />
+
+	</head>
+
+	<body>
+		<div class="mui-scroll-wrapper" id="app">
+			<div class="head-nave f-cb">
+				<div class="head-nave-return mui-action-back fl"></div>
+				<div class="head-nave-cap">支付押金</div>
+			</div>
+			<div class="mui-scroll">
+				<div class="pay-head bgfff">
+					<div class="row">
+						<label>悬赏金额</label>
+						<input type="text" class="fr" readonly="readonly" :value="res.min_money+'-'+res.max_money">
+					</div>
+					<textarea readonly="readonly">{{res.intro}}</textarea>
+				</div>
+				<dl class="pay-sel bgfff">
+					<dt>支付方式</dt>
+					<dd class="n1" v-if="res.is_empty"><label>账户余额<span>(余额：¥{{res.balance}})</span><input class="demand-pay-radio" type="radio" name="method" value="yue" checked><i></i></label></dd>
+					<dd class="n2"><label>微信支付 <input class="demand-pay-radio" type="radio" name="method" value="wxpay"><i></i></label></dd>
+					<dd class="n3"><label>支付宝 <input class="demand-pay-radio" type="radio" name="method" value="alipay"><i></i></label></dd>
+				</dl>
+				<!--<div class="pay-tit">押金支付后，将冻结至余额中，任务结束后支付给对方。</div>-->
+			</div>
+			<div class="pay-go f-cb">
+				<div class="pay-go-tit fl">押金：<span>￥{{res.margin}}</span></div>
+				<div class="pay-go-btn fr" id="goPay">前往支付</div>
+			</div>
+		</div>
+
+		<script src="js/jquery-2.1.0.min.js"></script>
+		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/mui.pullToRefresh.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.pullToRefresh.material.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/public.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			mui.init();
+
+			mui.ready(function() {
+				var vm = new Vue({
+					el: '#app',
+					data: {
+						res: {
+							min_money: '',
+							max_money: '',
+							balance: '',
+							margin: '',
+							is_empty: 1
+						}
+					}
+				});
+
+				mui.plusReady(function() {
+					var self = plus.webview.currentWebview();
+
+					//关闭指定页面
+					if(self.closePage) {
+						setTimeout(function(){
+							close_page(self.closePage);
+							close_page('demand-info.html');
+							close_page('demand-infos.html');	
+						},100);
+					};
+
+					//获取页面信息
+					mui.ajax({
+						url: URL.path + '/needs/pay_info',
+						type: 'post',
+						dataType: 'json',
+						data: {
+							token: plus.storage.getItem('token'),
+							id: self.need_id
+						},
+						success: function(res) {
+							if(res.returnCode == '200') {
+								vm.res = res.data;
+							} else if(res.returnCode == '401') {
+								unLoginComfirm();
+							}
+						}
+					});
+
+					var T_pay = true;
+
+					var main = {
+						data: {
+							token: plus.storage.getItem('token'),
+							many: null,
+							pays: {},
+							type: null
+						},
+						getChannels: function() {
+							var _this = this;
+							//获取支付通道
+							plus.payment.getChannels(function(channels) {
+
+								for(var i in channels) {
+									var channel = channels[i];
+									if(channel.id == 'qhpay' || channel.id == 'qihoo') { // 过滤掉不支持的支付通道：暂不支持360相关支付
+										continue;
+									}
+									_this.data.pays[channel.id] = channel;
+
+									_this.checkServices(channel);
+								}
+
+							}, function(e) {
+								mui.toast('获取支付通道失败：' + e.message);
+							});
+						},
+						checkServices: function(pc) {
+							// 检测是否安装支付服务
+							if(!pc.serviceReady) {
+								var txt = null;
+								switch(pc.id) {
+									case 'alipay':
+										txt = '检测到系统未安装“支付宝快捷支付服务”，无法完成支付操作，是否立即安装？';
+										break;
+									default:
+										txt = '系统未安装“' + pc.description + '”服务，无法完成支付，是否立即安装？';
+										break;
+								}
+								plus.nativeUI.confirm(txt, function(e) {
+									if(e.index == 0) {
+										pc.installService();
+									}
+								}, pc.description);
+							}
+						},
+						pay: function(fun) {
+							var _this = this;
+
+							if(_this.data.type == 'yue') {
+								//余额
+								mui.ajax({
+									url: URL.path + '/needs/balance_payment',
+									type: 'post',
+									dataType: 'json',
+									data: {
+										token: _this.data.token,
+										id: self.need_id,
+										method: 3
+									},
+									success: function(res) {
+
+										if(res.returnCode == '200') {
+											return fun(res);
+										} else if(res.returnCode == '401') {
+											unLoginComfirm();
+										} else {
+											mui.toast(res.msg);
+											T_pay = true;
+										}
+									}
+								});
+							} else {
+
+								var payUrl = '';
+								var data = {};
+
+								if(_this.data.type == 'alipay') {
+									//支付宝
+									payUrl = URL.path + '/pay/AliSign';
+
+									data = {
+										token: _this.data.token,
+										trade_no: vm.res.order_sn,
+										amount: vm.res.margin,
+										subject: '悬赏订单'
+									};
+								} else if(_this.data.type == 'wxpay') {
+									//微信
+									payUrl = URL.path + '/wxpay/get_wxsign';
+									//										payUrl = 'http://demo.dcloud.net.cn/helloh5/payment/wxpay.php?total=10';
+									data = {
+										token: _this.data.token,
+										trade_no: vm.res.order_sn,
+										amount: vm.res.margin,
+										subject: '悬赏订单'
+									};
+								}
+
+								mui.ajax({
+									url: payUrl,
+									type: 'post',
+									data: data,
+									success: function(res) {
+
+										plus.payment.request(_this.data.pays[_this.data.type], res, function(result) {
+											return fun(result);
+										}, function(error) {
+											T_pay = true;
+
+//											mui.toast('[' + error.code + ']：' + error.message);
+										});
+									},
+									error: function() {
+										T_pay = true;
+//										mui.toast('支付接口调取失败!');
+									}
+								});
+
+							}
+						}
+					}
+					main.getChannels();
+
+					//支付
+					mui('body').on('tap', '#goPay', function(res) {
+						main.data.type = $('input[name=method]:checked').val();
+
+						mui.confirm(' ', '为保障交易安全，押金将被冻结。', ['否', '是'], function(e) {
+							if(e.index == 1) {
+								if(T_pay) {
+									T_pay = false;
+									main.pay(function(res) {
+										mui.toast(res.msg);
+
+										close_page('demand-release.html');
+
+										setTimeout(function() {
+											GO('demand-info', {
+												sign: self.need_id,
+												closePage: 'demand-pay.html'
+											});
+										}, 200);
+									});
+								}
+							}
+						},'div');
+					});
+				});
+			});
+		</script>
+	</body>
+
+</html>

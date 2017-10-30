@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="static/css/public.css" />
+		<link rel="stylesheet" type="text/css" href="static/css/circle.css" />
+		<link rel="stylesheet" type="text/css" href="static/css/share.css" />
+		<link rel="stylesheet" type="text/css" href="http://at.alicdn.com/t/font_skb0ap2lyyyl23xr.css"/>
+	</head>
+	<style type="text/css">
+		.shareh5-content {
+			position: absolute;
+			left: 0;
+			top: 44px;
+			bottom: 0;
+			width: 100%;
+			overflow-x: hidden;
+			overflow-y: auto;
+			-webkit-overflow-scrolling: touch;
+		}
+	</style>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left iconfont" style="font-size:0.4rem;color: #333;">&#xe612;</a>
+			<h1 class="mui-title">邀请好友注册</h1>
+			<a class="fr share-btn iconfont" id="share" style="margin-top:0.2rem;font-size:0.44rem;color: #333;">&#xe64f;</a>
+		</header>
+		<div class="shareh5-content">
+			<div class="shareapp-box">
+				<div class="shareapp-title">要融资 找项目 卖老股<br/><span class="shareapp-title2">上企融直通车APP</span></div>
+				<div class="shareapp-tip">新三板人都知道</div>
+				<!--<div class="shareapp-personal">
+					
+				</div>-->
+				<div class="shareapp-code"><img src="" alt="" class="shareapp-img" width="100%" height="100%"/></div>
+				<div class="shareapp-inv2"><span>来自</span> <span class="shareapp-name"></span> <span>的邀请</span></div>
+				<!--<div class="shareapp-tip2">企业注册即获免费路演</div>-->
+				<!--<div class="shareapp-btn">立即使用</div>-->
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		<script src="static/js/share.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/public.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			mui.plusReady(function() {
+				var web = plus.webview.currentWebview();
+				var name = web.name;
+				neme = encodeURIComponent(name);
+				document.querySelector(".shareapp-name").innerHTML = name;
+				SHARE(URL.path3 + 'shareapp?name=' + name, '新三板融资，上企融直通车',null,false,'分享即获免费路演');
+
+				mui.ajax({
+					url: URL.path2 + '/common/code_img',
+					type: 'post',
+					success: function(data) {
+//						alert(JSON.stringify(data))
+						if(data.returnCode == 200) {
+							document.querySelector(".shareapp-img").src = data.data.imgurl;
+						}
+					}
+				})
+			})
+		</script>
+	</body>
+
+</html>

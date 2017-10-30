@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="static/css/public.css" />
+		<link rel="stylesheet" href="static/css/my.css" />
+		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">钱包明细</h1>
+		</header>
+		<div class="my-wallet-d-content" id="main" v-clock>
+			<div class="mui-scroll-wrapper my-wallet-scroll-wrapper" >
+				<div class="mui-scroll">
+					<ul class="my-wallet-d-ul">
+						<li class="my-wallet-d-li bb" v-for="list in item" :data-id="list.id" :data-zf="list.zf">
+							<div class="my-wallet-d-left">
+								<div :class="['my-wallet-d-icon',list.icon == 1?'up':'',list.icon == 2?'ali':'',list.icon == 3?'pay':'',list.icon == 4?'money':'']"></div>
+								<div class="my-wallet-d-info">
+									<div class="my-wallet-d-tit"><span class="my-wallet-d-tag">{{list.status}}</span><span style="font-weight: bold;">{{list.title}}</span></div>
+									<div class="my-wallet-d-time">{{list.created_at}}</div>
+								</div>
+							</div>
+							<div class="my-wallet-d-num"><span v-if="list.type == 1||list.type == 3||list.type == 4||list.type == 8">-</span><span v-else>+</span>{{list.money}}</div>
+						</li>
+						<!--<li class="my-wallet-d-li bb">
+							<div class="my-wallet-d-left">
+								<div class="my-wallet-d-icon ali"></div>
+								<div class="my-wallet-d-info">
+									<div class="my-wallet-d-tit"><span class="my-wallet-d-tag">申请中</span>假如季后赛首轮勇士VS鹈鹕</div>
+									<div class="my-wallet-d-time">2016-06-14 16:22:00</div>
+								</div>
+							</div>
+							<div class="my-wallet-d-num">+1000.00</div>
+						</li>-->
+					
+					</ul>
+				</div>
+			</div>
+
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		<script src="static/js/public.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/moment.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/my-wallet-detail.js" type="text/javascript" charset="utf-8"></script> 
+	</body>
+
+</html>

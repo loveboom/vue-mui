@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="static/css/public.css" />
+		<link rel="stylesheet" href="static/css/my.css" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background: #2ca8fe;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title" style="color: #fff;">确认支付宝账号</h1>
+		</header>
+		<div class="mui-content">
+			<div class="my-line bb mt20"><input type="text" class="my-input" name="alipay_num" placeholder="支付宝账号" /></div>
+			<div class="my-line"><input type="text" class="my-input" name="alipay_name" placeholder="姓名" /></div>
+			<div class="report-tips mb20">请填写准确的信息</div>
+			<div class="btn" style="background: #4cb6ff;">提现</div>
+		</div>
+		<script src="js/jquery-2.1.0.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="static/js/public.js"></script>
+		<script>
+			mui.init()
+			mui.ready(function() {
+				mui.plusReady(function() {
+					var self = plus.webview.currentWebview();
+
+					var main = {
+						data: {
+							token: plus.storage.getItem('token'),
+							alipay_num: '',
+							alipay_name: ''
+						},
+						formUp: function() {
+							var _this = this;
+
+							mui.ajax({
+								url: URL.path + '/pay/withdraw',
+								type: 'post',
+								data: {
+									token: _this.data.token,
+									terminalNo: 3,
+									money: self.many,
+									type: '2',
+									alipay_num: _this.data.alipay_num,
+									alipay_name: _this.data.alipay_name
+								},
+								success: function(res) {
+									if(res.returnCode=='200'){
+										GO('withdrawals-success',{
+											type: '支付宝',
+											many: self.many,
+											time: res.data.time
+										});
+									}else{
+										mui.toast(res.msg);
+									}
+								}
+							})
+						}
+					};
+
+					$('body').on('tap', '.btn', function() {
+						main.data.alipay_num = $('input[name=alipay_num]').val();
+						main.data.alipay_name = $('input[name=alipay_name]').val();
+
+						if(main.data.alipay_num){
+							if(main.data.alipay_name){
+								main.formUp();
+							}else{
+								mui.toast('请输入姓名');
+							}
+						}else{
+							mui.toast('请输入支付宝账号');
+						}
+						
+					});
+				});
+			});
+		</script>
+	</body>
+
+</html>

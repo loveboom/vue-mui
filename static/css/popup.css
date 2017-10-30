@@ -1,0 +1,36 @@
+
+/*提示框*/
+.mui-popup{
+    width: 6.5rem;
+}
+.mui-popup-title{
+    color: #000000;
+    font-size: 0.36rem;
+}
+.mui-popup-inner{
+    padding: 0.45rem 0.3rem;
+}
+.mui-popup-inner:after{
+    width: 6.15rem;
+    left: 0.175rem;
+}
+.mui-popup-buttons{
+    height: 1.2rem;
+    background: rgba(255,255,255,.95);
+}
+.mui-popup-button{
+    font-size: 0.36rem;
+    height: 0.8rem;
+    line-height: 0.8rem;
+    color: #999999;
+    margin-top: 0.2rem;
+    background: none;
+}
+.mui-popup-button.mui-popup-button-bold{
+    color: #ff8b02;
+    font-weight: normal;
+}
+.mui-popup-title+.mui-popup-text{
+    margin: 0.2rem 0 0 0;
+    font-size: 0.28rem;
+}

@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="static/css/public.css" />
+		<link rel="stylesheet" type="text/css" href="static/css/home.css" />
+		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<style type="text/css">
+		.personal{
+			font-weight: normal;
+		}
+		.mui-pull-loading{
+			display: none;
+		}
+		#main{
+			width: 100%;
+			padding: 0.2rem 0;
+			background-color: #000;
+		}
+	</style>
+	<body>
+		<div id="main" v-clock>
+			<div class="home-search-header" style="background-color: #2ca8fe;">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="margin-right: .2rem;margin-top: .04rem;"></a>
+				<input type="text" class="home-search-input" placeholder="输入关键词" v-model.trim="keywords"/>
+				<div class="home-sarch-back without home-sarch-btn" style="color: #fff;">搜索</div>
+			</div>
+			<div class="home-search-history" v-show="historyShow" v-if="history.length != 0">
+				<ul class="home-search-history-ul">
+					<li class="home-search-history-li" v-for="list in history" :data-kw="list.title">
+						<span class="home-search-history-title">{{list.title}}</span>
+						<div class="mui-icon mui-icon-closeempty home-search-history-delete" :data-id="list.id"></div>
+					</li>
+					<!--<li class="home-search-history-li"><span class="home-search-history-title">青岛</span>
+						<div class="mui-icon mui-icon-closeempty"></div>
+					</li>-->
+				</ul>
+			</div>
+			<div class="mui-content home-search-content" style="background: #f5f5f5;">
+				<div class="mui-content mui-scroll-wrapper" style="background: #f5f5f5;">
+					<div class="mui-scroll" id="pullrefresh">
+						<ul class="mui-table-view mui-table-view-chevron home-search-ul" style="background: #f5f5f5;">
+							<li class="home-con-li f-cb personal" v-for="list in list" :data-id="list.uid" style="width: 100%;"> 
+								<div class="home-con-ava fl" style="margin-left: 0.1rem;">
+									<!--<img :src="list.photo?list.photo:'static/img/avatar.png'" alt="" width="100%" height="100%" />-->
+									<a class="swipebox" :style="{backgroundImage:'url('+list.photo+')'}"></a>
+								</div>
+								<div class="home-con-info fl">
+									<div class="home-con-id">
+										<div class="home-con-name">{{list.uname}}</div>
+										<div class="home-con-cp" v-if="list.com_name">{{list.com_name}}</div>
+										<div class="home-con-job" v-if="list.position">{{list.position}}</div>
+									</div>
+								<!--	<div class="home-con-intro" v-if="list.ctype == 1">{{list.profile}}</div>-->
+									<div class="home-con-tag" style="margin-top: 0.1rem;">
+										<span v-if="list.ctype == 1"><a href="javascript:;" v-for="tags in list.industry">{{tags.title}}</a></span>									
+										<span v-if="list.ctype == 1"><a href="javascript:;" class="cur" v-for="tags in list.tags">{{tags.title}}</a></span>
+										<span v-if="list.ctype == 3 || list.ctype == 2 || list.ctype == 4 || list.ctype == 5 || list.ctype == 6"><a href="javascript:;" :class="[list.ctype == 2?'':'cur']" v-for="tags in list.interested">{{tags.title}}</a></span>
+										<span v-if="list.ctype == 2"><a href="javascript:;" class="cur" v-for="tags in list.fund_stage">{{tags.title}}</a></span>
+										<span v-if="list.ctype == 2"><a href="javascript:;" class="cur" v-for="tags in list.single_project">{{tags.title}}</a></span>
+										<span v-if="list.ctype == 4 || list.ctype == 5"><a href="javascript:;" class="cur" v-for="tags in list.good_industry">{{tags.title}}</a></span>
+									</div>
+								</div>
+								<div class="home-con-fw" v-if="list.is_friend == 0 && myid != list.uid" :data-id="list.uid">+关注</div>
+								<div class="home-con-fwed" v-if="list.is_friend == 1 && myid != list.uid" :data-id="list.uid">已关注</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/mui.pullToRefresh.js" type="text/javascript" charset="utf-8"></script> 
+		<script src="js/mui.pullToRefresh.material.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/public.js" type="text/javascript" charset="utf-8"></script>	
+		<script src="static/js/home-search.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+
+</html>

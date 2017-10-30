@@ -1,0 +1,149 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="static/css/public.css" />
+		<link rel="stylesheet" href="static/css/my.css" />
+		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<style>
+			.homepage-cap .tit{
+				margin-left: 0.1rem;
+				color: #333; 
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="main" v-clock>
+
+			<div class="homepage-c-content">
+				<div class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<div class="homepage-c-header" style="padding:1rem 0;background-image: url(static/img/my-header-box.jpg);">
+							<header class="mui-bar mui-bar-nav" style="background: none;box-shadow: none;position: absolute;">
+								<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left white-icon"></a>
+								<!--<a href="javascript:;" class="my-watchnum fr">{{item.scan}}</a>-->
+							</header>
+							<!--<div class="homepage-c-img por">
+								<a class="swipebox" :style="{backgroundImage:'url('+logo+')'}"></a>
+							</div>-->
+							<!--<img :src="item.logo?item.logo:'static/img/avatar.png'" class="homepage-c-img" alt="" />-->
+							<div class="homepage-c-name" style="color: #333;font-size: 0.4rem;">{{item.short}} {{item.stock_code}}</div>
+							<!--<div class="homepage-c-info">{{item.short_desc}}</div>-->
+							<div class="homepage-c-tab">
+								<div class="homepage-c-tab-li cur" v-for="list in item.tags">{{list.title}}</div>
+							</div>
+							<div class="homepage-c-tab" style="margin-top: 0;">
+								<!--<div class="homepage-c-tab-li cur">融资需求</div>-->
+								<div class="homepage-c-tab-li" v-for="list in item.industry">{{list.title}}</div>
+								<!--<div class="homepage-c-tab-li">TMT</div>-->
+							</div>
+						</div>
+						<div class="my-box mt10">
+							<div class="my-line2 space-between bb">
+								<div class="my-line2-tit"><span class="w180">{{user.uname}}</span> <span class="secretary">{{user.position}}</span></div>
+								<div style="background-color: #4cb6ff;color:#fff" class="my-chat-btn" :data-id="user.id" v-if="user.is_toke">聊天</div>
+							</div>
+							<div :class="['my-line2','space-between',index == list.length-1?'':'bb']" v-for="(list,index) in item.users">
+								<div class="my-line2-tit"><span class="w180">{{list.uname}}</span> <span>{{list.position}}</span></div>
+								<div style="background-color: #4cb6ff;color:#fff" class="my-chat-btn" :data-id="list.id" v-if="list.is_toke">聊天</div>
+							</div>
+						</div>
+						<div class="my-stit"><span></span>市场分析</div>
+						<div style="-webkit-user-select:text;user-select:text;" class="my-intro-content" v-html="item.fund?item.fund:'暂未填写'"></div>
+						<div class="my-stit"><span></span>核心优势</div>
+						<div style="-webkit-user-select:text;user-select:text;" class="my-intro-content" v-html="item.pdesc?item.pdesc:'暂未填写'"></div>
+						<div class="my-stit"><span></span>经营业绩</div>
+						<div style="-webkit-user-select:text;user-select:text;" class="my-intro-content" v-html="item.operation?item.operation:'暂未填写'"></div>
+						<div class="my-stit"><span></span>融资历程</div>
+						<div style="-webkit-user-select:text;user-select:text;" class="my-intro-content" v-html="item.team?item.team:'暂未填写'"></div>
+						<div class="homepage-c-download mt20" :class="{on:item.plan}" :data-url="item.plan" download>
+							<span v-if="item.plan" class="homepage-cap" style="color: #4cb6ff;"><span>商业计划书</span><span class="tit"></span></span>
+							<!--<span v-if="item.plan" style="margin-left: 0.1rem;margin-top: -0.07rem;">附件<span class="mui-icon mui-icon-download"></span></span>-->
+							<span v-if="!item.plan" style="color: #333;margin-left: 0.1rem;">暂未上传</span>
+						</div>
+						
+						<div class="homepage-c-tips" v-if="isrep">请企融直通车帮助优化展示公司的商业价值</div>
+						<div class="homepage-c-botbtn" :data-id="item.id">
+							<div class="btn" style="background: #4cb6ff;">查看企业相关动态</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<script src="js/jquery-2.1.0.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		<script src="static/js/public.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/homepage-company.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+	<script>
+		mui.ready(function() {
+			mui.plusReady(function() {
+				//下载pdf
+				mui('body').on('tap', '.homepage-c-download', function() {
+					var othis = $(this);
+					var url = othis.attr('data-url');
+					var dataFile = othis.attr('data-file');
+
+					if(othis.hasClass('on')) {
+						
+						
+						
+						var dtask = plus.downloader.createDownload(url, {}, function(d, status) {
+							if(status == 200) { // 下载成功
+								var path = d.filename;
+
+//								mui.toast('下载成功');
+								othis.attr('data-file',d.filename);
+								plus.runtime.openFile(d.filename);
+							} else { //下载失败
+								mui.toast('下载失败' + status)
+							}
+						});
+						
+						//监听下载进度
+						dtask.addEventListener("statechanged", function(task, status) {
+							var titBox = $('.homepage-cap .tit'),str = '';
+							
+							switch(task.state) {
+								case 1: // 开始
+								case 2: // 已连接到服务器
+									str = '文件加载中，请稍后...'
+									break;
+								case 3: // 已接收到数据
+									task.downloadedSize = parseInt(task.downloadedSize/1024/1024*100)/100;
+									task.totalSize = parseInt(task.totalSize/1024/1024*100)/100;
+									
+									str = '文件加载中，请稍后...'+task.downloadedSize + "M/" + task.totalSize+'M'
+									break;
+								case 4: // 下载完成 
+									str = '文件加载完成，点击打开'
+									break;
+							}
+							
+							titBox.text(str);
+						});
+
+						if(dataFile){
+							plus.runtime.openFile(dataFile);
+						}else{
+							dtask.start();
+						}
+					} else {
+						//						mui.toast('暂未上传')
+					}
+
+				});
+			});
+		});
+	</script>
+
+</html>

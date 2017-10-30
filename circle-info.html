@@ -1,0 +1,160 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/zoom.css" />
+		<link rel="stylesheet" href="static/css/public.css" />
+		<link rel="stylesheet" href="static/css/circle.css" />
+		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/vue-tap.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jQuery.js" type="text/javascript" charset="utf-8"></script> 
+	</head> 
+	<style type="text/css">
+		.mui-pull-loading{
+			display: block;
+		}
+		pre {
+		white-space: pre-wrap;
+		word-wrap: break-word;
+		}
+	</style>
+	<body>
+		<div id="main" class="main" v-clock>
+			<header class="mui-bar mui-bar-nav"  style="background: #2ca8fe;">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left circle-i-back"></a>
+				<h1 class="mui-title" style="color: #fff;">详情</h1>
+				<a class="fr share-btn"></a>  
+			</header>
+			<div class="circle-info-content">
+				<div class="mui-scroll-wrapper">
+					<div class="mui-scroll" id="pullrefresh">
+						<div class="circle-my-list f-cb">
+							<div class="circle-my-ava fl personal por" :data-id="item.uid">
+								<!--<img :src="item.headimg?item.headimg:'static/img/avatar.png'" alt="" width="100%" height="100%" />-->
+								<a class="swipebox" :style="{backgroundImage:'url('+item.headimg+')'}"></a>
+							</div>
+							<div class="circle-my-info fr">
+								<div class="circle-my-name"><span class=" personal" :data-id="item.uid">{{item.uname}}</span></div>
+								<div class="circle-my-content"><pre style="width: 100%;word-wrap:break-word;white-space：normal;-webkit-user-select: text !important;">{{item.rid == 0?item.content:item.r_content}}</pre></div>
+								<div class="circle-my-imgul f-cb" v-if="item.imglength !== 0"> 
+									<ul>
+										<li class="circle-my-imgli" v-for="photo in item.circle_photo">
+											<a class="swipebox" :src="photo" data-preview-src="" data-preview-group="1" :style="{backgroundImage:'url('+photo+')'}"></a>
+											<!--<img :src="photo" alt="" data-preview-src="" data-preview-group="1" width="100%" />-->
+										</li>
+										<!--<li class="circle-my-imgli"><a href="" class="swipebox"></a></li>-->
+									</ul>
+								</div>
+								<div :class="['circle-my-fdcontent',item.start.c_type==1?'link-circle':'',item.start.c_type==2?'link-article':'',item.start.deleted == 1?'cant':'']" v-if="item.start" :data-id="item.start.id">
+									<div class="circle-my-fd-title" v-if="item.start.c_type == 2">{{item.start.title}}</div>
+									<div class="circle-my-fd-info" v-if="item.start.c_type == 1"><span class="color personal" :data-id="item.start.uid" v-if="item.start.uname">@{{item.start.uname}}：</span><span v-html="item.start.content"></span></div>
+									<div class="circle-my-fd-imgul f-cb" v-if="item.start.circle_photo"> 
+										<ul>
+											<li class="circle-my-fd-imgli por" v-for="fdimg in item.start.circle_photo">
+												<a class="swipebox" :src="fdimg" data-preview-src="" data-preview-group="1" :style="{backgroundImage:'url('+fdimg+')'}"></a>
+												<!--<img :src="fdimg" data-preview-src="" data-preview-group="1" alt="" width="100%" height="100%" />-->
+											</li>
+											<!--<li class="circle-my-fd-imgli"><img src="" alt="" width="100%" height="100%" /></li>
+											<li class="circle-my-fd-imgli"><img src="" alt="" width="100%" height="100%" /></li>-->
+										</ul>
+									</div>
+									<div class="circle-my-content" v-if="item.start.c_type == 2" v-html="item.start.content"></div>
+								</div>
+								<div class="circle-my-state f-cb mt20">
+									<div class="circle-my-s-forward fl br" id="forward">
+										<span>{{item.repeats}}</span>
+									</div>
+									<div :class="['circle-my-s-comment','fl',item.is_can == 1?'br':'']" id="comment">
+										<span>{{item.comments}}</span>
+									</div>
+									<div class="circle-my-s-delete fl br" id="delete" v-if="item.is_can == 1">
+										<span></span>
+									</div>
+									<!--v-if="item.is_can == 1"-->
+								</div>
+								<div class="circle-my-area">
+									<span class="circle-my-time">{{item.cre_time}}</span>
+									<span class="cirlce-my-loction" v-if="item.locations">{{item.locations}}</span>
+								</div>
+							</div>
+						</div>
+						<div class="circle-comment" v-if="comt.length !== 0">
+							<div class="circle-c-tit">全部评论</div>
+							<ul class="circle-c-comul mui-table-view mui-table-view-chevron">
+								<li class="circle-c-list f-cb" v-for="(list,index) in comt">
+									<div class="circle-my-ava fl personal por" :data-id="list.uid">
+										<!--<img :src="list.headimg?list.headimg:'static/img/avatar.png'" alt="" width="100%" height="100%" />-->
+										<a class="swipebox" :style="{backgroundImage:'url('+list.headimg+')'}"></a> 
+									</div>
+									<div class="circle-my-info fr circle-i-info">
+										<div class="circle-my-name"><span class="personal" :data-id="list.uid">{{list.uname}}</span></div>
+										<div class="circle-hot-time">{{list.cre_time}}</div>
+										<div :class="['circle-my-content','response','mui-table-view-cell',list.is_can == 1?'can':'']" :data-id="list.id" :data-name="list.uname">
+											<a>{{list.content}}</a>
+										</div>
+										<div class="circle-i-req" v-if="list.childnums !== 0">
+											<ul>
+												<li :class="['mui-table-view-cell','response',childlist.is_can == 1?'can':'']" :data-id="childlist.id" :data-name="childlist.uname" v-for="(childlist,index) in list.child" v-show="index == 0 || list.childshow == 1">
+													<a style="display: block;width: 100%;"><span class="color">{{childlist.uname}}</span><span class="color" v-if="childlist.cname" style="font-weight: normal;"><span style="color: #333;"> 回复</span> {{childlist.cname}}</span><span>：{{childlist.content}}</span></a>
+													 
+												</li> 
+											</ul>
+											<div class="circle-i-more color" v-if="list.childnums > 1">共{{list.childnums}}条回复 ></div>
+										</div>
+									</div>
+								</li>
+								<!--<li class="circle-c-list f-cb">
+									<div class="circle-my-ava fl"><img src="" alt="" width="100%" height="100%" /></div>
+									<div class="circle-my-info fr circle-i-info">
+										<div class="circle-my-name">阿特人</div>
+										<div class="circle-hot-time">02-06 21:00 </div>
+										<div class="circle-my-content">下面是健身圈最火的一组图片简单科学的告诉你 究竟怎么练</div>
+										<div class="circle-i-req">
+											<ul>
+												<li class="mui-table-view-cell"><a><span class="color">张三：</span>好像很有道理的样子</a></li>
+												<li class="mui-table-view-cell"><a><span class="color">张三：</span><span class="color">回复@小张：</span>好像很有道理的样子好像很有道理的样子好像很有道理的样子好像很有道理的样子</a></li>
+											</ul>
+											<div class="circle-i-more color">共10条回复 ></div>
+										</div>
+									</div>
+								</li>-->
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="circle-comment-box">
+				<input type="text" class="circle-comment-input" id="comment_input" placeholder="评论" v-model="content"/>
+				<div class="circle-comment-buttom" style="color: #4cb6ff;">发表</div>
+			</div>
+			<div id="sheet1" class="mui-popover mui-popover-bottom mui-popover-action ">
+				<!-- 可选择菜单 -->
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell" id="delete_comment">
+						<a href="#">删除评论</a>
+					</li>
+				</ul>
+				<!-- 取消菜单 -->
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+						<a href="#sheet1"><b>取消</b></a>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<script src="js/mui.min.js"></script>
+		<script src="js/mui.zoom.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.previewimage.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.pullToRefresh.js" type="text/javascript" charset="utf-8"></script> 
+		<script src="js/mui.pullToRefresh.material.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/public.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/share.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/circle-info.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+
+</html>

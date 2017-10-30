@@ -1,0 +1,377 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="static/css/public.css" />
+		<link rel="stylesheet" href="static/css/popup.css" />
+		<link rel="stylesheet" href="static/css/demand-release.css" />
+		<link rel="stylesheet" href="css/mui.picker.min.css" />
+		<link rel="stylesheet" type="text/css" href="http://at.alicdn.com/t/font_jvm4xvesuivn29.css"/>
+	</head>
+
+	<body>
+		<div class="mui-scroll-wrapper" id="app">
+			<div class="head-nave f-cb" style="position: absolute;width: 100%;background: #2ca8fe;">
+				<div class="head-nave-return mui-action-back fl iconfont" style="color: #fff;background: none;">&#xe612;</div>
+				<div class="head-nave-cap" style="color: #fff;">需求</div>
+				<div class="head-nave-enter fr" style="color: #fff;">发布</div>
+			</div>
+
+			<div class="mui-scroll" style="height: 100%;padding-top: 0.88rem;">
+				<div style="width: 100%;height: 100%;overflow-y: auto;">
+					<div class="release-form bgfff">
+						<div class="form-group f-cb">
+							<label class="fl">需求类型</label>
+							<select class="form-select tar fr" id="demandType">
+								<option value="">请选择类型</option>
+								<option v-for="item in items" :value="item.id">{{item.title}}</option>
+							</select>
+						</div>
+						<div class="form-group f-cb">
+							<label class="fl">需求描述</label>
+							<textarea class="form-textarea" name="intro"></textarea>
+						</div>
+						<div v-show="state.many" class="form-group f-cb">
+							<label class="fl">悬赏价格</label>
+							<div class="form-many fr">
+								<input type="text" class="form-input fl" name="min_money" placeholder="价格" onkeyup="value=value.replace(/[^\d]/g,'')">
+								<span class="fl">-</span>
+								<input type="text" class="form-input fl" name="max_money" placeholder="价格" onkeyup="value=value.replace(/[^\d]/g,'')">
+								<span class="fl">元</span>
+							</div>
+						</div>
+						<div v-show="state.time" class="form-group f-cb">
+							<label class="fl">报名截止时间</label>
+							<input type="text" id="selTime" class="form-input fr" name="end_time" :value="time">
+						</div>
+					</div>
+					<div v-show="state.imgList" class="form-img f-cb bgfff">
+						<div class="item" v-for="item in imgList" :data-id="item.id" :style="{backgroundImage:'url('+item.url+')'}"><span></span></div>
+						<div class="item add">添加图片
+							<div class="add" id="imgAdd"></div>
+						</div>
+						<p></p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script src="js/jquery-2.1.0.min.js"></script>
+		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="static/plupload/plupload.full.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+		</script>
+		<script src="js/mui.pullToRefresh.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.pullToRefresh.material.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.picker.min.js"></script>
+		<script src="static/js/public.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/demand-release.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			mui.ready(function() {
+				var date = new Date();
+				var y = date.getFullYear();
+				var m = date.getMonth() + 1;
+				var d = date.getDate();
+				var h = date.getHours();
+				var mm = date.getMinutes();
+
+				if(m < 10) m = '0' + m;
+				if(d < 10) d = '0' + d;
+				if(h < 10) h = '0' + h;
+				if(mm < 10) mm = '0' + mm;
+
+				var sign = {
+					token: '',
+					id: '',
+					pid: '',
+					intro: '',
+					min_money: '',
+					max_money: '',
+					photos: '',
+					end_time: ''
+				};
+				var vm = new Vue({
+					el: '#app',
+					data: {
+						state: {
+							many: false,
+							time: false,
+							imgList: true
+						},
+						time: y + '-' + m + '-' + d + ' ' + h + ':' + mm,
+						items: [],
+						imgList: []
+					}
+				});
+
+				mui.plusReady(function() {
+					var _this = this;
+
+					mui.ajax({
+						url: URL.path + '/needs/get_category',
+						type: 'post',
+						dataType: 'json',
+						data: {
+							token: plus.storage.getItem('token')
+						},
+						success: function(res) {
+							if(res.returnCode == '200') {
+								vm.items = res.data;
+							} else if(res.returnCode == '401') {
+								unLoginComfirm();
+							}
+						}
+					});
+
+					//选择分类
+					mui('body').on('change', '#demandType', function() {
+						var selVal = $(this).val();
+
+						mui.ajax({
+							url: URL.path + '/needs/get_parent',
+							type: 'post',
+							dataType: 'json',
+							data: {
+								token: plus.storage.getItem('token'),
+								id: selVal
+							},
+							success: function(res) {
+								console.log(res);
+								if(res.returnCode == '200') {
+									_this.readyCont(res.data);
+									sign.id = res.data.id;
+									sign.pid = res.data.pid;
+								} else if(res.returnCode == '401') {
+									unLoginComfirm();
+								}
+							}
+						});
+					});
+
+					_this.readyCont = function(res) {
+
+						switch(res.pid) {
+							case '30': //悬赏
+								vm.state = {
+									many: true,
+									time: false,
+									imgList: true
+								};
+								break;
+							case '31': //活动
+								vm.state = {
+									many: false,
+									time: true,
+									imgList: true
+								};
+								break;
+							case '32': //需求对接
+								vm.state = {
+									many: false,
+									time: false,
+									imgList: true
+								};
+								break;
+						}
+					};
+
+					//图片上传
+					_this.upImg = function(othis) {
+						var container = mui(".form-img > p");
+
+						var uploader = new plupload.Uploader({
+							runtimes: 'html5',
+							browse_button: othis[0], // you can pass in id...
+							url: URL.path + '/upload/photo',
+							file_data_name: 'upload_file',
+							multipart_params: {
+								terminalNo: '3'
+							},
+							resize: {
+								width: '640'
+							},
+							filters: {
+								//                        max_file_size: '5mb', //最大上传文件大小（格式100b, 10kb, 10mb, 1gb）
+								mime_types: [ //允许文件上传类型
+									{
+										title: "files",
+										extensions: "png,bmp,gif,jpg,jpeg"
+									}
+								]
+							},
+							multi_selection: false, //true:ctrl多文件上传, false 单文件上传
+							init: {
+								PostInit: function() {
+
+								},
+								FilesAdded: function(up, files) {
+									if(vm.imgList.length < 9) {
+
+										if(vm.imgList.length == 8) {
+											$('.item.add').fadeOut();
+										}
+										//上传文件
+										uploader.start();
+										container.progressbar({
+											progress: 0
+										}).show();
+									} else {
+										mui.toast('最多上传9张图片');
+									}
+								},
+								UploadProgress: function(up, file) { //上传中，显示进度条
+									var percent = file.percent;
+
+									container.progressbar().setProgress(percent);
+									if(percent == 100) {
+										container.progressbar().hide();
+									}
+								},
+								FileUploaded: function(up, file, info) { //文件上传成功的时候触发
+									var res = JSON.parse(info.response);
+
+									if(res.returnCode == '200') {
+										console.log(res);
+										vm.imgList.push(res.data);
+									} else if(res.returnCode == '401') {
+										unLoginComfirm();
+									}
+
+								},
+								Error: function(up, err) { //上传出错的时候触发
+
+								}
+							}
+						});
+						uploader.disableBrowse()
+						//在实例对象上调用init()方法进行初始化
+						uploader.init();
+					};
+					_this.upImg($('#imgAdd'));
+
+					//时间选择
+					mui('body').on('tap', '#selTime', function() {
+						var othis = $(this);
+						var picker = new mui.DtPicker();
+
+						picker.show(function(rs) {
+							var _date = new Date(rs.text);
+
+							if(Date.parse(_date) <= Date.parse(date)) {
+								mui.toast('截至时间不能小于当前时间');
+							} else {
+								vm.time = rs.text;
+							}
+							picker.dispose();
+						});
+					});
+
+					//					mui('.mui-scroll-wrapper').scroll({
+					//						indicators: false
+					//					});
+
+					//删除图片
+					mui('body').on('tap', '.form-img>.item>span', function() {
+						var id = $(this).parent().attr('data-id');
+
+						if(vm.imgList.length == 9) $('.item.add').fadeIn();
+
+						for(var i = 0; i < vm.imgList.length; i++) {
+
+							if(vm.imgList[i].id == id) {
+								vm.imgList.splice(i, 1);
+							}
+						}
+					});
+
+					//发布
+					var T_enter = true;
+					mui('body').on('tap', '.head-nave-enter', function() {
+						sign.token = plus.storage.getItem('token');
+
+						document.activeElement.blur();
+
+						//生成图片字符串
+						for(var i = 0; i < vm.imgList.length; i++) {
+							if(i == 0) {
+								sign.photos = vm.imgList[i].id;
+							} else {
+								sign.photos += ',' + vm.imgList[i].id;
+							}
+						}
+
+						sign.intro = $('textarea[name=intro]').val();
+						sign.min_money = $('input[name=min_money]').val();
+						sign.max_money = $('input[name=max_money]').val();
+						sign.end_time = Date.parse(new Date($('input[name=end_time]').val().replace(/-/g, '/'))) / 1000;
+
+						//                GO('demand-pay');
+
+						if(T_enter) {
+							T_enter = false;
+							mui.ajax({
+								url: URL.path + '/needs/create_needs',
+								type: 'post',
+								dataType: 'json',
+								data: sign,
+								success: function(res) {
+
+									if(res.returnCode == '200') {
+										var msg = res.msg;
+										var url = 'demand-info';
+
+										mui.toast(msg);
+										if(res.data.pid == 30) {
+											msg += '前往支付';
+											url = 'demand-pay';
+
+											close_page('demand-info.html');
+
+											setTimeout(function() {
+												res.data['closePage'] = 'demand-release.html';
+												GO(url, res.data);
+											}, 200);
+
+										} else {
+											close_page('demand-info.html');
+
+											setTimeout(function() {
+												GO(url, {
+													sign: res.data.need_id,
+													closePage: 'demand-release.html'
+												});
+											}, 200);
+
+										}
+									} else if(res.returnCode == '401') {
+										unLoginComfirm();
+									} else {
+										mui.toast(res.msg);
+										T_enter = true;
+									}
+								}
+							});
+						}
+					});
+
+					var old_back = mui.back;
+					mui.back = function() {
+						$('textarea').blur();
+						mui.confirm(' ', '是否退出编辑', ['否', '是'], function(e) {
+							if(e.index == 1) {
+								close_page('demand-release.html', 'slide-out-right');
+							}
+						}, 'div');
+					}
+				});
+			});
+		</script>
+	</body>
+
+</html>

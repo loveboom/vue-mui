@@ -1,0 +1,634 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="static/css/public.css" />
+		<link rel="stylesheet" href="static/css/demand.css" />
+		<link rel="stylesheet" href="static/css/circle.css">
+		<link rel="stylesheet" type="text/css" href="http://at.alicdn.com/t/font_jvm4xvesuivn29.css"/>
+		<style>
+			.mui-fullscreen {
+				top: 44px;
+				bottom: 0 !important;
+			}
+			.mui-active{
+				color: #4cb6ff !important;
+			}
+		</style>
+	</head>
+
+	<body style="background: #f4f4f4;">
+		<header class="mui-bar mui-bar-nav bb" style="box-shadow: none;background: #2ca8fe;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left iconfont" style="background: none;color: #fff;font-size: 0.4rem;">&#xe612;</a>
+			<h1 class="mui-title" style="color: #fff;"></h1>
+		</header>
+		<div class="mui-slider mui-fullscreen" id="slider" style="bottom: 51px;">
+			<div id="sliderSegmentedControl" class="demand-header mui-slider-indicator mui-segmented-control mui-segmented-control-inverted" style="overflow: visible;width: 100%;overflow: hidden;">
+				<a class="mui-control-item mui-active demand-header-market" href="#item1mobile" style="overflow: visible;width: 50%;float: left;">
+					所有圈子
+				</a>
+				<a class="mui-control-item demand-header-market" href="#item2mobile" style="overflow: visible;width: 50%;float: left;">
+					市场需求
+				</a>
+			</div>
+			<div class="mui-slider-group">
+				<div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
+					<div class="mui-scroll-wrapper" id="scroll_1">
+						<div class="mui-scroll" id="my">
+							<ul class="demand-my-ul">
+								<li :class="['circle-my-list','f-cb',list.c_type==1 || (list.c_type == 2 && list.rid != 0)?'link-circle':'',(list.c_type==2&&list.rid == 0)?'link-article':'',list.c_type==3?'link-topic':'']" v-for="list in my.comments" :data-id="list.id" :data-tid="list.t_id" :data-type="list.c_type">
+									<div class="circle-my-ava fl por">
+										<a class="swipebox" :style="{backgroundImage:'url('+list.headimg+')'}"></a>
+									</div>
+									<div class="circle-my-info fr">
+										<div class="circle-my-name"><span class="personal" :data-id="list.uid">{{list.uname}}</span></div>
+										<div class="circle-my-title fw" v-if="list.c_type == 2 && list.rid == 0">{{list.title}}</div>
+										<div class="circle-my-topic" v-if="list.c_type == 3">关注了<span class="color">#{{list.title}}#</span></div>
+										<div class="circle-my-content"><span v-html="list.rid == 0?list.content:list.r_content"></span><span class="circle-my-others" v-for="rcon in list.r_content1">//<span class="color personal" :data-id="rcon.uid">@{{rcon.uname}}：</span>{{rcon.r_content}}</span>
+										</div>
+										<div class="circle-my-imgul f-cb" v-if="list.c_type == 1 &&  list.circle_photo">
+											<ul class="mui-zoom-wrapper">
+												<li class="circle-my-imgli" v-for="img in list.circle_photo">
+													<!--<img :src="img" alt="" width="100%" height="100%" data-preview-src="" :data-preview-group="list.id"/>-->
+													<a class="swipebox" :src="img" data-preview-src="" :data-preview-group="list.id" :style="{backgroundImage:'url('+img+')'}"></a>
+												</li>
+												<!--<li class="circle-my-imgli"><img src="" alt="" width="100%" height="100%" /></li>-->
+											</ul>
+										</div>
+										<div :class="['circle-my-fdcontent',list.content.c_type==1?'link-circle':'',list.content.c_type==2?'link-article':'',list.content.c_type==3?'link-topic':'',list.content.deleted == 1?'cant':'']" :data-id="list.t_id" :data-tid="list.content.t_id" v-if="(list.c_type == 1 || list.c_type == 2) && list.rid != 0">
+											<div class="circle-my-fd-title" v-if="list.content.c_type == 2">{{list.content.title}}</div>
+											<div class="circle-my-content" v-if="list.content.c_type == 2">{{list.content.content}}</div>
+											<div class="circle-my-fd-info" v-if="list.content.c_type == 1&&list.content"><span class="color personal" :data-id="list.content.uid" v-if="list.content.uname">@{{list.content.uname}}：</span>{{list.content.content}}</div>
+											<div class="circle-my-fd-info"></div>
+											<div class="circle-my-fd-imgul f-cb" v-if="list.content.c_type == 1 && list.content.circle_photo">
+												<ul>
+													<li class="circle-my-fd-imgli" v-for="img in list.content.circle_photo">
+														<!--<img :src="img" alt="" width="100%" height="100%" data-preview-src="" :data-preview-group="list.t_id+list.id"/>-->
+														<a class="swipebox" :src="img" data-preview-src="" :data-preview-group="list.t_id+list.id" :style="{backgroundImage:'url('+img+')'}"></a>
+													</li>
+													<!--<li class="circle-my-fd-imgli"><img src="" alt="" width="100%" height="100%" /></li>
+														<li class="circle-my-fd-imgli"><img src="" alt="" width="100%" height="100%" /></li>-->
+												</ul>
+											</div>
+										</div>
+										<div class="circle-my-state f-cb" v-if="list.c_type == 1 || list.c_type == 2">
+											<div class="circle-my-s-forward fl">
+												<span>{{list.repeats}}</span>
+											</div>
+											<div :class="['circle-my-s-comment','fl',list.is_can == 0?'br':'']">
+												<span>{{list.comments}}</span>
+											</div>
+											<div class="circle-my-s-delete fl" v-if="list.is_can == 0">
+												<span></span>
+											</div>
+										</div>
+										<div class="circle-my-t-state f-cb" v-if="list.c_type == 3">
+											<div class="circle-my-t-s-forward fl">关注{{list.is_concern}}</div>
+											<div class="circle-my-t-s-comment fl">评论{{list.comments}}</div>
+											<div class="circle-my-t-s-follow fr" v-if="list.is_concern == 1"></div>
+											<div class="circle-my-t-s-followed fr" v-else></div>
+										</div>
+										<div class="circle-my-area">
+											<span class="circle-my-time">{{list.cre_time}}</span>
+											<span>{{list.locations}}</span>
+										</div>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div id="item2mobile" class="mui-slider-item mui-control-content">
+					<div class="mui-scroll-wrapper" id="scroll_2">
+						<div class="mui-scroll" id="app_2">
+							<div class="circle-withoutlogin-box" v-if="islogin==0">
+								<div class="circle-wo-icon"></div>
+								<div class="circle-wo-tit">暂未登录</div>
+								<div class="circle-wo-tips">您登录后才可以看到需求里的<br />精彩内容哦</div>
+								<div class="circle-wo-btn signin">登录/注册</div>
+							</div>
+							<!--<div class="not-cont" v-if="islogin">
+								<div class="not-cont-cap">暂无内容</div>
+								<div class="not-cont-tit">您可以前往发布更多精彩 <br>的内容哦</div>
+								<div class="not-cont-btn" style="color: #4cb6ff;border-color: #4cb6ff;">发布</div>
+							</div>-->
+							<ul class="demand-mk-ul" v-if="islogin">
+								<li class="demand-my-li" v-for="item in items" :data-id="item.id" :data-isMe="item.is_me" :data-isClaim="item.is_claim">
+									<div class="demand-my-money orange f-cb" v-if="item.type==1">
+										<span class="orange-block fl">悬赏</span>
+										<span class="fl">&nbsp;&nbsp;￥{{item.min_money+'-'+item.max_money}}</span>
+									</div>
+									<div class="demand-my-info">{{item.intro}}</div>
+									<div class="demand-my-bot f-cb">
+										<div class="blue-block fl mr32">{{item.category}}</div>
+										<div class="demand-up fl">{{item.claim_nums}}</div>
+										<div class="demand-wh fl">{{item.views}}</div>
+
+										<div class="demand-my-notPay fr" v-if="item.claim_status==0">待支付</div>
+										<div class="demand-my-time fr" v-if="item.claim_status==1&&item.time!=0">
+											<span class="demand-my-time-num color h">{{item.time.h}}</span> 小时
+											<span class="demand-my-time-num color m">{{item.time.m}}</span> 分
+											<span class="demand-my-time-num color s">{{item.time.s}}</span> 秒
+										</div>
+										<div class="demand-my-wait fr" v-if="item.claim_status==2">待指派</div>
+										<div class="demand-my-apply fr" v-if="item.claim_status==3">申领佣金</div>
+										<div class="demand-my-com fr" v-if="item.claim_status==4">确认并评价</div>
+										<div class="demand-my-end fr" v-if="item.claim_status==5">任务结束</div>
+										<div class="demand-my-close fr" v-if="item.claim_status==6">已撤销</div>
+										<div class="demand-my-close fr" v-if="item.claim_status==7">任务关闭</div>
+									</div>
+								</li>
+
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script src="js/jquery-2.1.0.min.js"></script>
+		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/mui.pullToRefresh.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.pullToRefresh.material.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			window["SCHEMETYPE"] = "http";
+		</script>
+		<script src="https://cdn.ronghub.com/RongIMLib-2.2.5.min.js"></script>
+		<script src="static/js/public.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/moment.min.js" type="text/javascript" charset="utf-8"></script>
+		<!--<script src="static/js/demand.js" type="text/javascript" charset="utf-8"></script>-->
+		<script>
+			mui.init();
+
+			var vm = new Vue({
+				el: '#my',
+				data: {
+					my: [],
+					mypage: 1,
+				}
+			})
+
+			mui.ready(function() {
+
+				mui.plusReady(function() {
+					vm.token = plus.storage.getItem('token');
+					var web = plus.webview.currentWebview();
+					
+					document.querySelector(".mui-title").innerHTML = web.name + ' 动态';
+					var deceleration = mui.os.ios ? 0.003 : 0.0009;
+					var circle = {
+						init: function() {
+							circle.myajaxfirst(); //第一次我的圈子详情加载  带判断状态
+							circle.deleteCircle(); //删除圈子或长文章
+							circle.bind();
+						},
+						setIndex: function() {
+							var n = document.querySelectorAll(".circle-my-list");
+							for(var i = 0; i < n.length; i++) {
+								n[i].index = i;
+							}
+						},
+						muiScroll: function() { //mui滚动初始化
+							mui('#scroll_1').scroll({
+								bounce: false,
+								indicators: true, //是否显示滚动条
+								deceleration: deceleration
+							});
+						},
+						muiMyInit: function() { //mui我的圈子初始化
+							mui('#my').pullToRefresh({
+								up: {
+									callback: circle.myUp,
+									contentrefresh: "正在加载...",
+									contentnomore: '没有更多数据了',
+								},
+								down: {
+									callback: circle.myDown,
+								}
+							})
+						},
+						myajax: function(type) { //我的圈子ajax
+							if(type == 'up') {
+								vm.mypage++;
+							} else {
+								vm.mypage = 1;
+							}
+							mui.ajax({
+								url: URL.path + '/circle/company_state',
+								type: 'post',
+								data: {
+									page: vm.mypage,
+									token: vm.token,
+									terminalNo: '3',
+									type:'1',
+									cid:web.cid
+								},
+								success: function(data) {
+									if(data.returnCode == 200) {
+										if(type == 'up') {
+											if(data.data.length == 0) {
+												setTimeout(function() {
+													mui('#my').pullToRefresh().endPullUpToRefresh(true);
+												}, 800)
+											} else {
+												//alert(JSON.stringify(vm.my)) 
+												vm.my.comments = vm.my.comments.concat(data.data.comments);
+												mui('#my').pullToRefresh().endPullUpToRefresh(false);
+											}
+										} else {
+											vm.my = data.data;
+											mui('#my').pullToRefresh().endPullDownToRefresh();
+											mui('#my').pullToRefresh().refresh(true);
+										}
+										vm.$nextTick(function() {
+											mui.previewImage();
+											circle.setIndex();
+										})
+
+									} else {
+										if(data.returnCode == 401) {
+											unLoginComfirm();
+										} else {
+											mui.toast(data.msg)
+										}
+									}
+								}
+							})
+						},
+						myajaxfirst: function() { //第一次我的圈子详情加载  带判断状态
+
+							mui.ajax({
+								url: URL.path + '/circle/company_state',
+								type: 'post',
+								data: {
+									page: '1',
+									token: vm.token,
+									terminalNo: '3',
+									type:'1',
+									cid:web.cid
+								},
+								success: function(data) {
+									if(data.returnCode == 200) {
+										if(data.data.length == 0) {
+											//mui('#my').pullToRefresh().endPullUpToRefresh(true);
+										} else {
+											vm.my = data.data;
+											vm.$nextTick(function() {
+												circle.muiScroll();
+												circle.muiMyInit();
+												mui.previewImage();
+												circle.setIndex();
+											})
+										}
+									} else {
+										if(data.returnCode == 401) {
+											unLoginComfirm();
+										} else {
+											mui.toast(data.msg)
+										}
+									}
+								},
+								error: function(xhr, type, errorThrown) {
+									//异常处理；
+									console.log(type);
+								}
+							})
+						},
+						myUp: function() { //我的圈子上拉加载更多	
+							circle.myajax('up');
+						},
+						myDown: function() { //我的圈子下拉刷新
+							circle.myajax('down');
+						},
+						bind: function() {
+							mui("body").on('tap', '.link-circle', function(e) { //跳转圈子
+
+								e.stopPropagation();
+								if(this.classList.contains('cant')) {
+									mui.toast('该圈子已经被删除');
+									return;
+								}
+								var id = this.getAttribute('data-id');
+								mui.openWindow({
+									url: 'circle-info.html',
+									id: 'circle-info.html',
+									extras: {
+										cid: id
+									}
+								})
+							})
+							mui("body").on('tap', '.link-article', function(e) { //跳转长文章
+								e.stopPropagation();
+								if(this.classList.contains('cant')) {
+									mui.toast('该圈子已经被删除');
+									return;
+								}
+								var id = this.getAttribute('data-tid');
+								//优化加载
+								var nwaiting = plus.nativeUI.showWaiting();
+								var webviewShow = plus.webview.create('circle-article-info.html', 'circle-article-info.html', { top: '0px', bottom: '0px' }, { cid: id });
+							})
+						},
+						deleteCircleAjax: function(url, id, index, parent) { //删除圈子 或者长文章 ajax
+							mui.ajax({
+								url: url,
+								type: 'post',
+								data: {
+									rid: id,
+									token: vm.token,
+									terminalNo: '3',
+								},
+								success: function(data) {
+									if(data.returnCode == 200) {
+										mui.toast('删除成功');
+										//vm.my.comments.splice(index, index + 1);
+										parent.remove();
+										mui('#my').pullToRefresh().pullDownLoading();
+										mui('#hot').pullToRefresh().pullDownLoading();
+									} else {
+										if(data.returnCode == 401) {
+											unLoginComfirm();
+										} else {
+											mui.toast(data.msg)
+										}
+									}
+								}
+							})
+						},
+						deleteCircle: function() { //删除圈子 或者长文章
+							mui('body').on('tap', '.circle-my-s-delete', function(e) {
+								e.stopPropagation();
+								var _this = this;
+								mui.confirm(' ', '确认删除', ['确认', '取消'], function(res) {
+									if(res.index == 0) {
+										var parent = _this.parentNode.parentNode.parentNode;
+										//								if(parent.classList.contains('link-circle')) {
+										circle.deleteCircleAjax(URL.path + '/circle/delete_circle', parent.getAttribute('data-id'), parent.index, parent)
+										//								}
+										//								if(parent.classList.contains('link-article')) {
+										//									circle.deleteCircleAjax(URL.path + '/longarticle/delete_article', parent.getAttribute('data-id'), parent.index, parent)
+										//								}
+									}
+								})
+
+								//alert(parent.classList.contains(''))
+							})
+						},
+					}
+					circle.init();
+
+				})
+
+			})
+			mui.ready(function() {
+				var _this = this;
+				var timeArr = [];
+
+				var vm_2 = new Vue({
+					el: '#app_2',
+					data: {
+						items: [],
+						naveState: 1,
+						islogin: 1
+					},
+					updated: function() {
+						_this.refresh();
+						if(this.items.length) {
+							$('#app_2 .not-cont').removeClass('on');
+						} else {
+							$('#app_2 .not-cont').addClass('on');
+						}
+					}
+				});
+
+				mui.plusReady(function() {
+					var web = plus.webview.currentWebview();
+					console.log(web.cid,'cid');
+					var sign_2 = {
+						token: plus.storage.getItem('token'),
+						//cate_id: '',
+						//cate: 2,
+						page: 1,
+						type:'2',
+						cid:web.cid 
+					};
+//					alert(web.cid)
+					//市场需求
+					var app_2 = mui('#app_2').pullToRefresh({
+						down: {
+							callback: function() {
+
+								sign_2.page = 1;
+
+								_this.clearTime();
+								_this.getNeed(function(res) {
+									vm_2.items = res;
+									app_2.endPullDownToRefresh();
+								});
+							}
+						},
+						up: {
+							callback: function() {
+
+								sign_2.page += 1;
+
+								_this.clearTime();
+								_this.getNeed(function(res) {
+									if(res.length) {
+										for(var i = 0; i < res.length; i++) {
+											vm_2.items.push(res[i]);
+										}
+										console.log(vm.items);
+										app_2.endPullUpToRefresh()
+									} else {
+										app_2.endPullUpToRefresh(true);
+									}
+
+								});
+							}
+
+						}
+					});
+					mui('body').on('tap', '#naveMarket>div', function() {
+						var val = $(this).attr('data-val');
+						sign_2.cate = val;
+						sign_2.page = 1;
+						sign_2.ids = '';
+
+						$('#app_2').css('transform', '');
+						$('.float-screen-list>li').removeClass('on');
+
+						_this.getNeed(function(res) {
+							vm_2.items = res;
+						});
+					});
+
+					//获得市场需求
+					_this.getNeed = function(fun) {
+						app_2.refresh(true);
+						mui.ajax({
+							url: URL.path + '/circle/company_state',
+							type: 'post',
+							dataType: 'json',
+							data: sign_2,
+							success: function(res) {
+								if(res.returnCode == '200') {
+//									alert(JSON.stringify(res.data))
+									for(var i = 0; i < res.data.length; i++) {
+										var t = parseInt(res.data[i].countdown) - parseInt(res.data[i].now_time);
+
+										if(t > 0) {
+											res.data[i]['time'] = {
+												h: Math.floor(t / 60 / 60),
+												m: Math.floor(t / 60 % 60),
+												s: Math.floor(t % 60)
+											};
+										} else {
+											res.data[i]['time'] = 0;
+										}
+									}
+
+									if(typeof fun === 'function') return fun(res.data);
+								} else if(res.returnCode == '401') {
+									//									unLoginComfirm();
+									vm_2.islogin = 0;
+									$('.mui-pull-bottom-tips').fadeOut();
+								}
+							}
+						});
+					};
+
+					//刷新倒计时
+					_this.refresh = function() {
+
+						$('.demand-my-li').each(function() {
+							var othis = $(this).find('.demand-my-time');
+
+							if(othis.length) {
+
+								timeArr[timeArr.length] = setInterval(function() {
+
+									var h = parseInt(othis.find('.h').text());
+									var m = parseInt(othis.find('.m').text());
+									var s = parseInt(othis.find('.s').text());
+
+									s -= 1;
+
+									//s
+									if(s == -1) {
+										s = 59;
+										if(m != 0) m -= 1;
+									}
+									//m
+									if(m == 0) {
+										if(h != 0) {
+											m = 59;
+											h -= 1;
+										}
+									}
+
+									//整理格式
+									if(s < 10) s = '0' + s;
+									if(m < 10) m = '0' + m;
+									if(h < 10) h = '0' + h;
+
+									othis.find('.h').text(h);
+									othis.find('.m').text(m);
+									othis.find('.s').text(s);
+
+									//停止计时器
+									if(s == 0 && m == 0 && h == 0) clearInterval(timeArr[timeArr.length]);
+
+								}, 1000);
+							}
+						});
+					};
+					_this.clearTime = function() {
+						for(var i = 0; i < timeArr.length; i++) {
+							clearInterval(timeArr[i]);
+						}
+					};
+
+					//监听选项卡切换
+					document.getElementById('slider').addEventListener('slide', function(e) {
+
+						switch(e.detail.slideNumber) {
+							case 0:
+								
+								break;
+							case 1:
+								sign_2.page = 1;
+								sign_2.cate = 2;
+								$('.float-release-box').removeClass('on');
+								$('.float-sel-box').addClass('on');
+								_this.getNeed(function(res) {
+									console.log(res,'res')
+									vm_2.items = res;
+								});
+								break;
+						}
+					});
+
+					mui('#scroll_2').scroll({
+						bounce: false,
+						indicators: true //是否显示滚动条
+					});
+
+					//跳转内页 我的
+					mui('#item1mobile').on('tap', '.demand-my-li', function() {
+						var id = $(this).attr('data-id');
+
+						GO('demand-info', {
+							sign: id
+						}, true)
+					});
+
+					//跳转内页 市场
+					mui('#item2mobile').on('tap', '.demand-my-li', function() {
+						var id = $(this).attr('data-id');
+						var isMe = parseInt($(this).attr('data-isMe'));
+						var isClaim = parseInt($(this).attr('data-isClaim'));
+
+						if(isMe == 1 || isClaim == 1) {
+							GO('demand-info', {
+								sign: id
+							}, true)
+						} else {
+							GO('demand-infos', {
+								sign: id
+							}, true)
+						}
+					});
+
+					//发布
+					mui('body').on('tap', '.float-release-box,.not-cont-btn', function() {
+						GO('demand-release', {}, true)
+					});
+
+					mui('body').on('tap', '#nav_home', function() {
+						GO('home', {}, true)
+					});
+					mui('body').on('tap', '#nav_circle', function() {
+						GO('circle', {}, true)
+					});
+					mui('body').on('tap', '#nav_demand', function() {
+						GO('demand', {}, true)
+					});
+					mui('body').on('tap', '#nav_my', function() {
+						GO('my', {}, true)
+					});
+					mui('body').on('tap', '.signin', function() {
+						GO('signin')
+					})
+				});
+
+			});
+		</script>
+	</body>
+
+</html>

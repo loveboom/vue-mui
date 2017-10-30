@@ -1,0 +1,215 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="static/css/public.css" />
+		<link rel="stylesheet" href="static/css/my.css" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background: #2ca8fe;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title" style="color: #fff;">充值</h1>
+		</header>
+		<div class="mui-content">
+			<div class="my-line" style="margin: .1rem 0;">
+				<div class="my-line-left">充值方式</div>
+				<div class="my-line-right">
+					<select name="type" class="report-select" id="report-select">
+						<option value="alipay">支付宝</option>
+						<option value="wxpay">微信</option>
+					</select>
+					<div class="mui-icon mui-icon-arrowdown"></div>
+				</div>
+			</div>
+			<div class="recharge-box">
+				<div class="recharge-tit">充值金额</div>
+				<div class="recharge-input-box">
+					<div class="recharge-icon">￥</div>
+					<input type="text" class="recharge-input" name="many" value="" onkeyup="value=value.replace(/[^\d]/g,'')" />
+				</div>
+			</div>
+			<div class="btn">充值</div>
+		</div>
+
+		<script src="js/jquery-2.1.0.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="static/js/public.js"></script>
+		<script>
+			mui.init();
+			mui.ready(function() {
+				mui.plusReady(function() {
+					var self = plus.webview.currentWebview();
+
+					close_page('recharge-fail.html');
+					close_page('recharge-success.html');
+				
+					var T_pay = true;
+
+					var main = {
+						data: {
+							pays: {},
+							many: null,
+							type: null
+						},
+						getChannels: function() {
+							var _this = this;
+							//获取支付通道
+							plus.payment.getChannels(function(channels) {
+
+								for(var i in channels) {
+									var channel = channels[i];
+									if(channel.id == 'qhpay' || channel.id == 'qihoo') { // 过滤掉不支持的支付通道：暂不支持360相关支付
+										continue;
+									}
+									_this.data.pays[channel.id] = channel;
+//									$('.report-select').append('<option value="' + channel.id + '">' + channel.description + '</option>');
+									_this.checkServices(channel);
+								}
+
+							}, function(e) {
+								mui.toast('获取支付通道失败：' + e.message);
+							});
+						},
+						checkServices: function(pc) {
+							// 检测是否安装支付服务
+							if(!pc.serviceReady) {
+								var txt = null;
+								switch(pc.id) {
+									case 'alipay':
+										txt = '检测到系统未安装“支付宝快捷支付服务”，无法完成支付操作，是否立即安装？';
+										break;
+									default:
+										txt = '系统未安装“' + pc.description + '”服务，无法完成支付，是否立即安装？';
+										break;
+								}
+								plus.nativeUI.confirm(txt, function(e) {
+									if(e.index == 0) {
+										pc.installService();
+									}
+								}, pc.description);
+							}
+						},
+						get_order: function(fun) {
+							var _this = this;
+
+							var type = null;
+
+							if(_this.data.type == 'alipay') {
+								type = 2;
+							} else if(_this.data.type == 'wxpay') {
+								type = 1;
+							}
+
+							mui.ajax({
+								url: URL.path + '/pay/recharge',
+								type: 'post',
+								data: {
+									token: plus.storage.getItem('token'),
+									terminalNo: 3,
+									money: _this.data.many,
+									type: type
+								},
+								success: function(res) {
+									return fun(res.data);
+								},
+								error: function() {
+									T_pay = true;
+									mui.toast('获取订单信息失败!');
+								}
+							})
+
+						},
+						pay: function(fun) {
+							var _this = this;
+
+							_this.get_order(function(re) {
+
+								var payUrl = '';
+								var data = {};
+
+								if(_this.data.type == 'alipay') {
+									//支付宝
+									payUrl = URL.path + '/pay/AliSign';
+									//									payUrl = 'http://192.168.2.83:8086/api/pay/AliSign';
+									data = {
+										token: plus.storage.getItem('token'),
+										trade_no: re.order_no,
+										amount: _this.data.many,
+										subject: '充值订单'
+									};
+								} else if(_this.data.type == 'wxpay') {
+									//微信
+									payUrl = URL.path + '/wxpay/get_wxsign';
+									//									payUrl = 'http://demo.dcloud.net.cn/helloh5/payment/wxpay.php?total=10';
+									data = {
+										token: plus.storage.getItem('token'),
+										trade_no: re.order_no,
+										amount: _this.data.many,
+										subject: '充值订单'
+									};
+								}
+
+								mui.ajax({
+									url: payUrl,
+									type: 'post',
+									data: data,
+									success: function(res) {
+										//										res = 'service="mobile.securitypay.pay"&partner="2088621674072393"&_input_charset="UTF-8"&out_trade_no="20170419200349"&subject="杭州华千科技有限公司"&payment_type="1"&seller_id="huaqianqr@163.com"&total_fee="0.1"&body="支付宝测试"&it_b_pay="1d"&notify_url="http%3A%2F%2Fdemo.dcloud.net.cn%2Fpayment%2Falipay%2Fnotify.php"&show_url="http%3A%2F%2Fwww.dcloud.io%2Fhelloh5%2F"&sign="ZPi4gxOMoEjaYNJ8IpWHc6jpaw0eCeRlS36QRjIHWkr5XcS5Tpc9aZFxUMEBNCFygcGPK3Bn%2FrKhH7o3Gbt7mt4nEQ81KSGZtjIUpcCy0kWcuQLhBs%2BOjnbgcdHcl0adrgD%2Fj7mr%2Byw%2BKPQqc7M%2BZ6bS1Affu4JrfULu%2FqoWA6Q%3D"&sign_type="RSA"';
+//										mui.toast('----- 请求订单成功 -----');
+//										mui.toast(res);
+//										
+										plus.payment.request(_this.data.pays[_this.data.type], res, function(result) {
+											return fun(result);
+										}, function(error) {
+											T_pay = true;
+
+//											mui.toast('[' + error.code + ']：' + error.message);
+
+											GO('recharge-fail', {
+												type: main.data.type,
+												many: main.data.many
+											});
+										});
+									},
+									error: function() {
+										T_pay = true;
+//										mui.toast('支付接口调取失败!');
+									}
+								});
+
+							});
+						}
+					}
+					main.getChannels();
+
+					//确认充值
+					mui('body').on('tap', '.btn', function() {
+						main.data.type = $('select[name=type]').val();
+						main.data.many = $('input[name=many]').val();
+
+						if(T_pay) {
+							if($.trim(main.data.many)) {
+								T_pay = false;
+								main.pay(function(res) {
+									//									mui.toast('支付成功');
+									GO('recharge-success', {
+										type: main.data.type,
+										many: main.data.many
+									});
+								});
+							} else {
+								mui.toast('请输入充值金额');
+							}
+						}
+					});
+				});
+			});
+		</script>
+	</body>
+
+</html>

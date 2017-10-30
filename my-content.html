@@ -1,0 +1,230 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="static/css/public.css" />
+		<link rel="stylesheet" href="static/css/demand.css" />
+		<link rel="stylesheet" type="text/css" href="http://at.alicdn.com/t/font_he2utwh0wspjh5mi.css"/>
+		<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			h1{
+				margin: 0;
+				font-weight: normal;
+			}
+			.header_qz{
+				width: 100%;height: 1rem;background-color: #2ca8fe;
+			}
+			.header_qz h1{
+				line-height:1rem;
+				font-size: 0.4rem;
+				text-align: center;
+				color: #fff;
+				font-weight: normal;
+			}
+			.header_nav{
+				width: 100%;
+				height: 0.9rem;
+				line-height: 0.9rem;
+				background: #fff;
+				border-bottom: 1px solid #eee;
+				display: flex;
+				display: -webkit-flex;
+			}
+			.header_nav a{
+				flex: 0.33;
+				padding: 0 0.2rem;
+				text-align: center;
+				color: #333;
+			}
+			.header_nav .mui-active{
+				color: #f4a136;
+			}
+			.header_nav a span{
+				font-size: 0.3rem;
+				padding: 0.24rem 0.15rem;
+			}
+			.header_nav .mui-active span{
+				border-bottom: 1px solid #f4a136;
+			}
+			.ly_list{
+				margin-top: 0.2rem;
+				padding: 0 0.2rem;
+				background: #fff;
+			}
+			.ly_list li h1{
+				padding: 0.28rem 0;
+				font-size: 0.34rem;
+				color: #333;
+			}
+			.ly_img{
+				width: 100%;
+				overflow: hidden;
+			}
+			.ly_img img{
+				display: block;
+				width: 100%;
+				height: auto;
+			}
+			.typeAA{
+				width: 100%;
+				margin-top: 0.16rem;
+				padding-bottom: 0.16rem;
+				overflow: hidden;
+			}
+			.typeAA a{
+				float: left;
+				width: 1.6rem;
+				height: 0.7rem;
+				line-height: 0.7rem;
+				color: #FFF;
+				font-size: 0.3rem;
+				text-align: center;
+				border-radius: 3px;
+			}
+			.typeAA .typeA{
+				background: #4cb6ff;
+			}
+			.typeAA .typeB{
+				background: #4cb6ff;
+			}
+			.typeAA .typeC{
+				background: #9e9e9e;
+			}
+			.state{
+				float: right;
+				line-height: 0.7rem;
+			}
+			.state span{
+				display: inline-block;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="main" v-clock>
+			<header class="mui-bar mui-bar-nav bb" style="box-shadow: none;background: #2ca8fe;">
+				<a class="iconfont mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="background:none;color: #fff;font-size: 0.4rem;">&#xe612;</a>
+				<h1 class="mui-title" style="color: #fff;">内容管理</h1>  
+			</header>
+			<!--<div class="header_qz" style="position: fixed;top: 0; z-index: 99;">
+				<h1>需求</h1>
+			</div>-->
+			<div class="mui-slider mui-fullscreen" style="top: 44px;">
+				<div id="sliderSegmentedControl" class="mui-segmented-control header_nav" style="overflow: visible;">
+					<a class="mui-control-item mui-active" href="#item1mobile" style="overflow: visible;">
+						<span class="">全部</span>
+						<!--<i style="width: .6rem;margin-left: -.3rem;"></i>-->
+					</a>
+					<a class="mui-control-item" href="#item2mobile" style="overflow: visible;">
+						<span class="">我的需求</span>
+						<!--<i></i>-->
+					</a>
+					<a class="mui-control-item" href="#item3mobile" style="overflow: visible;">
+						<span class="noboder">我的圈子</span>
+						<!--<i></i>-->
+					</a>
+				</div>
+				<div class="mui-slider-group" style="top: 1rem;">  
+					<div id="item1mobile" class="mui-slider-item mui-control-content mui-active" style="border-top:1px solid #ededed;">
+						<div class="mui-scroll-wrapper bgfff">
+							<div class="mui-scroll" id="all">
+								<ul class="my-content-ul">
+									<li :class="['my-content-li',all.cate == 1 && (all.c_type == 1 || (all.c_type == 2 && all.rid != 0))?'link-circle':'',all.cate == 1 && all.c_type == 2 && all.rid == 0?'link-article':'',all.cate == 1 && all.c_type == 3?'link-topic':'',all.cate == 2?'link-demand':'']" v-for="all in all" :data-tid="all.t_id" :data-id="all.nc_id" :data-dtype="all.is_me" :data-isClaim="all.is_claim">
+										<div class="my-content-time"><span class="my-content-time-day">{{all.day}}</span>{{all.month}}月</div>
+										<div> 
+											<div class="my-content-photo"> 
+												<div class="my-content-img" v-if="all.pics">
+													<a class="swipebox" :style="{backgroundImage:'url('+all.pics+')'}"></a>
+												</div>
+												<div class="mh-content-fr flex1">
+													<div class="mh-content-info">{{all.contents?all.contents:(all.content?all.content.title:'')}}</div> 
+													<!--<div class="mh-content-info">{{}}</div>-->
+													<div class="mh-content-num" v-if="all.pics_nums != 0">共{{all.pics_nums}}张</div>
+												</div> 
+											</div>
+											<div class="my-content-word" v-else>{{all.content.content?all.content.content:all.content.title}}</div>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div id="item2mobile" class="mui-slider-item mui-control-content" style="border-top:1px solid #ededed;">
+						<div class="mui-scroll-wrapper bgfff">
+							<div class="mui-scroll" id="demand"> 
+								<ul class="my-content-ul">
+									<li class="my-content-li link-demand" v-for="demand in demand" :data-id="demand.id" :data-dtype="demand.is_me" :data-isClaim="demand.is_claim">
+										<div class="my-content-time"><span class="my-content-time-day">{{demand.day}}</span> {{demand.month}}月</div>
+										<div>
+											<div class="my-content-photo" v-if="!demand.content">
+												<div class="my-content-img" v-if="demand.pics">
+													<a class="swipebox" :style="{backgroundImage:'url('+demand.pics+')'}"></a>
+												</div>
+												<div class="mh-content-fr flex1">
+													<div class="mh-content-info">{{demand.contents?demand.contents:demand.content.title}}</div> 
+													<div class="mh-content-num" v-if="demand.pics_nums != 0">共{{demand.pics_nums}}张</div>
+												</div> 
+											</div>
+											<div class="my-content-word" v-else>{{demand.content.content}}</div>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div id="item3mobile" class="mui-slider-item mui-control-content" style="border-top:1px solid #ededed;">
+						<div class="mui-scroll-wrapper bgfff">
+							<div class="mui-scroll" id="circle">
+								<ul class="my-content-ul"> 
+									<!--<li :class="['my-content-li',circle.cate == 1 && (circle.c_type == 1 || (circle.c_type == 2 && circle.rid != 0))?'link-circle':'',circle.cate == 1 && circle.c_type == 2 && circle.rid == 0?'link-article':'',circle.cate == 1 && circle.c_type == 3?'link-topic':'']" v-for="circle in circle" :data-tid="circle.t_id" :data-id="circle.id">
+										<div class="my-content-time"><span class="my-content-time-day">{{circle.day}}</span> {{circle.month}}月</div>
+										<div>
+											<div class="my-content-photo" v-if="!circle.content">
+												<div class="my-content-img" v-if="circle.pics">
+													<a class="swipebox" :style="{backgroundImage:'url('+circle.pics+')'}"></a>
+												</div>
+												<div class="mh-content-fr flex1">
+													<div class="mh-content-info">{{circle.contents?circle.contents:circle.content.title}}</div>
+													<div class="mh-content-num" v-if="circle.pics_nums != 0">共{{circle.pics_nums}}张</div>
+												</div> 
+											</div>
+											<div class="my-content-word" v-else>{{circle.content.content}}</div>
+										</div>
+									</li> -->
+									<li :class="['my-content-li',(all.c_type == 1 || (all.c_type == 2 && all.rid != 0))?'link-circle':'',all.c_type == 2 && all.rid == 0?'link-article':'',all.c_type == 3?'link-topic':'']" v-for="all in circle" :data-tid="all.t_id" :data-id="all.id">
+										<div class="my-content-time"><span class="my-content-time-day">{{all.day}}</span>{{all.month}}月</div>
+										<div> 
+											<div class="my-content-photo"> 
+												<div class="my-content-img" v-if="all.pics"> 
+													<a class="swipebox" :style="{backgroundImage:'url('+all.pics+')'}"></a> 
+												</div>
+												<div class="mh-content-fr flex1">
+													<div class="mh-content-info">{{all.contents?all.contents:(all.content?all.content.title:'')}}</div>
+													<div class="mh-content-num" v-if="all.pics_nums != 0">共{{all.pics_nums}}张</div>
+												</div> 
+											</div>
+											<div class="my-content-word" v-else>{{all.content.content?all.content.content:all.content.title}}</div>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		<script src="js/mui.pullToRefresh.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.pullToRefresh.material.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/public.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/my-content.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+
+</html> 
